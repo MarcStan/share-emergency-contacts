@@ -1,9 +1,12 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ShareEmergencyContacts"
+             xmlns:vm="clr-namespace:ShareEmergencyContacts.ViewModels"
              x:Class="ShareEmergencyContacts.MainView">
-
-    <Label Text="Welcome to Xamarin Forms!" 
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+    <Label Text="{Binding Message}" 
            VerticalOptions="Center" 
            HorizontalOptions="Center" />
 
