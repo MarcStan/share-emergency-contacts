@@ -1,8 +1,8 @@
 ﻿namespace ShareEmergencyContacts.Views
 {
-    public partial class MainView
+    public partial class SettingsView
     {
-        public MainView()
+        public SettingsView()
         {
             InitializeComponent();
         }

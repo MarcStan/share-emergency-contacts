@@ -1,0 +1,17 @@
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareEmergencyContacts.Views.MenuView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MenuButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="20" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
+        <Button BorderWidth="0" Margin="10" Text="My profiles" Style="{StaticResource MenuButton}" />
+        <Button BorderWidth="0" Margin="10" Text="Settings" Style="{StaticResource MenuButton}" />
+        <Button BorderWidth="0" Margin="10" Text="About" Style="{StaticResource MenuButton}" Command="{Binding AboutCommand}" />
+    </StackLayout>
+</ContentPage>

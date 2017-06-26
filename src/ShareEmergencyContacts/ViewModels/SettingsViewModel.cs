@@ -1,7 +1,6 @@
 ﻿namespace ShareEmergencyContacts.ViewModels
 {
-    public class MainViewModel
+    public class SettingsViewModel : ViewModelBase
     {
-
     }
 }

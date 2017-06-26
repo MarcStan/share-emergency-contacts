@@ -1,15 +1,25 @@
 ﻿
+using ShareEmergencyContacts.Views;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts
 {
-    public partial class App : Application
+    public partial class App
     {
+        public static NavigationPage NavigationCancer;
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MainView();
+            // xamarin is a steaming pile of shit
+            var root = new RootView();
+            var nav = NavigationCancer = new NavigationPage(new MainView
+            {
+                Title = "Main"
+            });
+            root.Detail = nav;
+            MainPage = root;
         }
 
         protected override void OnStart()
