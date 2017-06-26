@@ -1,4 +1,6 @@
-﻿namespace ShareEmergencyContacts.UWP
+﻿using Caliburn.Micro;
+
+namespace ShareEmergencyContacts.UWP
 {
     public sealed partial class MainPage
     {
@@ -6,7 +8,7 @@
         {
             InitializeComponent();
 
-            LoadApplication(new ShareEmergencyContacts.App());
+            LoadApplication(IoC.Get<ShareEmergencyContacts.App>());
         }
     }
 }

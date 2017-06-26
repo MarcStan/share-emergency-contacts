@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:ShareEmergencyContacts.Views"
              xmlns:viewModels="clr-namespace:ShareEmergencyContacts.ViewModels;assembly=ShareEmergencyContacts"
-             x:Class="ShareEmergencyContacts.Views.RootView"
+             x:Class="ShareEmergencyContacts.Views.RootView" Title="Root"
              MasterBehavior="Popover" IsPresented="{Binding MenuIsPresented, Mode=TwoWay}">
     <MasterDetailPage.BindingContext>
         <viewModels:RootViewModel />
@@ -10,4 +10,7 @@
     <MasterDetailPage.Master>
         <views:MenuView Title="Menu" BindingContext="{Binding MenuViewModel}" />
     </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <views:MainView Title="Main" BindingContext="{Binding MainViewModel}" />
+    </MasterDetailPage.Detail>
 </MasterDetailPage>

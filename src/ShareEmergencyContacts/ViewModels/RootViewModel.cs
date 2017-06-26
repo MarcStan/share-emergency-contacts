@@ -1,4 +1,7 @@
-﻿namespace ShareEmergencyContacts.ViewModels
+﻿using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
+
+namespace ShareEmergencyContacts.ViewModels
 {
     public class RootViewModel : ViewModelBase
     {
@@ -6,10 +9,14 @@
 
         public RootViewModel()
         {
-            MenuViewModel = new MenuViewModel(this);
+            var navigationService = IoC.Get<INavigationService>();
+            MenuViewModel = new MenuViewModel(navigationService, this);
+            MainViewModel = new MainViewModel();
         }
 
         public MenuViewModel MenuViewModel { get; set; }
+
+        public MainViewModel MainViewModel { get; set; }
 
         public bool MenuIsPresented
         {

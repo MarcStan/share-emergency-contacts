@@ -1,7 +1,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShareEmergencyContacts.Views.AboutView">
+             x:Class="ShareEmergencyContacts.Views.AboutView" Title="About">
     <Grid>
         <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" HorizontalOptions="Center" VerticalOptions="Center" />
+        <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="Close" Margin="5" />
     </Grid>
 </ContentPage>
