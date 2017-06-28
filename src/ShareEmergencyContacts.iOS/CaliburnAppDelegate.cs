@@ -3,6 +3,7 @@ using ShareEmergencyContacts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ShareEmergencyContacts.Models;
 
 namespace ShareEmergencyContacts.iOS
 {
@@ -21,6 +22,7 @@ namespace ShareEmergencyContacts.iOS
             _container.Instance(_container);
             _container.Singleton<App>();
             _container.RegisterInstance(typeof(IAppInfoProvider), null, new IOSAppInfoProvider());
+            _container.RegisterInstance(typeof(IStorageProvider), null, new IOSStorageProvider());
         }
 
         protected override void BuildUp(object instance)

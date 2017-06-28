@@ -5,6 +5,7 @@ using ShareEmergencyContacts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ShareEmergencyContacts.Models;
 
 namespace ShareEmergencyContacts.Droid
 {
@@ -31,6 +32,7 @@ namespace ShareEmergencyContacts.Droid
             _container.Instance(_container);
             _container.Singleton<App>();
             _container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider());
+            _container.RegisterInstance(typeof(IStorageProvider), null, new AndroidStorageProvider());
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

@@ -9,48 +9,57 @@ namespace ShareEmergencyContacts.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly RootViewModel _root;
+        private bool _isNavigating;
 
         public MenuViewModel(INavigationService navigationService, RootViewModel root)
         {
             _navigationService = navigationService;
             _root = root;
             AboutCommand = new Command(ShowAbout);
+            SettingsCommand = new Command(ShowSettings);
+            ProfileCommand = new Command(ShowMyProfiles);
         }
 
         public ICommand AboutCommand { get; }
+        public ICommand ProfileCommand { get; }
+        public ICommand SettingsCommand { get; }
 
         public void ShowMyProfiles()
         {
-
-
+            CloseMenuAndNavigateTo<MyProfilesViewModel>();
         }
 
         public void ShowSettings()
         {
-
+            CloseMenuAndNavigateTo<SettingsViewModel>();
         }
 
         public void ShowAbout()
         {
-            CloseMenuAndsNavigateTo<AboutViewModel>();
+            CloseMenuAndNavigateTo<AboutViewModel>();
         }
 
         /// <summary>
         /// Navigates to the specific page after closing the menu
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        private async void CloseMenuAndsNavigateTo<T>()
+        private async void CloseMenuAndNavigateTo<T>()
         {
-
-            if (Device.RuntimePlatform == Device.Windows &&
-                _root.MenuIsPresented)
+            if (_isNavigating)
+                return;
+            // because the menu fades out the user can spam the navigate button and trigger navigation multiple times
+            // so lock him out in the meantime
+            _isNavigating = true;
+            // ignore check for windows and just behave the same on all platforms
+            // if (Device.RuntimePlatform == Device.Windows)
+            if (_root.MenuIsPresented)
             {
                 // workaround for menu bug on uwp
-                // on iOS and android, back navigation works as expected and the flyout menu is still open
+                // on iOS and android, back navigation works as expected and the flyout menu is still open when returning
 
-                // pressing back on uwp for the first time seems to closes the menu but since it is already invisible (due to being overlayed by another page) the user feels like "nothing happened"
+                // pressing back on uwp for the first time seems to closes the menu (instead of navigating back) but since it is already invisible (due to being overlayed by another page) the user feels like "nothing happened"
                 // pressing it a second time will then return to the original page with the flyout closed
-                // as a workaround, we close it ourself
+                // as a workaround, we close it ourself first
                 _root.MenuIsPresented = false;
                 // but if that was all it would be too easy!
                 // if we navigate directly afterwards xamarin crashes with "Height cannot be negative number (prob. because the fade out animation uses page height or some crap)
@@ -63,6 +72,7 @@ namespace ShareEmergencyContacts.ViewModels
             }
 
             await _navigationService.NavigateToViewModelAsync<T>();
+            _isNavigating = false;
         }
     }
 }

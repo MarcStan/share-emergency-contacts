@@ -10,8 +10,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
-        <Button BorderWidth="0" Margin="10" Text="My profiles" Style="{StaticResource MenuButton}" />
-        <Button BorderWidth="0" Margin="10" Text="Settings" Style="{StaticResource MenuButton}" />
+        <Button BorderWidth="0" Margin="10" Text="My profiles" Style="{StaticResource MenuButton}" Command="{Binding ProfilesCommand}" />
+        <Button BorderWidth="0" Margin="10" Text="Settings" Style="{StaticResource MenuButton}" Command="{Binding SettingsCommand}" />
         <Button BorderWidth="0" Margin="10" Text="About" Style="{StaticResource MenuButton}" Command="{Binding AboutCommand}" />
     </StackLayout>
 </ContentPage>

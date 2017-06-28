@@ -3,5 +3,5 @@
              x:Class="ShareEmergencyContacts.Views.MainView"
              x:Name="Main">
 
-    <Label Text="Hello from main view" HorizontalOptions="Center" VerticalOptions="Center" />
+    <ListView ItemsSource="{Binding ExistingContacts}" />
 </ContentPage>

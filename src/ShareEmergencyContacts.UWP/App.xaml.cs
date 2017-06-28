@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml.Controls;
+using ShareEmergencyContacts.Models;
 
 namespace ShareEmergencyContacts.UWP
 {
@@ -28,6 +29,7 @@ namespace ShareEmergencyContacts.UWP
 
             _container.Singleton<ShareEmergencyContacts.App>();
             _container.RegisterInstance(typeof(IAppInfoProvider), null, new WindowsAppInfoProvider());
+            _container.RegisterInstance(typeof(IStorageProvider), null, new WindowsStorageProvider());
         }
 
         protected override void PrepareViewFirst(Frame rootFrame)
