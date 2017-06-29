@@ -19,8 +19,9 @@ namespace ShareEmergencyContacts.Views
             var dc = BindingContext as MainViewModel;
             if (dc != null && ToolbarItems.Count == 0)
             {
-                var t = new ToolbarItem("Scan", "qr.png", () => dc.ScanNewContact());
-                ToolbarItems.Add(t);
+                ToolbarItems.Add(new ToolbarItem("Scan", "qr.png", () => dc.ScanNewContact()));
+                ToolbarItems.Add(new ToolbarItem("Share", "share.png", () => dc.ShareMyDetails()));
+
             }
         }
     }

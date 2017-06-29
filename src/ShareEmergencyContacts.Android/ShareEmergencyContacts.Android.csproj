@@ -144,7 +144,44 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\qrcode.png" />
+    <AndroidResource Include="..\..\icons\76x76\share.png">
+      <Link>Resources\drawable-hdpi\share.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\add.png">
+      <Link>Resources\drawable-hdpi\add.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\delete.png">
+      <Link>Resources\drawable-hdpi\delete.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\edit1.png">
+      <Link>Resources\drawable-hdpi\edit1.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\edit2.png">
+      <Link>Resources\drawable-hdpi\edit2.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\information.png">
+      <Link>Resources\drawable-hdpi\information.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\qr.png">
+      <Link>Resources\drawable-hdpi\qr.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\settings.png">
+      <Link>Resources\drawable-hdpi\settings.png</Link>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

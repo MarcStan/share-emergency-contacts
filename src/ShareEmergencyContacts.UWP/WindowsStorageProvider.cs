@@ -1,5 +1,4 @@
-﻿using ShareEmergencyContacts.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
+using IStorageProvider = ShareEmergencyContacts.Models.IStorageProvider;
 
 namespace ShareEmergencyContacts.UWP
 {
