@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using System.Collections.ObjectModel;
@@ -9,11 +10,13 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private ObservableCollection<EmergencyProfile> _existingContacts;
         private bool _isLoading;
 
-        public MainViewModel()
+        public MainViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             ExistingContacts = new ObservableCollection<EmergencyProfile>();
             IsLoading = true;
 
@@ -57,7 +60,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public void ScanNewContact()
         {
-
+            _navigationService.NavigateToViewModelAsync<ScanCodeViewModel>();
         }
 
         public void ShareMyDetails()

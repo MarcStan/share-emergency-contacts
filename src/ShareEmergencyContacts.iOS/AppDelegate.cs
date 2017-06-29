@@ -25,6 +25,7 @@ namespace ShareEmergencyContacts.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(IoC.Get<App>());
 
+            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             return base.FinishedLaunching(app, options);
         }
     }

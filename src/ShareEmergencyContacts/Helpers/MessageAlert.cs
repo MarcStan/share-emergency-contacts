@@ -14,7 +14,7 @@ namespace ShareEmergencyContacts.Helpers
         /// <param name="message">The message is required.</param>
         /// <param name="cancel">The value to be displayed in the only button (ok/cancel/yes/no, etc.)</param>
         /// <param name="onCompleted">An optional callback that is executed when the message is dismissed by the user.</param>
-        private MessageAlert(string title, string message, string cancel, Action onCompleted = null) :
+        public MessageAlert(string title, string message, string cancel, Action onCompleted = null) :
             base(title, message, onCompleted)
         {
             Cancel = cancel;

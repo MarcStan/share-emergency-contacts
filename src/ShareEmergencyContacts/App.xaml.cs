@@ -43,14 +43,12 @@ namespace ShareEmergencyContacts
                 }
                 return view;
             };
+
             DisplayRootView<RootView>();
         }
 
         protected override void PrepareViewFirst(NavigationPage navigationPage)
         {
-            navigationPage.Popped += (sender, args) => { };
-            navigationPage.Pushed += (sender, args) => { };
-            navigationPage.PoppedToRoot += (sender, args) => { };
             _container.Instance<INavigationService>(new NavigationPageAdapter(navigationPage));
         }
     }

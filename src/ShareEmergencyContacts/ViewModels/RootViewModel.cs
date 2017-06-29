@@ -11,7 +11,7 @@ namespace ShareEmergencyContacts.ViewModels
         {
             var navigationService = IoC.Get<INavigationService>();
             MenuViewModel = new MenuViewModel(navigationService, this);
-            MainViewModel = new MainViewModel();
+            MainViewModel = new MainViewModel(navigationService);
         }
 
         public MenuViewModel MenuViewModel { get; set; }

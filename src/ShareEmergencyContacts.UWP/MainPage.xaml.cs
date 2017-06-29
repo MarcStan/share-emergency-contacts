@@ -8,6 +8,7 @@ namespace ShareEmergencyContacts.UWP
         {
             InitializeComponent();
 
+            ZXing.Net.Mobile.Forms.WindowsUniversal.ZXingScannerViewRenderer.Init();
             LoadApplication(IoC.Get<ShareEmergencyContacts.App>());
         }
     }
