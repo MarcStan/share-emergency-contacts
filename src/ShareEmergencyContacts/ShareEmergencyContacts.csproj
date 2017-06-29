@@ -49,8 +49,12 @@
     <Compile Include="Models\Data\EmergencyProfile.cs" />
     <Compile Include="Models\Data\PhoneNumber.cs" />
     <Compile Include="Models\Data\PhoneType.cs" />
-    <Compile Include="Models\IStorageProvider.cs" />
+    <Compile Include="Models\IStorageContainer.cs" />
+    <Compile Include="Models\IRawStorageProvider.cs" />
     <Compile Include="Models\StorageContainer.cs" />
+    <Compile Include="UserControls\ContactListEntry.xaml.cs">
+      <DependentUpon>ContactListEntry.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
@@ -95,6 +99,9 @@
     <Reference Include="Caliburn.Micro.Platform.Xamarin.Forms, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Caliburn.Micro.Xamarin.Forms.3.1.0\lib\portable-net45+win8+wp8+wpa81+MonoAndroid10+Xamarin.iOS10+MonoTouch10\Caliburn.Micro.Platform.Xamarin.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
@@ -130,7 +137,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="UserControls\ContactListEntry.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

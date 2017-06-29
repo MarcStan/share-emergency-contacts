@@ -1,6 +1,7 @@
 ﻿
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using ShareEmergencyContacts.Views;
 using System;
@@ -25,6 +26,9 @@ namespace ShareEmergencyContacts
                 .PerRequest<MenuViewModel>()
                 .PerRequest<MyProfilesViewModel>()
                 .PerRequest<SettingsViewModel>();
+
+            var storageProvider = IoC.Get<IStorageProvider>();
+            container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 
             var original = ViewLocator.LocateForModelType;
             ViewLocator.LocateForModelType += (o, bindableObject, arg3) =>

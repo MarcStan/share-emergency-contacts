@@ -1,7 +1,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.MainView"
              x:Name="Main">
 
-    <ListView ItemsSource="{Binding ExistingContacts}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"  />
+        <Label Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" Text="No contacts have been received yet. Press the barcode to scan one!" IsVisible="{Binding NoContacts}" />
+        <ListView Grid.Row="1" ItemsSource="{Binding ExistingContacts}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <userControls:ContactListEntry />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </ContentPage>
