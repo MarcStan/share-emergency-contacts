@@ -54,5 +54,15 @@ namespace ShareEmergencyContacts.ViewModels
                 NotifyOfPropertyChange(nameof(NoContacts));
             }
         }
+
+        public void ScanNewContact()
+        {
+
+        }
+
+        public void ShareMyDetails()
+        {
+
+        }
     }
 }

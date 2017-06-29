@@ -3,7 +3,6 @@
              xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.MainView"
              x:Name="Main">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
