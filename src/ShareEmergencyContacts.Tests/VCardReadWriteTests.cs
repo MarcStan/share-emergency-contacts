@@ -73,7 +73,7 @@ namespace ShareEmergencyContacts.Tests
                 }
             };
 
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
             var text = vcard.ToVCard(full);
 
             var contact2 = vcard.FromVCard(text);

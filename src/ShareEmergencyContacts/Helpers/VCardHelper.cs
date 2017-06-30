@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ShareEmergencyContacts.Helpers
 {
-    public class VCard
+    public class VCardHelper
     {
         private static readonly char[] _escapedCharacters = { ',', '\\', ';', '\r', '\n' };
 

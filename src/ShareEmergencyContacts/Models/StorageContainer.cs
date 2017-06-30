@@ -11,8 +11,9 @@ namespace ShareEmergencyContacts.Models
     public class StorageContainer : IStorageContainer
     {
         private readonly IStorageProvider _storageProvider;
-        private const string _myProfileDir = "profiles";
-        private const string _contactsDir = "contacts";
+        private const string MyProfileDir = "profiles";
+        private const string ContactsDir = "contacts";
+        private const string Extension = ".vcard";
 
         public StorageContainer(IStorageProvider provider)
         {
@@ -25,7 +26,7 @@ namespace ShareEmergencyContacts.Models
         /// <returns></returns>
         public async Task<IEnumerable<EmergencyProfile>> GetReceivedContactsAsync()
         {
-            var files = await _storageProvider.GetFilesAsync(_contactsDir, "*.contact");
+            var files = await _storageProvider.GetFilesAsync(ContactsDir, "*" + Extension);
             return await FromFilesAsync(files);
         }
 
@@ -35,7 +36,7 @@ namespace ShareEmergencyContacts.Models
         /// <returns></returns>
         public async Task<IEnumerable<EmergencyProfile>> GetProfilesAsync()
         {
-            var files = await _storageProvider.GetFilesAsync(_myProfileDir, "*.contact");
+            var files = await _storageProvider.GetFilesAsync(MyProfileDir, "*" + Extension);
             return await FromFilesAsync(files);
         }
 
@@ -75,7 +76,7 @@ namespace ShareEmergencyContacts.Models
                 throw new ArgumentNullException(nameof(profile));
 
             var formatted = ConvertToRawText(profile);
-            var path = GetUniquePath(profile, _contactsDir);
+            var path = GetUniquePath(profile, ContactsDir);
 
             await _storageProvider.WriteAllTextAsync(path, formatted);
         }
@@ -86,9 +87,9 @@ namespace ShareEmergencyContacts.Models
         /// <param name="profile"></param>
         /// <param name="directory"></param>
         /// <returns></returns>
-        private string GetUniquePath(EmergencyProfile profile, string directory)
+        private static string GetUniquePath(EmergencyProfile profile, string directory)
         {
-            return $"/{directory}/{profile.ProfileName}.contact";
+            return $"/{directory}/{profile.ProfileName}{Extension}";
         }
 
         private string ConvertToRawText(EmergencyProfile profile)

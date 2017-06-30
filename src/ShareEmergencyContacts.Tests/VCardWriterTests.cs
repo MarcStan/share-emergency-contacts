@@ -13,7 +13,7 @@ namespace ShareEmergencyContacts.Tests
         [Test]
         public void EmptyProfileShouldThrow()
         {
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
             var empty = new EmergencyProfile();
             new Action(() => empty.ProfileName = null).ShouldThrow<ArgumentNullException>("because null is not allowed on this property.");
             new Action(() => vcard.ToVCard(empty)).ShouldThrow<NotSupportedException>("because the one property name is not set");
@@ -22,7 +22,7 @@ namespace ShareEmergencyContacts.Tests
         [Test]
         public void NullProfileShouldThrow()
         {
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
 
             new Action(() => vcard.ToVCard(null)).ShouldThrow<ArgumentNullException>();
         }
@@ -30,7 +30,7 @@ namespace ShareEmergencyContacts.Tests
         [Test]
         public void ProfileWithNameShouldNotThrow()
         {
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
 
             var empty = new EmergencyProfile();
             empty.ProfileName = "Name 1";
@@ -41,7 +41,7 @@ namespace ShareEmergencyContacts.Tests
         [Test]
         public void WriteFullProfile()
         {
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
 
             var full = new EmergencyProfile
             {
@@ -132,7 +132,7 @@ namespace ShareEmergencyContacts.Tests
         [Test]
         public void WritePartialProfile()
         {
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
 
             var full = new EmergencyProfile
             {

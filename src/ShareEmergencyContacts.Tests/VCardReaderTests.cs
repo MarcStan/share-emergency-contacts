@@ -16,7 +16,7 @@ namespace ShareEmergencyContacts.Tests
                        "VERSION:2.1" + Environment.NewLine +
                        "N:Gump;Forrest;;Mr." + Environment.NewLine +
                        "END:VCARD";
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
             new Action(() => vcard.FromVCard(text)).ShouldThrow<VCardException>("because format 2.1 is not supported.");
         }
 
@@ -42,7 +42,7 @@ namespace ShareEmergencyContacts.Tests
                        "x-qq:21588891" + Environment.NewLine +
                        "END:VCARD";
 
-            var vcard = new VCard();
+            var vcard = new VCardHelper();
             var profile = vcard.FromVCard(text);
             profile.BloodType.Should().BeNull();
             profile.HeightInCm.Should().Be(-1);

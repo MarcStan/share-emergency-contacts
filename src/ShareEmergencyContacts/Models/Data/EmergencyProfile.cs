@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using ShareEmergencyContacts.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -10,23 +10,22 @@ namespace ShareEmergencyContacts.Models.Data
     /// </summary>
     public class EmergencyProfile : EmergencyContact
     {
+        private static VCardHelper _vCardHelper = new VCardHelper();
+
         /// <summary>
         /// Stores the weight value in kg.
         /// That way aftercomma values are not truncated.
         /// </summary>
-        [JsonProperty("w")]
         public int WeightInKg { get; set; }
 
         /// <summary>
         /// The height in cm.
         /// </summary>
-        [JsonProperty("h")]
         public int HeightInCm { get; set; }
 
         /// <summary>
         /// Blood type of the person, duh.
         /// </summary>
-        [JsonProperty("b")]
         public string BloodType { get; set; }
 
         /// <summary>
@@ -34,21 +33,18 @@ namespace ShareEmergencyContacts.Models.Data
         /// Only used on received profiles and allows auto. delete.
         /// Null if no expiration.
         /// </summary>
-        [JsonProperty("exp")]
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
         /// List of emergency contacts.
         /// Never null but may be empty.
         /// </summary>
-        [JsonProperty("e")]
         public List<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
 
         /// <summary>
         /// List of insurance providers.
         /// Never null but may be empty.
         /// </summary>
-        [JsonProperty("i")]
         public List<EmergencyContact> InsuranceContacts { get; set; } = new List<EmergencyContact>();
 
         /// <summary>
@@ -58,8 +54,7 @@ namespace ShareEmergencyContacts.Models.Data
         /// <returns></returns>
         public static EmergencyProfile ParseFromText(string content)
         {
-            var obj = JsonConvert.DeserializeObject<EmergencyProfile>(content);
-            return obj;
+            return _vCardHelper.FromVCard(content);
         }
 
         /// <summary>
@@ -69,8 +64,7 @@ namespace ShareEmergencyContacts.Models.Data
         /// <returns></returns>
         public static string ToRawText(EmergencyProfile profile)
         {
-            var json = JsonConvert.SerializeObject(profile, Formatting.Indented);
-            return json;
+            return _vCardHelper.ToVCard(profile);
         }
     }
 }
