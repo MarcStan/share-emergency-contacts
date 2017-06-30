@@ -27,5 +27,13 @@ namespace ShareEmergencyContacts.ViewModels
                 NotifyOfPropertyChange(nameof(MenuIsPresented));
             }
         }
+
+        protected override async void OnActivate()
+        {
+            base.OnActivate();
+            // because mainpage is page inside rootpage, mainpage never receives activated/etc events
+            // so use this workaround
+            await MainViewModel.OnPageActivateAsync();
+        }
     }
 }
