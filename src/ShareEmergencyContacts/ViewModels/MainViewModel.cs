@@ -3,6 +3,8 @@ using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +29,14 @@ namespace ShareEmergencyContacts.ViewModels
             Task.Run(async () =>
             {
                 var storage = IoC.Get<IStorageContainer>();
-                var contacts = await storage.GetReceivedContactsAsync();
+                var contacts = (await storage.GetReceivedContactsAsync()).ToList();
+#if DEBUG
+                if (contacts.Count == 0)
+                {
+                    // insert mock data
+                    contacts = LoadMockContacts();
+                }
+#endif
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     ExistingContacts = new ObservableCollection<EmergencyProfile>(contacts);
@@ -35,6 +44,146 @@ namespace ShareEmergencyContacts.ViewModels
                 });
             });
         }
+
+#if DEBUG
+        private static List<EmergencyProfile> LoadMockContacts()
+        {
+            return new List<EmergencyProfile>
+            {
+                new EmergencyProfile
+                {
+                    ProfileName = "Marc",
+                    FirstName = "Marc",
+                    LastName = "Stan",
+                    BloodType = "The fuck do I know",
+                    Address = "Street 1" + Environment.NewLine +
+                              "12345 LegitCity",
+                    BirthDate = new DateTime(1989, 1, 13),
+                    HeightInCm = 200,
+                    WeightInKg = 100,
+                    Note = "This is a note",
+                    PhoneNumbers = new List<PhoneNumber>
+                    {
+                        new PhoneNumber(PhoneType.Home, "555 12345"),
+                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
+                    },
+                    InsuranceContacts = new List<EmergencyContact>
+                    {
+                        new EmergencyContact
+                        {
+                            ProfileName = "REGA",
+                            Note = "#1234",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "+41 1414")
+                            }
+                        },
+                        new EmergencyContact
+                        {
+                            ProfileName = "POLIZEI",
+                            Note = "#1234.68.123",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "+49 110")
+                            }
+                        }
+                    }
+                },
+                new EmergencyProfile
+                {
+                    ProfileName = "Flo",
+                    FirstName = "Flo",
+                    LastName = "Kong",
+                    BloodType = "The fuck do I know",
+                    Address = "Street 1" + Environment.NewLine +
+                              "12345 LegitCity",
+                    BirthDate = new DateTime(1989, 1, 13),
+                    HeightInCm = 200,
+                    WeightInKg = 100,
+                    Note = "This is a note",
+                    PhoneNumbers = new List<PhoneNumber>
+                    {
+                        new PhoneNumber(PhoneType.Home, "555 12345"),
+                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
+                    },
+                    EmergencyContacts = new List<EmergencyContact>
+                    {
+                        new EmergencyContact
+                        {
+                            ProfileName = "Dad",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "1234567890")
+                            }
+                        },
+                        new EmergencyContact
+                        {
+                            ProfileName = "Mom",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "1234567890 2")
+                            }
+                        }
+                    }
+                },
+                new EmergencyProfile
+                {
+                    ProfileName = "Patrick",
+                    FirstName = "Patrick",
+                    LastName = "Star",
+                    BloodType = "The fuck do I know",
+                    Address = "Street 1" + Environment.NewLine +
+                              "12345 LegitCity",
+                    Note = "This is a note",
+                    PhoneNumbers = new List<PhoneNumber>
+                    {
+                        new PhoneNumber(PhoneType.Home, "555 12345"),
+                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
+                    },
+                    InsuranceContacts = new List<EmergencyContact>
+                    {
+                        new EmergencyContact
+                        {
+                            ProfileName = "REGA",
+                            Note = "#1234",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "+41 1414")
+                            }
+                        },
+                        new EmergencyContact
+                        {
+                            ProfileName = "POLIZEI",
+                            Note = "#1234.68.123",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "+49 110")
+                            }
+                        }
+                    },
+                    EmergencyContacts = new List<EmergencyContact>
+                    {
+                        new EmergencyContact
+                        {
+                            ProfileName = "Dad",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "1234567890")
+                            }
+                        },
+                        new EmergencyContact
+                        {
+                            ProfileName = "Mom",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "1234567890 2")
+                            }
+                        }
+                    }
+                }
+            };
+        }
+#endif
 
         public async Task OnPageActivateAsync()
         {

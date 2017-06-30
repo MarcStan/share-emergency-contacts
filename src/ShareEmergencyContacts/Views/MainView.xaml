@@ -8,8 +8,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"  />
-        <Label Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" Text="No contacts have been received yet. Press the barcode to scan one!" IsVisible="{Binding NoContacts}"
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+        <Label Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" Text="No contacts have been received yet. Press the scan icon to scan one!" IsVisible="{Binding NoContacts}"
                VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Margin="10" />
         <ListView Grid.Row="1" ItemsSource="{Binding ExistingContacts}" IsVisible="{Binding NoContacts, Converter={StaticResource InvertBoolConverter}}">
             <ListView.ItemTemplate>
