@@ -34,8 +34,10 @@ namespace ShareEmergencyContacts.Helpers
         public EmergencyProfile FromVCard(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
-                throw new VCardException($"Input string is null.", null);
-            if (!text.Contains("\r") || !text.Contains("\n"))
+                throw new VCardException("Input string is null.", null);
+
+            // valid VCARD must also be multiline (at least BEGIN, VERSION, END)
+            if (!text.Contains("\r") && !text.Contains("\n"))
                 throw new VCardException($"Input string is not a valid VCARD format. Missing linebreaks. Value was: {text}", null);
 
             // multiplatform, so split all linebreaks
