@@ -5,13 +5,15 @@
         <ResourceDictionary>
             <Style x:Key="MenuButton" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
                 <Setter Property="FontSize" Value="20" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
         <Button BorderWidth="0" Margin="10" Text="My profiles" Style="{StaticResource MenuButton}" Command="{Binding ProfilesCommand}" />
-        <Button BorderWidth="0" Margin="10" Text="Settings" Style="{StaticResource MenuButton}" Command="{Binding SettingsCommand}" />
         <Button BorderWidth="0" Margin="10" Text="About" Style="{StaticResource MenuButton}" Command="{Binding AboutCommand}" />
+        <!--<Button BorderWidth="0" Margin="10" Text="Settings" Style="{StaticResource MenuButton}" Command="{Binding SettingsCommand}" />-->
     </StackLayout>
 </ContentPage>
