@@ -4,8 +4,8 @@
     <Grid>
         <StackLayout VerticalOptions="CenterAndExpand">
             <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" HorizontalOptions="Center" VerticalOptions="Center" />
-            <Label FontAttributes="Bold" FontSize="22" Text="Copyright MarcStan 2017" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Label FontAttributes="Bold" FontSize="22" Text="Copyright 2017" HorizontalOptions="Center" VerticalOptions="Center" />
         </StackLayout>
-        <Button VerticalOptions="End" Command="{Binding CloseCommand}" Text="Close" Margin="5" />
     </Grid>
 </ContentPage>
