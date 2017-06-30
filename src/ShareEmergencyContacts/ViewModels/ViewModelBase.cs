@@ -2,7 +2,7 @@
 
 namespace ShareEmergencyContacts.ViewModels
 {
-    public class ViewModelBase : Screen
+    public abstract class ViewModelBase : Screen
     {
     }
 }

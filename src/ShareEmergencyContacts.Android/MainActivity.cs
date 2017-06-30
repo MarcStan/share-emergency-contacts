@@ -1,7 +1,9 @@
-﻿using Android.App;
+﻿using Acr.UserDialogs;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Caliburn.Micro;
+using Xamarin.Forms;
 using ZXing.Mobile;
 using ZXing.Net.Mobile.Android;
 
@@ -18,6 +20,8 @@ namespace ShareEmergencyContacts.Droid
 
             // TODO: apparently call this only shortly before trying to scan
             MobileBarcodeScanner.Initialize(Application);
+
+            UserDialogs.Init(() => (Activity)Forms.Context);
 
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(IoC.Get<App>());

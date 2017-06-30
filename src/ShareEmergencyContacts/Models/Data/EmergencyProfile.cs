@@ -10,7 +10,7 @@ namespace ShareEmergencyContacts.Models.Data
     /// </summary>
     public class EmergencyProfile : EmergencyContact
     {
-        private static VCardHelper _vCardHelper = new VCardHelper();
+        private static readonly VCardHelper _vCardHelper = new VCardHelper();
 
         /// <summary>
         /// Stores the weight value in kg.
@@ -48,13 +48,21 @@ namespace ShareEmergencyContacts.Models.Data
         public List<EmergencyContact> InsuranceContacts { get; set; } = new List<EmergencyContact>();
 
         /// <summary>
-        /// Reads the provided textfile and returns the content
+        /// Reads the provided textfile and returns the content or null if unable to parse.
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
         public static EmergencyProfile ParseFromText(string content)
         {
-            return _vCardHelper.FromVCard(content);
+            try
+            {
+                return _vCardHelper.FromVCard(content);
+            }
+            catch (VCardException)
+            {
+                // TODO: log
+                return null;
+            }
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿
+﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models;
@@ -27,6 +27,8 @@ namespace ShareEmergencyContacts
 
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
+
+            container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
 
             var original = ViewLocator.LocateForModelType;
             ViewLocator.LocateForModelType += (o, bindableObject, arg3) =>

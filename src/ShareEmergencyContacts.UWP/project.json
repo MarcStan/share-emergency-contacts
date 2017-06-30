@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "Acr.UserDialogs": "6.5.1",
     "Caliburn.Micro": "3.1.0",
     "Caliburn.Micro.Xamarin.Forms": "3.1.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",

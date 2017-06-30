@@ -26,7 +26,6 @@ namespace ShareEmergencyContacts.Droid
                     return version;
 
                 // otherwise assume it to be in format "1.0.0-beta" where version is upfront, followed by some text
-                int length = 0;
                 // not perfect parsing (e.g. would allow "1...00", ".1.", ".." etc) but the TryParse will fail then and we error anyway
                 var versionPrefix = new string(v.TakeWhile(c => char.IsDigit(c) || c == '.').ToArray());
                 if (Version.TryParse(versionPrefix, out version))
