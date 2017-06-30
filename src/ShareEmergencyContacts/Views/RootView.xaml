@@ -1,9 +1,11 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:ShareEmergencyContacts.Views"
-             xmlns:viewModels="clr-namespace:ShareEmergencyContacts.ViewModels;assembly=ShareEmergencyContacts"
-             x:Class="ShareEmergencyContacts.Views.RootView" Title="Root"
-             MasterBehavior="Popover" IsPresented="{Binding MenuIsPresented, Mode=TwoWay}">
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:ShareEmergencyContacts.Views"
+                xmlns:viewModels="clr-namespace:ShareEmergencyContacts.ViewModels;assembly=ShareEmergencyContacts"
+                xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core"
+                x:Class="ShareEmergencyContacts.Views.RootView" Title="Received contacts"
+                windows:Page.ToolbarPlacement="Top"
+                MasterBehavior="Popover" IsPresented="{Binding MenuIsPresented, Mode=TwoWay}">
     <MasterDetailPage.BindingContext>
         <viewModels:RootViewModel />
     </MasterDetailPage.BindingContext>
@@ -11,6 +13,6 @@
         <views:MenuView Title="Menu" BindingContext="{Binding MenuViewModel}" />
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
-        <views:MainView Title="Main" BindingContext="{Binding MainViewModel}" />
+        <views:MainView Title="" BindingContext="{Binding MainViewModel}"/>
     </MasterDetailPage.Detail>
 </MasterDetailPage>

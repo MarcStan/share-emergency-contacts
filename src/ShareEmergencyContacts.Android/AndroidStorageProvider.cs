@@ -9,7 +9,13 @@ namespace ShareEmergencyContacts.Droid
     {
         public async Task WriteAllTextAsync(string filePath, string text)
         {
-            await Task.Run(() => File.WriteAllText(filePath, text));
+            await Task.Run(() =>
+            {
+                var fi = new FileInfo(filePath);
+                if (!Directory.Exists(fi.DirectoryName))
+                    Directory.CreateDirectory(fi.DirectoryName);
+                File.WriteAllText(filePath, text);
+            });
         }
 
         public async Task<string> ReadAllTextAsync(string filePath)
@@ -36,7 +42,11 @@ namespace ShareEmergencyContacts.Droid
 
         public async Task DeleteFileAsync(string filePath)
         {
-            await Task.Run(() => File.Delete(filePath));
+            await Task.Run(() =>
+            {
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+            });
         }
     }
 }
