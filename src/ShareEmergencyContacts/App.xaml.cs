@@ -5,6 +5,7 @@ using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using ShareEmergencyContacts.Views;
 using System;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts
@@ -20,12 +21,9 @@ namespace ShareEmergencyContacts
             _container = container;
             InitializeComponent();
 
-            container.PerRequest<RootViewModel>()
-                .PerRequest<AboutViewModel>()
-                .PerRequest<MainViewModel>()
-                .PerRequest<MenuViewModel>()
-                .PerRequest<MyProfilesViewModel>()
-                .PerRequest<SettingsViewModel>();
+            var ns = typeof(MainViewModel).Namespace;
+            // auto register all view models
+            RegisterAllViewModels(ns);
 
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
@@ -45,6 +43,26 @@ namespace ShareEmergencyContacts
             };
 
             DisplayRootView<RootView>();
+        }
+
+        /// <summary>
+        /// Registers all classes that can be instantiated (non abstract, not interfaces) inside the namespace and all sub namespaces using per request type.
+        /// </summary>
+        /// <param name="nameSpace"></param>
+        private void RegisterAllViewModels(string nameSpace)
+        {
+            var types = GetType().GetTypeInfo().Assembly.ExportedTypes;
+            foreach (var t in types)
+            {
+                var ti = t.GetTypeInfo();
+                if (!ti.Namespace.StartsWith(nameSpace))
+                    continue;
+
+                if (ti.IsAbstract || ti.IsInterface)
+                    continue;
+
+                _container.RegisterPerRequest(t, null, t);
+            }
         }
 
         protected override void PrepareViewFirst(NavigationPage navigationPage)

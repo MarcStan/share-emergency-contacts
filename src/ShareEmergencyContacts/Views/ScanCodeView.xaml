@@ -1,7 +1,8 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              x:Class="ShareEmergencyContacts.Views.ScanCodeView">
     <Grid>
-        <Label x:Name="Barcode" VerticalOptions="End" />
+        <forms:ZXingScannerView Options="{Binding Options}" ScanResultCommand="{Binding ScanCommand}" IsScanning="True" IsAnalyzing="True" />
     </Grid>
 </ContentPage>
