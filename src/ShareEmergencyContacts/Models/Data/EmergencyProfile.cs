@@ -52,12 +52,6 @@ namespace ShareEmergencyContacts.Models.Data
         public List<EmergencyContact> InsuranceContacts { get; set; } = new List<EmergencyContact>();
 
         /// <summary>
-        /// Other textfiled that can be set by the user.
-        /// </summary>
-        [JsonProperty("o")]
-        public string Note { get; set; }
-
-        /// <summary>
         /// Reads the provided textfile and returns the content
         /// </summary>
         /// <param name="content"></param>

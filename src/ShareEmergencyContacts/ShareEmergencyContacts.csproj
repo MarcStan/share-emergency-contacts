@@ -43,6 +43,7 @@
     </Compile>
     <Compile Include="Helpers\QrCodeHelper.cs" />
     <Compile Include="Helpers\VCard.cs" />
+    <Compile Include="Helpers\VCardException.cs" />
     <Compile Include="IAppInfoProvider.cs" />
     <Compile Include="Models\Data\EmergencyContact.cs" />
     <Compile Include="Models\Data\EmergencyProfile.cs" />

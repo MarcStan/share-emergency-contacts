@@ -33,6 +33,12 @@ namespace ShareEmergencyContacts.Models.Data
         [JsonProperty("a")]
         public string Address { get; set; }
 
+        /// <summary>
+        /// Other textfiled that can be set by the user.
+        /// </summary>
+        [JsonProperty("o")]
+        public string Note { get; set; }
+
         [JsonProperty("phones")]
         public List<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();
     }
