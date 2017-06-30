@@ -41,6 +41,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Helpers\VCardHelper.cs" />
     <Compile Include="Helpers\VCardException.cs" />
     <Compile Include="IAppInfoProvider.cs" />

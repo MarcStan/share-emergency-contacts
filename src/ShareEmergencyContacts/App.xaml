@@ -1,5 +1,11 @@
 ﻿<forms:FormsApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:Caliburn.Micro.Xamarin.Forms;assembly=Caliburn.Micro.Platform.Xamarin.Forms"
+             xmlns:converters="clr-namespace:ShareEmergencyContacts.Converters;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.App">
+    <forms:FormsApplication.Resources>
+        <ResourceDictionary>
+            <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
+        </ResourceDictionary>
+    </forms:FormsApplication.Resources>
 </forms:FormsApplication>
