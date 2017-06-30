@@ -94,7 +94,7 @@ namespace ShareEmergencyContacts.Helpers
             ReadEmergencyContact(p, lines);
 
             // read "X-" data
-            p.BloodType = GetValue(lines, "X-BLOOD");
+            p.BloodType = GetValue(lines, "X-BLOODTYPE");
             p.ExpirationDate = GetDateValue(lines, "X-EXPIRES");
             p.HeightInCm = GetIntValue(lines, "X-HEIGHT");
             p.WeightInLbsTimes100 = GetIntValue(lines, "X-WEIGHT");
@@ -324,7 +324,7 @@ namespace ShareEmergencyContacts.Helpers
                 int id = iceId;
                 WriteEmergencyContact(ice, s => sb.AppendLine($"X-ICE-{id}-{s}"));
             }
-            EncodeAndAppendIfSet("X-BLOOD", profile.BloodType, writeDirect);
+            EncodeAndAppendIfSet("X-BLOODTYPE", profile.BloodType, writeDirect);
             EncodeAndAppendIfSet("X-EXPIRES", DateToString(profile.ExpirationDate), writeDirect);
             if (profile.HeightInCm > 0)
                 EncodeAndAppendIfSet("X-HEIGHT", profile.HeightInCm.ToString(), writeDirect);
@@ -348,7 +348,7 @@ namespace ShareEmergencyContacts.Helpers
 
             // all other properties may be null and thus may not be set
             var f = FormatNameIfPossible(contact.FirstName, contact.LastName);
-            EncodeAndAppendIfSet("N", f, entry);
+            EncodeAndAppendIfSet("N", f, entry, false);
             EncodeAndAppendIfSet("ADR", contact.Address, entry);
             foreach (var num in contact.PhoneNumbers)
             {
@@ -365,7 +365,7 @@ namespace ShareEmergencyContacts.Helpers
             if (string.IsNullOrWhiteSpace(first) && string.IsNullOrWhiteSpace(last))
                 return null;
 
-            return $"{first};{last};;;";
+            return $"{Encode(first)};{Encode(last)};;;";
         }
 
         private static string DateToString(DateTime? date)
@@ -385,14 +385,15 @@ namespace ShareEmergencyContacts.Helpers
         /// <param name="identifier"></param>
         /// <param name="text"></param>
         /// <param name="entry"></param>
-        private static void EncodeAndAppendIfSet(string identifier, string text, Action<string> entry)
+        /// <param name="encode">Defaults to true. Will encode the provided text. If it is already encoded in a VCARD compatible way, set to false.</param>
+        private static void EncodeAndAppendIfSet(string identifier, string text, Action<string> entry, bool encode = true)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
                 // all fields are optional, so don't set if user hasn't set it
                 return;
             }
-            var formatted = Encode(text);
+            var formatted = encode ? Encode(text) : text;
             entry($"{identifier}:{formatted}");
         }
 
