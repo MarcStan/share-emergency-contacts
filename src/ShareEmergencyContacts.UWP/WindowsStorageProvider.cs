@@ -76,7 +76,7 @@ namespace ShareEmergencyContacts.UWP
 
             var dir = await storageFolder.GetFolderAsync(directory);
             var files = await dir.GetFilesAsync(CommonFileQuery.DefaultQuery);
-            return files.Where(f => patternMatch(f.Name)).Select(f => f.Name).ToImmutableList();
+            return files.Where(f => patternMatch(f.Name)).Select(f => Path.Combine(directory, f.Name)).ToImmutableList();
         }
 
         public async Task<IReadOnlyList<string>> ReadAllLinesAsync(string filePath)
