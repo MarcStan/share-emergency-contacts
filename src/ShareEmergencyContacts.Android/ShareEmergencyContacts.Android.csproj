@@ -171,6 +171,7 @@
     <Compile Include="AndroidAppInfoProvider.cs" />
     <Compile Include="AndroidStorageProvider.cs" />
     <Compile Include="Application.cs" />
+    <Compile Include="CustomButtonRenderer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
