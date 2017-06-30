@@ -1,9 +1,13 @@
 ﻿<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShareEmergencyContacts.UserControls.ContactListEntry">
-  <ContentView.Content>
-      <StackLayout>
-            <Label Text="{Binding ProfileName}" />
-      </StackLayout>
-  </ContentView.Content>
+    <ContentView.Content>
+        <StackLayout>
+            <Label Text="{Binding ProfileName}" FontSize="32" />
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
+                <Label Text="Auto deletes:" TextColor="Accent" />
+                <Label Text="{Binding ExpirationDate, Converter={StaticResource DateTimeConverter}, ConverterParameter=D}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
 </ContentView>

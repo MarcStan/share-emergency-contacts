@@ -1,8 +1,8 @@
 ﻿namespace ShareEmergencyContacts.UserControls
 {
-    public partial class ContactListEntry
+    public partial class ContactDetails
     {
-        public ContactListEntry()
+        public ContactDetails()
         {
             InitializeComponent();
         }

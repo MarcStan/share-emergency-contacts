@@ -17,6 +17,7 @@ namespace ShareEmergencyContacts.ViewModels
         private readonly INavigationService _navigationService;
         private ObservableCollection<EmergencyProfile> _existingContacts;
         private bool _isLoading;
+        private EmergencyProfile _selectedContact;
 
         public static EmergencyProfile ReceivedContact;
 
@@ -45,6 +46,52 @@ namespace ShareEmergencyContacts.ViewModels
             });
         }
 
+        public EmergencyProfile SelectedContact
+        {
+            get => _selectedContact;
+            set
+            {
+                if (value == _selectedContact) return;
+                _selectedContact = value;
+                NotifyOfPropertyChange(nameof(SelectedContact));
+                if (SelectedContact != null)
+                {
+                    ShowDetails(SelectedContact);
+                }
+            }
+        }
+
+        private void ShowDetails(EmergencyProfile contact)
+        {
+            _navigationService.For<SelectedProfileViewModel>().WithParam(vm => vm.SelectedProfile, contact).Navigate();
+        }
+
+        /// <summary>
+        /// Gets whether the current view is still loading contacts from storage.
+        /// </summary>
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                NotifyOfPropertyChange(nameof(IsLoading));
+            }
+        }
+
+        public bool NoContacts => ExistingContacts.Count == 0;
+
+        public ObservableCollection<EmergencyProfile> ExistingContacts
+        {
+            get => _existingContacts;
+            set
+            {
+                _existingContacts = value;
+                NotifyOfPropertyChange(nameof(ExistingContacts));
+                NotifyOfPropertyChange(nameof(NoContacts));
+            }
+        }
+
 #if DEBUG
         private static List<EmergencyProfile> LoadMockContacts()
         {
@@ -59,6 +106,7 @@ namespace ShareEmergencyContacts.ViewModels
                     Address = "Street 1" + Environment.NewLine +
                               "12345 LegitCity",
                     BirthDate = new DateTime(1989, 1, 13),
+                    ExpirationDate = DateTime.Now.AddDays(4),
                     HeightInCm = 200,
                     WeightInKg = 100,
                     Note = "This is a note",
@@ -248,32 +296,6 @@ namespace ShareEmergencyContacts.ViewModels
                     }
                     return null;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the current view is still loading contacts from storage.
-        /// </summary>
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                _isLoading = value;
-                NotifyOfPropertyChange(nameof(IsLoading));
-            }
-        }
-
-        public bool NoContacts => ExistingContacts.Count == 0;
-
-        public ObservableCollection<EmergencyProfile> ExistingContacts
-        {
-            get => _existingContacts;
-            set
-            {
-                _existingContacts = value;
-                NotifyOfPropertyChange(nameof(ExistingContacts));
-                NotifyOfPropertyChange(nameof(NoContacts));
             }
         }
 

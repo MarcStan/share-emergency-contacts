@@ -1,0 +1,49 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
+             x:Class="ShareEmergencyContacts.Views.SelectedProfileView"
+             Title="Profile details">
+
+    <StackLayout>
+        <Label Text="{Binding ProfileName}" FontSize="32"  HorizontalOptions="Center" />
+        <ScrollView Margin="10">
+            <StackLayout>
+                <userControls:ContactDetails BindingContext="{Binding}" />
+                <StackLayout Orientation="Horizontal" IsVisible="{Binding Weight, Converter={StaticResource NullToFalseConverter}}">
+                    <Label Text="Weight: " TextColor="Accent" />
+                    <Label Text="{Binding Weight}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" IsVisible="{Binding Height, Converter={StaticResource NullToFalseConverter}}">
+                    <Label Text="Height: " TextColor="Accent" />
+                    <Label Text="{Binding Height}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" IsVisible="{Binding BloodType, Converter={StaticResource NullToFalseConverter}}">
+                    <Label Text="BloodType: " TextColor="Accent" />
+                    <Label Text="{Binding BloodType}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" IsVisible="{Binding ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
+                    <Label Text="Auto. deletes: " TextColor="Accent" />
+                    <Label Text="{Binding ExpirationDate}" />
+                </StackLayout>
+                <ListView ItemsSource="{Binding EmergencyContacts}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <userControls:ContactDetails />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ListView ItemsSource="{Binding InsuranceContacts}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <userControls:ContactDetails />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>

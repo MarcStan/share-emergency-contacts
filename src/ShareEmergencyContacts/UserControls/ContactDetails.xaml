@@ -1,0 +1,40 @@
+﻿<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareEmergencyContacts.UserControls.ContactDetails">
+  <ContentView.Content>
+      <StackLayout>
+          <StackLayout IsVisible="{Binding FirstName, Converter={StaticResource NullToFalseConverter}}">
+              <Label Text="First name:" TextColor="Accent" />
+              <Label Text="{Binding FirstName}" />
+          </StackLayout>
+          <StackLayout IsVisible="{Binding LastName, Converter={StaticResource NullToFalseConverter}}">
+              <Label Text="Last name:" TextColor="Accent" />
+              <Label Text="{Binding LastName}" />
+          </StackLayout>
+          <StackLayout IsVisible="{Binding BirthDate, Converter={StaticResource NullToFalseConverter}}">
+              <Label Text="Birthday:" TextColor="Accent" />
+              <Label Text="{Binding BirthDate}" />
+          </StackLayout>
+          <StackLayout IsVisible="{Binding Address, Converter={StaticResource NullToFalseConverter}}">
+              <Label Text="Address:" TextColor="Accent" />
+              <Label Text="{Binding Address}" />
+          </StackLayout>
+          <StackLayout IsVisible="{Binding Note, Converter={StaticResource NullToFalseConverter}}">
+              <Label Text="Note:" TextColor="Accent" />
+              <Label Text="{Binding Note}" />
+          </StackLayout>
+          <ListView ItemsSource="{Binding PhoneNumbers}" VerticalOptions="Fill" x:Name="Phones">
+              <ListView.ItemTemplate>
+                  <DataTemplate>
+                      <ViewCell>
+                          <StackLayout Orientation="Horizontal">
+                              <Label Text="{Binding Type}" />
+                              <Label Text="{Binding Number}" />
+                          </StackLayout>
+                      </ViewCell>
+                  </DataTemplate>
+              </ListView.ItemTemplate>
+          </ListView>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

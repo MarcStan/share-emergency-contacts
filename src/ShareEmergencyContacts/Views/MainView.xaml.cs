@@ -24,5 +24,11 @@ namespace ShareEmergencyContacts.Views
 
             }
         }
+
+        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            // prevent retarded selection showing up without having to restyle the control
+            ((ListView)sender).SelectedItem = null;
+        }
     }
 }

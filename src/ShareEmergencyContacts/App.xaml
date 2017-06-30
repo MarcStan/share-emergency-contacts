@@ -6,6 +6,8 @@
     <forms:FormsApplication.Resources>
         <ResourceDictionary>
             <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
+            <converters:NullToFalseConverter x:Key="NullToFalseConverter" />
+            <converters:DateTimeConverter x:Key="DateTimeConverter" />
         </ResourceDictionary>
     </forms:FormsApplication.Resources>
 </forms:FormsApplication>
