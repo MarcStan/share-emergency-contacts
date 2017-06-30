@@ -1,4 +1,5 @@
-﻿using ShareEmergencyContacts.Models.Data;
+﻿using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Models.Data;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -9,8 +10,11 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class ScanCodeViewModel : ViewModelBase
     {
-        public ScanCodeViewModel()
+        private readonly INavigationService _navigationService;
+
+        public ScanCodeViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             ScanCommand = new Command(o => ScanResult(o?.ToString()));
             Options = new MobileBarcodeScanningOptions
             {
@@ -30,7 +34,7 @@ namespace ShareEmergencyContacts.ViewModels
             var p = ParseQrCode(qrCode);
             if (p != null)
             {
-
+                _navigationService.GoBackAsync();
             }
         }
 

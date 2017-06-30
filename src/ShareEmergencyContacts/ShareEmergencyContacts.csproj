@@ -41,9 +41,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\MessageAlert.cs" />
-    <Compile Include="Helpers\MessageBase.cs" />
-    <Compile Include="Helpers\MessageQuestion.cs" />
+    <Compile Include="Helpers\QrCodeHelper.cs" />
+    <Compile Include="Helpers\VCard.cs" />
     <Compile Include="IAppInfoProvider.cs" />
     <Compile Include="Models\Data\EmergencyContact.cs" />
     <Compile Include="Models\Data\EmergencyProfile.cs" />

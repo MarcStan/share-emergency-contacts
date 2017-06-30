@@ -38,13 +38,6 @@ namespace ShareEmergencyContacts.Models.Data
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
-        /// Dictionary of custom fields if any set.
-        /// Never null but may be empty.
-        /// </summary>
-        [JsonProperty("o")]
-        public Dictionary<string, string> Other { get; set; }
-
-        /// <summary>
         /// List of emergency contacts.
         /// Never null but may be empty.
         /// </summary>
@@ -57,6 +50,12 @@ namespace ShareEmergencyContacts.Models.Data
         /// </summary>
         [JsonProperty("i")]
         public List<EmergencyContact> InsuranceContacts { get; set; }
+
+        /// <summary>
+        /// Other textfiled that can be set by the user.
+        /// </summary>
+        [JsonProperty("o")]
+        public string Note { get; set; }
 
         /// <summary>
         /// Reads the provided textfile and returns the content
