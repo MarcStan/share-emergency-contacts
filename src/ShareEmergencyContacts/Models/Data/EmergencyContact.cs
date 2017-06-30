@@ -34,6 +34,6 @@ namespace ShareEmergencyContacts.Models.Data
         public string Address { get; set; }
 
         [JsonProperty("phones")]
-        public List<PhoneNumber> PhoneNumbers { get; set; }
+        public List<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();
     }
 }

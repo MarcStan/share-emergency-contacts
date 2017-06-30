@@ -42,14 +42,14 @@ namespace ShareEmergencyContacts.Models.Data
         /// Never null but may be empty.
         /// </summary>
         [JsonProperty("e")]
-        public List<EmergencyContact> EmergencyContacts { get; set; }
+        public List<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
 
         /// <summary>
         /// List of insurance providers.
         /// Never null but may be empty.
         /// </summary>
         [JsonProperty("i")]
-        public List<EmergencyContact> InsuranceContacts { get; set; }
+        public List<EmergencyContact> InsuranceContacts { get; set; } = new List<EmergencyContact>();
 
         /// <summary>
         /// Other textfiled that can be set by the user.

@@ -54,8 +54,10 @@ namespace ShareEmergencyContacts.Helpers
             }
             EncodeAndAppendIfSet("X-BLOOD", profile.BloodType, writeDirect);
             EncodeAndAppendIfSet("X-EXPIRES", DateToString(profile.ExpirationDate), writeDirect);
-            EncodeAndAppendIfSet("X-HEIGHT", profile.HeightInCm.ToString(), writeDirect);
-            EncodeAndAppendIfSet("X-WEIGHT", profile.WeightInLbsTimes100.ToString(), writeDirect);
+            if (profile.HeightInCm > 0)
+                EncodeAndAppendIfSet("X-HEIGHT", profile.HeightInCm.ToString(), writeDirect);
+            if (profile.WeightInLbsTimes100 > 0)
+                EncodeAndAppendIfSet("X-WEIGHT", profile.WeightInLbsTimes100.ToString(), writeDirect);
             sb.AppendLine("END:VCARD");
         }
 
