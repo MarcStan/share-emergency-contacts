@@ -97,7 +97,7 @@ namespace ShareEmergencyContacts.Helpers
             p.BloodType = GetValue(lines, "X-BLOODTYPE");
             p.ExpirationDate = GetDateValue(lines, "X-EXPIRES");
             p.HeightInCm = GetIntValue(lines, "X-HEIGHT");
-            p.WeightInLbsTimes100 = GetIntValue(lines, "X-WEIGHT");
+            p.WeightInKg = GetIntValue(lines, "X-WEIGHT");
 
             // read emergency and insurance contacts
             var iceLines = lines.Where(l => l.StartsWith("X-ICE-")).ToList();
@@ -126,7 +126,7 @@ namespace ShareEmergencyContacts.Helpers
 
             if (lines.Any())
             {
-                // TODO: log warning about unsupported
+                // TODO: log warning about unsupported?
             }
             return p;
         }
@@ -183,21 +183,6 @@ namespace ShareEmergencyContacts.Helpers
         }
 
         /// <summary>
-        /// Returns the int value or -1 if not found.
-        /// </summary>
-        /// <param name="lines"></param>
-        /// <param name="identifier"></param>
-        /// <returns></returns>
-        private int GetIntValue(List<string> lines, string identifier)
-        {
-            var s = GetValue(lines, identifier);
-            if (!string.IsNullOrWhiteSpace(s) && int.TryParse(s, out int x))
-                return x;
-
-            return -1;
-        }
-
-        /// <summary>
         /// Writes contact info from the provided lines to the existing contact instance.
         /// This allows reuse for both <see cref="EmergencyContact"/> and <see cref="EmergencyProfile"/>.
         /// </summary>
@@ -214,7 +199,6 @@ namespace ShareEmergencyContacts.Helpers
             // all other values are optional; set to null if not found
             var format = GetValue(lines, "N");
 
-            contact.Note = GetValue(lines, "NOTE");
             if (format != null && format.Contains(";"))
             {
                 var splits = format.Split(new[] { ';' }, StringSplitOptions.None);
@@ -222,6 +206,7 @@ namespace ShareEmergencyContacts.Helpers
                 contact.LastName = splits[1];
             }
             contact.Address = GetValue(lines, "ADR");
+            contact.Note = GetValue(lines, "NOTE");
             string tel;
             do
             {
@@ -249,6 +234,21 @@ namespace ShareEmergencyContacts.Helpers
         }
 
         /// <summary>
+        /// Returns the int value or -1 if not found.
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        private int GetIntValue(List<string> lines, string identifier)
+        {
+            var s = GetValue(lines, identifier);
+            if (!string.IsNullOrWhiteSpace(s) && int.TryParse(s, out int x))
+                return x;
+
+            return -1;
+        }
+
+        /// <summary>
         /// Returns the date or null if not parsable or not found.
         /// </summary>
         /// <param name="lines"></param>
@@ -257,7 +257,8 @@ namespace ShareEmergencyContacts.Helpers
         private DateTime? GetDateValue(List<string> lines, string identifier)
         {
             var bday = GetValue(lines, identifier);
-            if (bday.Length == 8 &&
+            if (!string.IsNullOrWhiteSpace(bday) &&
+                bday.Length == 8 &&
                 int.TryParse(bday.Substring(0, 4), out int y) &&
                 int.TryParse(bday.Substring(4, 2), out int m) &&
                 int.TryParse(bday.Substring(6, 2), out int d))
@@ -286,6 +287,7 @@ namespace ShareEmergencyContacts.Helpers
                     return null;
                 }
             }
+            line = Decode(line);
 
             processedLines.Remove(line);
             return line.Substring(usedIdentifier.Length);
@@ -305,7 +307,6 @@ namespace ShareEmergencyContacts.Helpers
             // luckily it is also the profile name 
             var writeDirect = new Action<string>(s => sb.AppendLine(s));
             WriteEmergencyContact(profile, writeDirect);
-            EncodeAndAppendIfSet("NOTE", profile.Note, writeDirect);
 
             // everything else is custom format, so use "X-" prefix
             int insuranceId = 0;
@@ -328,8 +329,8 @@ namespace ShareEmergencyContacts.Helpers
             EncodeAndAppendIfSet("X-EXPIRES", DateToString(profile.ExpirationDate), writeDirect);
             if (profile.HeightInCm > 0)
                 EncodeAndAppendIfSet("X-HEIGHT", profile.HeightInCm.ToString(), writeDirect);
-            if (profile.WeightInLbsTimes100 > 0)
-                EncodeAndAppendIfSet("X-WEIGHT", profile.WeightInLbsTimes100.ToString(), writeDirect);
+            if (profile.WeightInKg > 0)
+                EncodeAndAppendIfSet("X-WEIGHT", profile.WeightInKg.ToString(), writeDirect);
             sb.AppendLine("END:VCARD");
         }
 
@@ -349,6 +350,7 @@ namespace ShareEmergencyContacts.Helpers
             // all other properties may be null and thus may not be set
             var f = FormatNameIfPossible(contact.FirstName, contact.LastName);
             EncodeAndAppendIfSet("N", f, entry, false);
+            EncodeAndAppendIfSet("NOTE", contact.Note, entry);
             EncodeAndAppendIfSet("ADR", contact.Address, entry);
             foreach (var num in contact.PhoneNumbers)
             {
@@ -423,6 +425,49 @@ namespace ShareEmergencyContacts.Helpers
                             c = 'n';
                             break;
                     }
+                }
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Decodes the string from vcard format, removing all the escaping of chars.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private static string Decode(string text)
+        {
+            var sb = new StringBuilder();
+            bool insertEscaped = false;
+            for (int i = 0; i < text.Length; i++)
+            {
+                var c = text[i];
+                if (c == '\\' && i < text.Length - 1)
+                {
+                    var next = text[i + 1];
+                    if (_escapedCharacters.Contains(next) ||
+                        next == 'r' ||
+                        next == 'n')
+                        // current char is \, next char is one of the escaped
+                        // -> skip current
+                        insertEscaped = true;
+                    continue;
+                }
+                if (insertEscaped)
+                {
+                    // special cases
+                    switch (c)
+                    {
+                        case 'r':
+                            c = '\r';
+                            break;
+                        case 'n':
+                            c = '\n';
+                            break;
+                    }
+                    insertEscaped = false;
                 }
                 sb.Append(c);
             }

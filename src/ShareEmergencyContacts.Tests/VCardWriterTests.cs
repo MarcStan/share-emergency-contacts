@@ -53,7 +53,7 @@ namespace ShareEmergencyContacts.Tests
                         "12345 LegitCity",
                 BirthDate = new DateTime(1989, 1, 13),
                 HeightInCm = 200,
-                WeightInLbsTimes100 = 20000,
+                WeightInKg = 100,
                 Note = "This is a note",
                 PhoneNumbers = new List<PhoneNumber>
                 {

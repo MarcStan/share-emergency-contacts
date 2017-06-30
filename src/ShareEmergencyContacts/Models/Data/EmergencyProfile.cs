@@ -11,11 +11,11 @@ namespace ShareEmergencyContacts.Models.Data
     public class EmergencyProfile : EmergencyContact
     {
         /// <summary>
-        /// Stores the weight value in lbs * 100.
+        /// Stores the weight value in kg.
         /// That way aftercomma values are not truncated.
         /// </summary>
         [JsonProperty("w")]
-        public int WeightInLbsTimes100 { get; set; }
+        public int WeightInKg { get; set; }
 
         /// <summary>
         /// The height in cm.
