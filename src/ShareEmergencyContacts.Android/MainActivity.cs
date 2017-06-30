@@ -29,6 +29,7 @@ namespace ShareEmergencyContacts.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
+            // TODO: never fires, probably because we set target to android 2.3?
             // handle camera permission
             PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
