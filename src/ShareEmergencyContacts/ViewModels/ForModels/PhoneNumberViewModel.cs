@@ -58,7 +58,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             var clip = IoC.Get<IClipboardProvider>();
             clip.Copy(Number);
             var dia = IoC.Get<IUserDialogs>();
-            dia.Toast($"Copied {Number} to clipboard.").Dispose();
+            dia.Toast($"Copied {Number} to clipboard.");
         }
     }
 }

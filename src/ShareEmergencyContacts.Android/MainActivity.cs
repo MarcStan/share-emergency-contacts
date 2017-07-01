@@ -22,7 +22,9 @@ namespace ShareEmergencyContacts.Droid
             MobileBarcodeScanner.Initialize(Application);
 
             UserDialogs.Init(() => (Activity)Forms.Context);
-            
+            // stupid dependency order; can't add this interface from Application because Application executes before this
+            IoC.Get<SimpleContainer>().RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
+
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(IoC.Get<App>());
         }
