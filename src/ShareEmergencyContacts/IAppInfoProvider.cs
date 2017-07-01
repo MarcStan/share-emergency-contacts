@@ -17,5 +17,15 @@ namespace ShareEmergencyContacts
         /// Returns the actual app version.
         /// </summary>
         Version Version { get; }
+
+        /// <summary>
+        /// Gets the width of the screen in portrait.
+        /// </summary>
+        int ScreenWidth { get; }
+
+        /// <summary>
+        /// Gets the height of the screen in portrait.
+        /// </summary>
+        int ScreenHeight { get; }
     }
 }

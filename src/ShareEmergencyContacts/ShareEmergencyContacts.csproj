@@ -63,10 +63,13 @@
       <DependentUpon>ContactDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\ForModels\PhoneNumberViewModel.cs" />
+    <Compile Include="ViewModels\IWorkWithProfiles.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MyProfilesViewModel.cs" />
+    <Compile Include="ViewModels\ProfileListViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
     <Compile Include="ViewModels\ScanCodeViewModel.cs" />
     <Compile Include="ViewModels\ForModels\ContactViewModel.cs" />

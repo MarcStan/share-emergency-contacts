@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels.ForModels
 {
@@ -12,13 +14,17 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     {
         private readonly EmergencyProfile _profile;
 
-        public ProfileViewModel(EmergencyProfile profile) : base(profile, false, false)
+        public ProfileViewModel(EmergencyProfile profile, IWorkWithProfiles mv) : base(profile, false, false)
         {
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
 
             EmergencyContacts = profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true)).ToList();
             InsuranceContacts = profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true)).ToList();
+
+            DeleteCommand = new Command(() => mv.Delete(Actual));
         }
+
+        public ICommand DeleteCommand { get; }
 
         public string Weight
         {

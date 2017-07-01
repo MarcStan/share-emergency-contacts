@@ -17,16 +17,26 @@ namespace ShareEmergencyContacts.ViewModels
             _root = root;
             AboutCommand = new Command(ShowAbout);
             SettingsCommand = new Command(ShowSettings);
-            ProfileCommand = new Command(ShowMyProfiles);
+            ProfilesCommand = new Command(ShowMyProfiles);
+            ContactsCommand = new Command(ShowContacts);
         }
 
         public ICommand AboutCommand { get; }
-        public ICommand ProfileCommand { get; }
+
+        public ICommand ProfilesCommand { get; }
+
+        public ICommand ContactsCommand { get; }
+
         public ICommand SettingsCommand { get; }
 
         public void ShowMyProfiles()
         {
             CloseMenuAndNavigateTo<MyProfilesViewModel>();
+        }
+
+        private void ShowContacts()
+        {
+            CloseMenuAndNavigateTo<MainViewModel>();
         }
 
         public void ShowSettings()
@@ -71,7 +81,10 @@ namespace ShareEmergencyContacts.ViewModels
                 await Task.Delay(200);
             }
 
-            await _navigationService.NavigateToViewModelAsync<T>();
+            if (typeof(T) == typeof(MainViewModel))
+                await _navigationService.GoBackToRootAsync();
+            else
+                await _navigationService.NavigateToViewModelAsync<T>();
             _isNavigating = false;
         }
     }

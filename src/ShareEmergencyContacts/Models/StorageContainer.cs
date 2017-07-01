@@ -70,13 +70,44 @@ namespace ShareEmergencyContacts.Models
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
-        public async Task SaveReceivedContact(EmergencyProfile profile)
+        public async Task SaveReceivedContactAsync(EmergencyProfile profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
 
             var formatted = ConvertToRawText(profile);
             var path = GetUniquePath(profile, ContactsDir);
+
+            await _storageProvider.WriteAllTextAsync(path, formatted);
+        }
+
+        public async Task DeleteReceivedContactAsync(EmergencyProfile profile)
+        {
+            if (profile == null)
+                throw new ArgumentNullException(nameof(profile));
+
+            var path = GetUniquePath(profile, ContactsDir);
+
+            await _storageProvider.DeleteFileAsync(path);
+        }
+
+        public async Task DeleteProfileAsync(EmergencyProfile profile)
+        {
+            if (profile == null)
+                throw new ArgumentNullException(nameof(profile));
+
+            var path = GetUniquePath(profile, MyProfileDir);
+
+            await _storageProvider.DeleteFileAsync(path);
+        }
+
+        public async Task SaveProfileAsync(EmergencyProfile profile)
+        {
+            if (profile == null)
+                throw new ArgumentNullException(nameof(profile));
+
+            var formatted = ConvertToRawText(profile);
+            var path = GetUniquePath(profile, MyProfileDir);
 
             await _storageProvider.WriteAllTextAsync(path, formatted);
         }
@@ -89,7 +120,8 @@ namespace ShareEmergencyContacts.Models
         /// <returns></returns>
         private static string GetUniquePath(EmergencyProfile profile, string directory)
         {
-            return $"/{directory}/{profile.ProfileName}{Extension}";
+            var name = profile.ProfileName;
+            return $"/{directory}/{name}{Extension}";
         }
 
         private string ConvertToRawText(EmergencyProfile profile)

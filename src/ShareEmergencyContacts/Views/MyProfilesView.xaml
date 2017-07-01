@@ -1,5 +1,35 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShareEmergencyContacts.Views.MyProfilesView">
-            
+             x:Class="ShareEmergencyContacts.Views.MyProfilesView" Title="My profiles">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+        <Label Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" Text="No profiles set up yet. Press the plus icon to add one!" IsVisible="{Binding NoContacts}"
+               VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Margin="10" />
+        <StackLayout Margin="10" Grid.Row="1">
+            <Label Text="Click on a profile to share or edit" HorizontalOptions="Center" />
+            <ListView ItemsSource="{Binding ExistingContacts}" SelectedItem="{Binding SelectedItem}"
+                  IsVisible="{Binding NoContacts, Converter={StaticResource InvertBoolConverter}}" ItemSelected="ListView_OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Delete" Command="{Binding DeleteCommand}" />
+                            </ViewCell.ContextActions>
+                            <StackLayout>
+                                <Label Text="{Binding ProfileName}" FontSize="32" />
+                                <StackLayout Orientation="Horizontal" IsVisible="{Binding ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
+                                    <Label Text="Auto deletes:" TextColor="Accent" />
+                                    <Label Text="{Binding ExpirationDate}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </Grid>
 </ContentPage>

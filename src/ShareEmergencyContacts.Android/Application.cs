@@ -31,7 +31,6 @@ namespace ShareEmergencyContacts.Droid
         {
             _container.Instance(_container);
             _container.Singleton<App>();
-            _container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider());
             _container.RegisterInstance(typeof(IStorageProvider), null, new AndroidStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());

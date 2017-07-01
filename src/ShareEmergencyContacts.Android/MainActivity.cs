@@ -16,14 +16,16 @@ namespace ShareEmergencyContacts.Droid
         {
             base.OnCreate(bundle);
 
-            Xamarin.Forms.Forms.Init(this, bundle);
+            Forms.Init(this, bundle);
 
             // TODO: apparently call this only shortly before trying to scan
             MobileBarcodeScanner.Initialize(Application);
 
             UserDialogs.Init(() => (Activity)Forms.Context);
             // stupid dependency order; can't add this interface from Application because Application executes before this
-            IoC.Get<SimpleContainer>().RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
+            var container = IoC.Get<SimpleContainer>();
+            container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
+            container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources));
 
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(IoC.Get<App>());

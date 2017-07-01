@@ -26,6 +26,27 @@ namespace ShareEmergencyContacts.Models
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
-        Task SaveReceivedContact(EmergencyProfile profile);
+        Task SaveReceivedContactAsync(EmergencyProfile profile);
+
+        /// <summary>
+        /// Deletes the received profile.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        Task DeleteReceivedContactAsync(EmergencyProfile profile);
+
+        /// <summary>
+        /// Deletes the user profile.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        Task DeleteProfileAsync(EmergencyProfile profile);
+
+        /// <summary>
+        /// Saves a new profile.
+        /// </summary>
+        /// <param name="newContact"></param>
+        /// <returns></returns>
+        Task SaveProfileAsync(EmergencyProfile newContact);
     }
 }

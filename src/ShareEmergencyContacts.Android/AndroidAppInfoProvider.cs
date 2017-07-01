@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Content.Res;
+using System;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -6,6 +7,13 @@ namespace ShareEmergencyContacts.Droid
 {
     public class AndroidAppInfoProvider : IAppInfoProvider
     {
+        private readonly Resources _resources;
+
+        public AndroidAppInfoProvider(Resources resources)
+        {
+            _resources = resources;
+        }
+
         public string UserFriendlyVersion
         {
             get
@@ -36,6 +44,10 @@ namespace ShareEmergencyContacts.Droid
                                                 $"The found value '{v}' did not match either of those two formats.");
             }
         }
+
+        public int ScreenWidth => _resources.DisplayMetrics.WidthPixels;
+
+        public int ScreenHeight => _resources.DisplayMetrics.HeightPixels;
     }
 
 }

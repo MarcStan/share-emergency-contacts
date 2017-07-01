@@ -3,11 +3,23 @@
              xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
              xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
+             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              x:Class="ShareEmergencyContacts.Views.SelectedProfileView"
              Title="{Binding Selected.ProfileName}">
-    <StackLayout Margin="10">
-        <ScrollView>
+    <Grid Margin="10">
+        <!-- 
+            Two views in 1 because I'm lazy af
+            First view is just the details
+            Second view is a barcode (this view can switch back to details view)
+        -->
+        <Grid IsVisible="{Binding ShowBarcode}">
+            <forms:ZXingBarcodeImageView BarcodeFormat="QR_CODE" BarcodeValue="{Binding BarcodeContent}"
+                                         HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BarcodeOptions="{Binding Options}" />
+            <Button VerticalOptions="End" HorizontalOptions="Center" Text="Edit" Command="{Binding EditCommand}" WidthRequest="80" />
+        </Grid>
+        <ScrollView IsVisible="{Binding ShowBarcode, Converter={StaticResource InvertBoolConverter}}">
             <StackLayout>
+                <Button Text="Share contact" IsVisible="{Binding CanShare}" Command="{Binding ShareCommand}" WidthRequest="120" HorizontalOptions="Center" />
                 <userControls:ContactDetails BindingContext="{Binding Selected}" />
                 <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.BloodType, Converter={StaticResource NullToFalseConverter}}">
                     <Label Text="Blood group: " TextColor="Accent" />
@@ -53,5 +65,5 @@
                 </StackLayout>
             </StackLayout>
         </ScrollView>
-    </StackLayout>
+    </Grid>
 </ContentPage>

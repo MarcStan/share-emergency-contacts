@@ -219,33 +219,13 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\..\icons\76x76\delete.png">
-      <Link>Resources\delete.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\..\icons\76x76\edit1.png">
-      <Link>Resources\edit1.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\..\icons\76x76\edit2.png">
       <Link>Resources\edit2.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\..\icons\76x76\information.png">
-      <Link>Resources\information.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\..\icons\76x76\qr.png">
       <Link>Resources\qr.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\..\icons\76x76\settings.png">
-      <Link>Resources\settings.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
