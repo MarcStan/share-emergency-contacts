@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              xmlns:data="clr-namespace:ShareEmergencyContacts.Models.Data;assembly=ShareEmergencyContacts"
+             xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.UserControls.ContactDetails">
     <ContentView.Content>
         <StackLayout>
@@ -18,13 +19,14 @@
                 <Label Text="{Binding Address}" />
             </StackLayout>
             <StackLayout IsVisible="{Binding PhoneNumbers, Converter={StaticResource ListCountToBoolConverter}}">
-                <Label Text="Phone numbers:" TextColor="Accent" />
-                <controls:RepeaterView x:TypeArguments="data:PhoneNumber" ItemsSource="{Binding PhoneNumbers}">
+                <Label Text="Phone numbers:" FontSize="20" />
+                <controls:RepeaterView x:TypeArguments="forModels:PhoneNumberViewModel" Margin="20,0,0,0" ItemsSource="{Binding PhoneNumbers}">
                     <controls:RepeaterView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal" Margin="10,5">
                                     <Label Text="{Binding Type}" />
+                                    <Label Text=": " />
                                     <Label Text="{Binding Number}" />
                                 </StackLayout>
                             </ViewCell>

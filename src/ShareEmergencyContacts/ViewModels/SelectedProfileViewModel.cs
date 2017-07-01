@@ -1,90 +1,32 @@
 ﻿using ShareEmergencyContacts.Models.Data;
-using System.Collections.Generic;
+using ShareEmergencyContacts.ViewModels.ForModels;
+using System;
 
 namespace ShareEmergencyContacts.ViewModels
 {
     /// <summary>
-    /// Xamarin XAML does not support bindings to child properties "{Binding SelectedProfile, Path=FirstName}" so
-    /// this class has to act as a wrapper for all entries.
+    /// Viewmodel for a single selected profile with all its emergency contacts and 
     /// </summary>
     public class SelectedProfileViewModel : ViewModelBase
     {
-        private EmergencyProfile _selectedProfile;
+        private ProfileViewModel _selected;
 
-        public string ProfileName => SelectedProfile.ProfileName;
-
-        public string Name
+        public SelectedProfileViewModel(EmergencyProfile profile)
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(SelectedProfile.FirstName))
-                    return string.IsNullOrWhiteSpace(SelectedProfile.LastName) ? null : SelectedProfile.LastName;
-                if (string.IsNullOrWhiteSpace(SelectedProfile.LastName))
-                    return string.IsNullOrWhiteSpace(SelectedProfile.FirstName) ? null : SelectedProfile.FirstName;
+            if (profile == null)
+                throw new ArgumentNullException(nameof(profile));
 
-                return $"{SelectedProfile.FirstName} {SelectedProfile.LastName}";
-            }
+            Selected = new ProfileViewModel(profile);
         }
 
-        public string BirthDate
+        public ProfileViewModel Selected
         {
-            get
+            get => _selected;
+            private set
             {
-                var b = SelectedProfile.BirthDate;
-                return b?.ToString("D");
-            }
-        }
-
-        public string Address => SelectedProfile.Address;
-
-        public string Note => SelectedProfile.Note;
-
-        public List<PhoneNumber> PhoneNumbers => SelectedProfile.PhoneNumbers;
-
-        public string Weight
-        {
-            get
-            {
-                if (SelectedProfile.WeightInKg <= 0)
-                    return null;
-
-                return $"{SelectedProfile.WeightInKg} kg";
-            }
-        }
-
-        public string Height
-        {
-            get
-            {
-                if (SelectedProfile.HeightInCm <= 0)
-                    return null;
-
-                return $"{SelectedProfile.HeightInCm / 100:0.00} m";
-            }
-        }
-
-        public string BloodType => SelectedProfile.BloodType;
-
-        public string ExpirationDate
-        {
-            get
-            {
-                var d = SelectedProfile.ExpirationDate;
-                return d?.ToString("D");
-            }
-        }
-        public List<EmergencyContact> EmergencyContacts => SelectedProfile.EmergencyContacts;
-
-        public List<EmergencyContact> InsuranceContacts => SelectedProfile.InsuranceContacts;
-
-        public EmergencyProfile SelectedProfile
-        {
-            get => _selectedProfile;
-            set
-            {
-                if (Equals(value, _selectedProfile)) return;
-                _selectedProfile = value;
-                NotifyOfPropertyChange(nameof(SelectedProfile));
+                if (Equals(value, _selected)) return;
+                _selected = value;
+                NotifyOfPropertyChange(nameof(Selected));
             }
         }
     }

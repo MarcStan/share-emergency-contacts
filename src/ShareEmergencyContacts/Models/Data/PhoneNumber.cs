@@ -5,7 +5,7 @@ namespace ShareEmergencyContacts.Models.Data
     /// <summary>
     /// Stores information about a phone number.
     /// </summary>
-    public class PhoneNumber : IEquatable<PhoneNumber>
+    public struct PhoneNumber : IEquatable<PhoneNumber>
     {
         public PhoneType Type { get; }
 

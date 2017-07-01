@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using ShareEmergencyContacts.Views;
@@ -49,6 +50,7 @@ namespace ShareEmergencyContacts
 
         /// <summary>
         /// Registers all classes that can be instantiated (non abstract, not interfaces) inside the namespace and all sub namespaces using per request type.
+        /// Only registeres classes with name of format: *ViewModel
         /// </summary>
         /// <param name="nameSpace"></param>
         private void RegisterAllViewModels(string nameSpace)
@@ -63,13 +65,16 @@ namespace ShareEmergencyContacts
                 if (ti.IsAbstract || ti.IsInterface)
                     continue;
 
+                if (!ti.Name.EndsWith("ViewModel"))
+                    continue;
+
                 _container.RegisterPerRequest(t, null, t);
             }
         }
 
         protected override void PrepareViewFirst(NavigationPage navigationPage)
         {
-            _container.Instance<INavigationService>(new NavigationPageAdapter(navigationPage));
+            _container.Instance<INavigationService>(new ExtendedNavPageAdapter(navigationPage));
         }
     }
 }

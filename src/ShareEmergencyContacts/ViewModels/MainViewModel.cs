@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using System;
@@ -63,7 +64,8 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void ShowDetails(EmergencyProfile contact)
         {
-            _navigationService.For<SelectedProfileViewModel>().WithParam(vm => vm.SelectedProfile, contact).Navigate();
+            var vm = new SelectedProfileViewModel(contact);
+            _navigationService.NavigateToInstanceAsync(vm);
         }
 
         /// <summary>
