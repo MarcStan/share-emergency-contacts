@@ -22,7 +22,6 @@
                     <Label Text="{Binding Selected.Height}" />
                 </StackLayout>
                 <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
-                    <controls:Separator />
                     <Label Text="Emergency contacts:" FontSize="32" />
                     <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.EmergencyContacts}">
                         <controls:RepeaterView.ItemTemplate>
@@ -36,7 +35,6 @@
                 </StackLayout>
                 <Label Text="No emergency contacts provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                 <StackLayout IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}}">
-                    <controls:Separator />
                     <Label Text="Insurance details:" FontSize="32" />
                     <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.InsuranceContacts}">
                         <controls:RepeaterView.ItemTemplate>

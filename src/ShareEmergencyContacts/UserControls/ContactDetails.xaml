@@ -26,23 +26,21 @@
                 <controls:RepeaterView x:TypeArguments="forModels:PhoneNumberViewModel" Margin="20,0,0,0" ItemsSource="{Binding PhoneNumbers}">
                     <controls:RepeaterView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Orientation="Horizontal" Margin="10,5">
-                                        <Label Text="{Binding Type}" />
-                                        <Label Text=": " />
-                                        <Label Text="{Binding Number}" />
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="1" Orientation="Horizontal">
-                                        <Button Command="{Binding CopyNumber}" Image="edit2.png" Style="{StaticResource IconButton}" Margin="5" />
-                                        <Button Command="{Binding DialNumber}" Image="phone.png" Style="{StaticResource IconButton}" Margin="5" />
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Orientation="Horizontal" Margin="10,5">
+                                    <Label Text="{Binding Type}" />
+                                    <Label Text=": " />
+                                    <Label Text="{Binding Number}" />
+                                </StackLayout>
+                                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                    <Button Command="{Binding CopyNumber}" Image="edit2.png" Style="{StaticResource IconButton}" Margin="5" />
+                                    <Button Command="{Binding DialNumber}" Image="phone.png" Style="{StaticResource IconButton}" Margin="5" />
+                                </StackLayout>
+                            </Grid>
                         </DataTemplate>
                     </controls:RepeaterView.ItemTemplate>
                 </controls:RepeaterView>
