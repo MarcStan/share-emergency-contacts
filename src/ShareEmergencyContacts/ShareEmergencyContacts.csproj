@@ -62,9 +62,6 @@
     <Compile Include="UserControls\ContactDetails.xaml.cs">
       <DependentUpon>ContactDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ContactListEntry.xaml.cs">
-      <DependentUpon>ContactListEntry.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\ForModels\PhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -176,12 +173,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SettingsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="UserControls\ContactListEntry.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

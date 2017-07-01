@@ -4,11 +4,13 @@ using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
+using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
@@ -16,17 +18,23 @@ namespace ShareEmergencyContacts.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private ObservableCollection<EmergencyProfile> _existingContacts;
+        private ObservableCollection<ProfileViewModel> _existingContacts;
         private bool _isLoading;
-        private EmergencyProfile _selectedContact;
+        private ProfileViewModel _selectedContact;
 
         public static EmergencyProfile ReceivedContact;
 
         public MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            ExistingContacts = new ObservableCollection<EmergencyProfile>();
+            ExistingContacts = new ObservableCollection<ProfileViewModel>();
             IsLoading = true;
+            ItemSelectedCommand = new Command(o =>
+            {
+                var c = o as ProfileViewModel;
+                if (c != null)
+                    ShowDetails(c.Actual);
+            });
 
             Task.Run(async () =>
             {
@@ -39,28 +47,17 @@ namespace ShareEmergencyContacts.ViewModels
                     contacts = LoadMockContacts();
                 }
 #endif
+                var profiles = contacts.Select(c => new ProfileViewModel(c)).ToList();
+
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    ExistingContacts = new ObservableCollection<EmergencyProfile>(contacts);
+                    ExistingContacts = new ObservableCollection<ProfileViewModel>(profiles);
                     IsLoading = false;
                 });
             });
         }
 
-        public EmergencyProfile SelectedContact
-        {
-            get => _selectedContact;
-            set
-            {
-                if (value == _selectedContact) return;
-                _selectedContact = value;
-                NotifyOfPropertyChange(nameof(SelectedContact));
-                if (SelectedContact != null)
-                {
-                    ShowDetails(SelectedContact);
-                }
-            }
-        }
+        public ICommand ItemSelectedCommand { get; }
 
         private void ShowDetails(EmergencyProfile contact)
         {
@@ -83,7 +80,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public bool NoContacts => ExistingContacts.Count == 0;
 
-        public ObservableCollection<EmergencyProfile> ExistingContacts
+        public ObservableCollection<ProfileViewModel> ExistingContacts
         {
             get => _existingContacts;
             set

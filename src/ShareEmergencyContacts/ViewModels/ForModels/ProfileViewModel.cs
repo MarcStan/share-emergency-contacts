@@ -55,5 +55,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public List<ContactViewModel> EmergencyContacts { get; }
 
         public List<ContactViewModel> InsuranceContacts { get; }
+
+        public EmergencyProfile Actual => _profile;
     }
 }
