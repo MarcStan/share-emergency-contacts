@@ -33,7 +33,7 @@ namespace ShareEmergencyContacts.UWP
             _container.RegisterInstance(typeof(IStorageProvider), null, new WindowsStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new WindowsPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new WindowsClipboardProvider());
-            _container.RegisterInstance(typeof(IUserDialogs), null, new UserDialogWrapper(UserDialogs.Instance));
+            _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
         }
 
         protected override void PrepareViewFirst(Frame rootFrame)
