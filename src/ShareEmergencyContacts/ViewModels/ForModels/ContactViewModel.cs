@@ -20,7 +20,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             _displayInsuranceNumber = displayInsuranceNumber;
             _isChild = isChild;
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
-            PhoneNumbers = profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p)).ToList();
+            PhoneNumbers = profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name)).ToList();
         }
 
         public string ProfileName => _profile.ProfileName;

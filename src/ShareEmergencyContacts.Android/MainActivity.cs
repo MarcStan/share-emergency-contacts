@@ -22,7 +22,7 @@ namespace ShareEmergencyContacts.Droid
             MobileBarcodeScanner.Initialize(Application);
 
             UserDialogs.Init(() => (Activity)Forms.Context);
-
+            
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(IoC.Get<App>());
         }

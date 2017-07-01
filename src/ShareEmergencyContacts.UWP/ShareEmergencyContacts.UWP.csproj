@@ -104,6 +104,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsAppInfoProvider.cs" />
+    <Compile Include="WindowsClipboardProvider.cs" />
+    <Compile Include="WindowsPhoneDialProvider.cs" />
     <Compile Include="WindowsStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +129,9 @@
     </Content>
     <Content Include="..\..\icons\76x76\information.png">
       <Link>information.png</Link>
+    </Content>
+    <Content Include="..\..\icons\76x76\phone.png">
+      <Link>phone.png</Link>
     </Content>
     <Content Include="..\..\icons\76x76\qr.png">
       <Link>qr.png</Link>
@@ -185,6 +190,11 @@
       <Project>{cb967893-f732-424c-9a89-b782ea4e7b3a}</Project>
       <Name>ShareEmergencyContacts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.15063.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

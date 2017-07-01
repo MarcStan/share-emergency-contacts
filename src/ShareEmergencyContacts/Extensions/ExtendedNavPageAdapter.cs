@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro.Xamarin.Forms;
+﻿using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -28,17 +29,47 @@ namespace ShareEmergencyContacts.Extensions
         /// <param name="animated"></param>
         public Task NavigateToInstanceAsync<T>(T vm, bool animated = true)
         {
+            if (!CanClose())
+                return Task.FromResult(false);
+
             var view = ViewLocator.LocateForModelType(typeof(T), null, null);
+
             return PushInstanceAsync(view, vm, animated);
         }
 
+        /// <summary>
+        /// Sample implementation as base, but base is priavate.
+        /// </summary>
+        /// <returns></returns>
+        protected bool CanClose()
+        {
+            var view = _navigationPage.CurrentPage;
+
+            var guard = view?.BindingContext as IGuardClose;
+
+            if (guard != null)
+            {
+                var shouldCancel = false;
+                var runningAsync = true;
+                guard.CanClose(result => { runningAsync = false; shouldCancel = !result; });
+                if (runningAsync)
+                    throw new NotSupportedException("Async CanClose is not supported.");
+
+                if (shouldCancel)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private Task PushInstanceAsync<T>(Element view, T viewModel, bool animated)
         {
             var page = view as Page;
 
             if (page == null && !(view is ContentView))
-                throw new NotSupportedException(String.Format("{0} does not inherit from either {1} or {2}.", view.GetType(), typeof(Page), typeof(ContentView)));
+                throw new NotSupportedException($"{view.GetType()} does not inherit from either {typeof(Page)} or {typeof(ContentView)}.");
 
             ViewModelBinder.Bind(viewModel, view, null);
 

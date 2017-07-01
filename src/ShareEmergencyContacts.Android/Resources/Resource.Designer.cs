@@ -2830,11 +2830,11 @@ namespace ShareEmergencyContacts.Droid
 			// aapt resource value: 0x7f020110
 			public const int notification_icon_background = 2130837776;
 			
-			// aapt resource value: 0x7f020118
-			public const int notification_template_icon_bg = 2130837784;
-			
 			// aapt resource value: 0x7f020119
-			public const int notification_template_icon_low_bg = 2130837785;
+			public const int notification_template_icon_bg = 2130837785;
+			
+			// aapt resource value: 0x7f02011a
+			public const int notification_template_icon_low_bg = 2130837786;
 			
 			// aapt resource value: 0x7f020111
 			public const int notification_tile_bg = 2130837777;
@@ -2843,19 +2843,22 @@ namespace ShareEmergencyContacts.Droid
 			public const int notify_panel_notification_icon_bg = 2130837778;
 			
 			// aapt resource value: 0x7f020113
-			public const int qr = 2130837779;
+			public const int phone = 2130837779;
 			
 			// aapt resource value: 0x7f020114
-			public const int roundedbg = 2130837780;
+			public const int qr = 2130837780;
 			
 			// aapt resource value: 0x7f020115
-			public const int roundedbgdark = 2130837781;
+			public const int roundedbg = 2130837781;
 			
 			// aapt resource value: 0x7f020116
-			public const int settings = 2130837782;
+			public const int roundedbgdark = 2130837782;
 			
 			// aapt resource value: 0x7f020117
-			public const int share = 2130837783;
+			public const int settings = 2130837783;
+			
+			// aapt resource value: 0x7f020118
+			public const int share = 2130837784;
 			
 			static Drawable()
 			{

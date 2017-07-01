@@ -93,6 +93,8 @@
     </Compile>
     <Compile Include="CaliburnAppDelegate.cs" />
     <Compile Include="IOSAppInfoProvider.cs" />
+    <Compile Include="IOSClipboardProvider.cs" />
+    <Compile Include="IOSPhoneDialProvider.cs" />
     <Compile Include="IOSStorageProvider.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -249,6 +251,11 @@
   <ItemGroup>
     <BundleResource Include="..\..\icons\76x76\share.png">
       <Link>Resources\share.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\..\icons\76x76\phone.png">
+      <Link>Resources\phone.png</Link>
     </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

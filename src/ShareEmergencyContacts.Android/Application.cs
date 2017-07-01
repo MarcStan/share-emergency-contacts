@@ -1,11 +1,11 @@
 ﻿using Android.App;
 using Android.Runtime;
 using Caliburn.Micro;
+using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ShareEmergencyContacts.Models;
 
 namespace ShareEmergencyContacts.Droid
 {
@@ -33,6 +33,8 @@ namespace ShareEmergencyContacts.Droid
             _container.Singleton<App>();
             _container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider());
             _container.RegisterInstance(typeof(IStorageProvider), null, new AndroidStorageProvider());
+            _container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
+            _container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

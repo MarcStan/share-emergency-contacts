@@ -26,11 +26,12 @@ namespace ShareEmergencyContacts
             // auto register all view models
             RegisterAllViewModels(ns);
 
+            EnsurePlatformProvidersExist();
+
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
-
             var original = ViewLocator.LocateForModelType;
             ViewLocator.LocateForModelType += (o, bindableObject, arg3) =>
             {
@@ -46,6 +47,40 @@ namespace ShareEmergencyContacts
             };
 
             DisplayRootView<RootView>();
+        }
+
+        /// <summary>
+        /// Call once to throw on any platform that failed to provide an implementation of a required provider.
+        /// </summary>
+        private static void EnsurePlatformProvidersExist()
+        {
+            EnsureExists<IAppInfoProvider>();
+            EnsureExists<IStorageProvider>();
+            EnsureExists<IPhoneDialProvider>();
+            EnsureExists<IClipboardProvider>();
+        }
+
+        private static void EnsureExists<T>()
+        {
+            bool throw_ = false;
+            try
+            {
+                if (IoC.Get<T>() == null)
+                    throw_ = true;
+
+            }
+            catch (Exception)
+            {
+                throw_ = true;
+            }
+            if (throw_)
+            {
+                // exception is swallowed (maybe because in ctor?) and throws an unrelated (with no info) InvocationException 
+                // so write to debug as well
+                var msg = $"No implementation of {typeof(T)} has been provided on {Device.RuntimePlatform}.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                throw new NotImplementedException(msg);
+            }
         }
 
         /// <summary>
