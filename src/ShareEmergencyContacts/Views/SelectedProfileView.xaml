@@ -42,7 +42,9 @@
                         <controls:RepeaterView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <userControls:ContactDetails />
+                                    <StackLayout>
+                                        <userControls:ContactDetails />
+                                    </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
                         </controls:RepeaterView.ItemTemplate>

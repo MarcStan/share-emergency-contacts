@@ -28,6 +28,12 @@ namespace ShareEmergencyContacts.Models.Data
         public string Address { get; set; }
 
         /// <summary>
+        /// Because we are resusing this model for instancce details as well, this property exists.
+        /// Views only ever allow to set it if the user adds insurance details, otherwise it will be null.
+        /// </summary>
+        public string InsuranceNumber { get; set; }
+
+        /// <summary>
         /// Other textfiled that can be set by the user.
         /// </summary>
         public string Note { get; set; }

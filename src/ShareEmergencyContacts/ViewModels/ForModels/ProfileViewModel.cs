@@ -12,12 +12,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     {
         private readonly EmergencyProfile _profile;
 
-        public ProfileViewModel(EmergencyProfile profile) : base(profile)
+        public ProfileViewModel(EmergencyProfile profile) : base(profile, false, false)
         {
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
 
-            EmergencyContacts = profile.EmergencyContacts.Select(c => new ContactViewModel(c)).ToList();
-            InsuranceContacts = profile.InsuranceContacts.Select(c => new ContactViewModel(c)).ToList();
+            EmergencyContacts = profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true)).ToList();
+            InsuranceContacts = profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true)).ToList();
         }
 
         public string Weight

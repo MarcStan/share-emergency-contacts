@@ -35,7 +35,7 @@ namespace ShareEmergencyContacts.Tests
             var empty = new EmergencyProfile();
             empty.ProfileName = "Name 1";
             var result = vcard.ToVCard(empty);
-            result.Should().Contain("Name1");
+            result.Should().Contain("Name 1");
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace ShareEmergencyContacts.Tests
                     new EmergencyContact
                     {
                         ProfileName = "REGA",
-                        Note = "#1234",
+                        InsuranceNumber = "#1234",
                         PhoneNumbers = new List<PhoneNumber>
                         {
                             new PhoneNumber(PhoneType.Work, "+41 1414")
@@ -75,7 +75,7 @@ namespace ShareEmergencyContacts.Tests
                     new EmergencyContact
                     {
                         ProfileName = "POLIZEI",
-                        Note = "#1234.68.123",
+                        InsuranceNumber = "#1234.68.123",
                         PhoneNumbers = new List<PhoneNumber>
                         {
                             new PhoneNumber(PhoneType.Work, "+49 110")
@@ -109,14 +109,16 @@ namespace ShareEmergencyContacts.Tests
             lines[index++].Should().Be("VERSION:4.0");
             lines[index++].Should().Be("FN:Marc");
             lines[index++].Should().Be("N:Marc;Stan;;;");
+            lines[index++].Should().Be("NOTE:This is a note");
             lines[index++].Should().Be("ADR:Street 1\\r\\n12345 LegitCity");
             lines[index++].Should().Be("TEL;TYPE=HOME:555 12345");
             lines[index++].Should().Be("TEL;TYPE=MOBILE:+1 555 12345");
             lines[index++].Should().Be("BDAY:19890113");
-            lines[index++].Should().Be("NOTE:This is a note");
             lines[index++].Should().Be("X-INS-1-FN:REGA");
+            lines[index++].Should().Be("X-INS-1-X-INSNUM:#1234");
             lines[index++].Should().Be("X-INS-1-TEL;TYPE=WORK:+41 1414");
             lines[index++].Should().Be("X-INS-2-FN:POLIZEI");
+            lines[index++].Should().Be("X-INS-2-X-INSNUM:#1234.68.123");
             lines[index++].Should().Be("X-INS-2-TEL;TYPE=WORK:+49 110");
             lines[index++].Should().Be("X-ICE-1-FN:Dad");
             lines[index++].Should().Be("X-ICE-1-TEL;TYPE=WORK:1234567890");
@@ -125,7 +127,7 @@ namespace ShareEmergencyContacts.Tests
             lines[index++].Should().Be("X-BLOODTYPE:The fuck do I know");
             lines[index++].Should().Be("X-EXPIRES:20370213");
             lines[index++].Should().Be("X-HEIGHT:200");
-            lines[index++].Should().Be("X-WEIGHT:20000");
+            lines[index++].Should().Be("X-WEIGHT:100");
             lines[index++].Should().Be("END:VCARD");
         }
 
@@ -168,11 +170,11 @@ namespace ShareEmergencyContacts.Tests
             lines[index++].Should().Be("VERSION:4.0");
             lines[index++].Should().Be("FN:Marc");
             lines[index++].Should().Be("N:Marc;Stan;;;");
+            lines[index++].Should().Be("NOTE:This is a note");
             lines[index++].Should().Be("ADR:Street 1\\r\\n12345 LegitCity");
             lines[index++].Should().Be("TEL;TYPE=HOME:555 12345");
             lines[index++].Should().Be("TEL;TYPE=MOBILE:+1 555 12345");
             lines[index++].Should().Be("BDAY:19890113");
-            lines[index++].Should().Be("NOTE:This is a note");
             lines[index++].Should().Be("X-ICE-1-FN:Dad");
             lines[index++].Should().Be("X-ICE-1-TEL;TYPE=WORK:1234567890");
             lines[index++].Should().Be("X-BLOODTYPE:The fuck do I know");

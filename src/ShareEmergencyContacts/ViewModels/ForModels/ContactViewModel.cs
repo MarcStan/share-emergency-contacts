@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels.ForModels
 {
@@ -10,15 +11,23 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class ContactViewModel
     {
+        private readonly bool _displayInsuranceNumber;
+        private readonly bool _isChild;
         private readonly EmergencyContact _profile;
 
-        public ContactViewModel(EmergencyContact profile)
+        public ContactViewModel(EmergencyContact profile, bool displayInsuranceNumber, bool isChild)
         {
+            _displayInsuranceNumber = displayInsuranceNumber;
+            _isChild = isChild;
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
             PhoneNumbers = profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p)).ToList();
         }
 
         public string ProfileName => _profile.ProfileName;
+
+        public StackOrientation NameOrientation => _isChild ? StackOrientation.Horizontal : StackOrientation.Vertical;
+
+        public int NameSize => _isChild ? 24 : 16;
 
         public string Name
         {
@@ -49,6 +58,8 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public string Address => _profile.Address;
 
         public string Note => _profile.Note;
+
+        public string InsuranceNumber => _displayInsuranceNumber ? _profile.InsuranceNumber : null;
 
         public List<PhoneNumberViewModel> PhoneNumbers { get; }
     }

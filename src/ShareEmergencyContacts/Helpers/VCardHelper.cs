@@ -6,6 +6,17 @@ using System.Text;
 
 namespace ShareEmergencyContacts.Helpers
 {
+    /// <summary>
+    /// Helper class to read VCARDS.
+    /// It supports several custom extensions such as:
+    /// X-INS-%int%- Insurance contact details (%int% being an id to allow multiple contacts to be listed).
+    /// X-ICE-%int%- ICE (In Case of Emergency contacts) (%int% being an id to allow multiple contacts to be listed).
+    /// X-INSNUM - insurance number (only used for X-INS-%int%- contacts).
+    /// X-HEIGHT - height in cm of the user (int; -1 or 0 if not set)
+    /// X-WEIGHT - weight in kg of the user (int; -1 or 0 if not set)
+    /// X-BLOODTYPE - blood group of the user (string; null if not set)
+    /// X-EXPIRES - date of expiry (DateTime or null) time component is ignored, always expires the day after
+    /// </summary>
     public class VCardHelper
     {
         private static readonly char[] _escapedCharacters = { ',', '\\', ';', '\r', '\n' };
@@ -209,6 +220,7 @@ namespace ShareEmergencyContacts.Helpers
             }
             contact.Address = GetValue(lines, "ADR");
             contact.Note = GetValue(lines, "NOTE");
+            contact.InsuranceNumber = GetValue(lines, "X-INSNUM");
             string tel;
             do
             {
@@ -353,6 +365,7 @@ namespace ShareEmergencyContacts.Helpers
             var f = FormatNameIfPossible(contact.FirstName, contact.LastName);
             EncodeAndAppendIfSet("N", f, entry, false);
             EncodeAndAppendIfSet("NOTE", contact.Note, entry);
+            EncodeAndAppendIfSet("X-INSNUM", contact.InsuranceNumber, entry);
             EncodeAndAppendIfSet("ADR", contact.Address, entry);
             foreach (var num in contact.PhoneNumbers)
             {

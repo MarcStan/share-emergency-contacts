@@ -1,14 +1,17 @@
 ﻿<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
-             xmlns:data="clr-namespace:ShareEmergencyContacts.Models.Data;assembly=ShareEmergencyContacts"
              xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.UserControls.ContactDetails">
     <ContentView.Content>
         <StackLayout>
-            <StackLayout IsVisible="{Binding Name, Converter={StaticResource NullToFalseConverter}}">
-                <Label Text="Name:" TextColor="Accent" />
-                <Label Text="{Binding Name}" />
+            <StackLayout Orientation="{Binding NameOrientation}" IsVisible="{Binding Name, Converter={StaticResource NullToFalseConverter}}">
+                <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
+                <Label Text="{Binding Name}" FontSize="{Binding NameSize}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding InsuranceNumber, Converter={StaticResource NullToFalseConverter}}">
+                <Label Text="Insurance number:" TextColor="Accent" />
+                <Label Text="{Binding InsuranceNumber}" />
             </StackLayout>
             <StackLayout IsVisible="{Binding BirthDate, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Birthday:" TextColor="Accent" />
