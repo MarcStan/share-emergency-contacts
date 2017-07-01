@@ -5,13 +5,13 @@ namespace ShareEmergencyContacts.Models.Data
     /// <summary>
     /// Stores information about a phone number.
     /// </summary>
-    public struct PhoneNumber : IEquatable<PhoneNumber>
+    public class PhoneNumber : IEquatable<PhoneNumber>
     {
         public PhoneType Type { get; }
 
         public string Number { get; }
 
-        public PhoneNumber(PhoneType type, string number) : this()
+        public PhoneNumber(PhoneType type, string number)
         {
             if (string.IsNullOrEmpty(number))
                 throw new ArgumentNullException(nameof(number));

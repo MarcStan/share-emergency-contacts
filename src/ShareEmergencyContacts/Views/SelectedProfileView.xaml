@@ -1,11 +1,12 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
+             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+             xmlns:data="clr-namespace:ShareEmergencyContacts.Models.Data;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.SelectedProfileView"
              Title="Profile details">
-
     <StackLayout>
-        <Label Text="{Binding ProfileName}" FontSize="32"  HorizontalOptions="Center" />
+        <Label Text="{Binding ProfileName}" FontSize="32" HorizontalOptions="Center" />
         <ScrollView Margin="10">
             <StackLayout>
                 <userControls:ContactDetails BindingContext="{Binding}" />
@@ -25,24 +26,32 @@
                     <Label Text="Auto. deletes: " TextColor="Accent" />
                     <Label Text="{Binding ExpirationDate}" />
                 </StackLayout>
-                <ListView ItemsSource="{Binding EmergencyContacts}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <userControls:ContactDetails />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView ItemsSource="{Binding InsuranceContacts}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <userControls:ContactDetails />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackLayout Margin="0,20,0,0" IsVisible="{Binding EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                    <Label Text="Emergency contacts:" TextColor="Accent" />
+                    <controls:RepeaterView x:TypeArguments="data:EmergencyContact" ItemsSource="{Binding EmergencyContacts}">
+                        <controls:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <userControls:ContactDetails />
+                                </ViewCell>
+                            </DataTemplate>
+                        </controls:RepeaterView.ItemTemplate>
+                    </controls:RepeaterView>
+                </StackLayout>
+                <Label Margin="10,0,0,0" Text="No emergency contacts provided" TextColor="Accent" IsVisible="{Binding EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
+                <StackLayout IsVisible="{Binding InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                    <Label Text="Insurance details:" TextColor="Accent" />
+                    <controls:RepeaterView x:TypeArguments="data:EmergencyContact" ItemsSource="{Binding InsuranceContacts}">
+                        <controls:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <userControls:ContactDetails />
+                                </ViewCell>
+                            </DataTemplate>
+                        </controls:RepeaterView.ItemTemplate>
+                    </controls:RepeaterView>
+                </StackLayout>
+                <Label Text="No Insurance details provided" TextColor="Accent" IsVisible="{Binding InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
             </StackLayout>
         </ScrollView>
     </StackLayout>

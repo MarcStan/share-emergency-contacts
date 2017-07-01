@@ -8,6 +8,7 @@
             <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
             <converters:NullToFalseConverter x:Key="NullToFalseConverter" />
             <converters:DateTimeConverter x:Key="DateTimeConverter" />
+            <converters:ListCountToBoolConverter x:Key="ListCountToBoolConverter" />
         </ResourceDictionary>
     </forms:FormsApplication.Resources>
 </forms:FormsApplication>

@@ -3,22 +3,35 @@ using System.Collections.Generic;
 
 namespace ShareEmergencyContacts.ViewModels
 {
+    /// <summary>
+    /// Xamarin XAML does not support bindings to child properties "{Binding SelectedProfile, Path=FirstName}" so
+    /// this class has to act as a wrapper for all entries.
+    /// </summary>
     public class SelectedProfileViewModel : ViewModelBase
     {
         private EmergencyProfile _selectedProfile;
 
         public string ProfileName => SelectedProfile.ProfileName;
 
-        public string FirstName => SelectedProfile.FirstName;
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(SelectedProfile.FirstName))
+                    return string.IsNullOrWhiteSpace(SelectedProfile.LastName) ? null : SelectedProfile.LastName;
+                if (string.IsNullOrWhiteSpace(SelectedProfile.LastName))
+                    return string.IsNullOrWhiteSpace(SelectedProfile.FirstName) ? null : SelectedProfile.FirstName;
 
-        public string LastName => SelectedProfile.LastName;
+                return $"{SelectedProfile.FirstName} {SelectedProfile.LastName}";
+            }
+        }
 
         public string BirthDate
         {
             get
             {
                 var b = SelectedProfile.BirthDate;
-                return b?.ToString("d");
+                return b?.ToString("D");
             }
         }
 
@@ -52,6 +65,14 @@ namespace ShareEmergencyContacts.ViewModels
 
         public string BloodType => SelectedProfile.BloodType;
 
+        public string ExpirationDate
+        {
+            get
+            {
+                var d = SelectedProfile.ExpirationDate;
+                return d?.ToString("D");
+            }
+        }
         public List<EmergencyContact> EmergencyContacts => SelectedProfile.EmergencyContacts;
 
         public List<EmergencyContact> InsuranceContacts => SelectedProfile.InsuranceContacts;
