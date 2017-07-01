@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using System;
@@ -32,6 +33,7 @@ namespace ShareEmergencyContacts.UWP
             _container.RegisterInstance(typeof(IStorageProvider), null, new WindowsStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new WindowsPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new WindowsClipboardProvider());
+            _container.RegisterInstance(typeof(IUserDialogs), null, new UserDialogWrapper(UserDialogs.Instance));
         }
 
         protected override void PrepareViewFirst(Frame rootFrame)

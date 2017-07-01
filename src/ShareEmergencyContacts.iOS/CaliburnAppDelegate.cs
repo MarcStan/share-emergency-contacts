@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using System;
@@ -25,6 +26,7 @@ namespace ShareEmergencyContacts.iOS
             _container.RegisterInstance(typeof(IStorageProvider), null, new IOSStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new IOSPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new IOSClipboardProvider());
+            _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
         }
 
         protected override void BuildUp(object instance)

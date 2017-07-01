@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using Acr.UserDialogs;
+using Android.App;
 using Android.Runtime;
 using Caliburn.Micro;
 using ShareEmergencyContacts.Models;
@@ -35,6 +36,7 @@ namespace ShareEmergencyContacts.Droid
             _container.RegisterInstance(typeof(IStorageProvider), null, new AndroidStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());
+            _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

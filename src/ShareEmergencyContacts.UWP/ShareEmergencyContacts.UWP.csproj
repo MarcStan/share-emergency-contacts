@@ -103,6 +103,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserDialogWrapper.cs" />
     <Compile Include="WindowsAppInfoProvider.cs" />
     <Compile Include="WindowsClipboardProvider.cs" />
     <Compile Include="WindowsPhoneDialProvider.cs" />

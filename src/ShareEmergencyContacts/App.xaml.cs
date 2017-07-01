@@ -31,7 +31,6 @@ namespace ShareEmergencyContacts
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 
-            container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             var original = ViewLocator.LocateForModelType;
             ViewLocator.LocateForModelType += (o, bindableObject, arg3) =>
             {
@@ -58,6 +57,7 @@ namespace ShareEmergencyContacts
             EnsureExists<IStorageProvider>();
             EnsureExists<IPhoneDialProvider>();
             EnsureExists<IClipboardProvider>();
+            EnsureExists<IUserDialogs>();
         }
 
         private static void EnsureExists<T>()
