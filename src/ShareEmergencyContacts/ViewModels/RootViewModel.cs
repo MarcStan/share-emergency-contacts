@@ -1,39 +1,32 @@
 ﻿using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
     public class RootViewModel : ViewModelBase
     {
-        private bool _menuIsPresented;
+        private readonly INavigationService _navigationService;
 
         public RootViewModel()
         {
-            var navigationService = IoC.Get<INavigationService>();
-            MenuViewModel = new MenuViewModel(navigationService, this);
-            MainViewModel = new MainViewModel(navigationService);
+            _navigationService = IoC.Get<INavigationService>();
+            MyProfilesViewModel = new MyProfilesViewModel(_navigationService);
+            ReceivedContactsViewModel = new ReceivedContactsViewModel(_navigationService);
+
+            AboutCommand = new Command(About);
         }
 
-        public MenuViewModel MenuViewModel { get; set; }
+        public MyProfilesViewModel MyProfilesViewModel { get; set; }
 
-        public MainViewModel MainViewModel { get; set; }
+        public ReceivedContactsViewModel ReceivedContactsViewModel { get; set; }
 
-        public bool MenuIsPresented
+        public ICommand AboutCommand { get; }
+
+        public void About()
         {
-            get { return _menuIsPresented; }
-            set
-            {
-                _menuIsPresented = value;
-                NotifyOfPropertyChange(nameof(MenuIsPresented));
-            }
-        }
-
-        protected override async void OnActivate()
-        {
-            base.OnActivate();
-            // because mainpage is page inside rootpage, mainpage never receives activated/etc events
-            // so use this workaround
-            await MainViewModel.OnPageActivateAsync();
+            _navigationService.NavigateToViewModelAsync<AboutViewModel>();
         }
     }
 }

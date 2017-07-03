@@ -1,6 +1,9 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShareEmergencyContacts.Views.MyProfilesView" Title="My profiles">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Icon="add.png" Command="{Binding AddCommand}" />
+    </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

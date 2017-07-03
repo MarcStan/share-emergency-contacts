@@ -67,8 +67,7 @@
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\ForModels\PhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\IWorkWithProfiles.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\ReceivedContactsViewModel.cs" />
     <Compile Include="ViewModels\MyProfilesViewModel.cs" />
     <Compile Include="ViewModels\ProfileListViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
@@ -82,13 +81,10 @@
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
+    <Compile Include="Views\ReceivedContactsViewModel.xaml.cs">
+      <DependentUpon>ReceivedContactsViewModel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\MenuView.xaml.cs">
-      <DependentUpon>MenuView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MyProfilesView.xaml.cs">
       <DependentUpon>MyProfilesView.xaml</DependentUpon>
     </Compile>
@@ -109,7 +105,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MainView.xaml">
+    <EmbeddedResource Include="Views\ReceivedContactsViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -161,10 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\AboutView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MenuView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

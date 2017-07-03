@@ -2,9 +2,9 @@
 
 namespace ShareEmergencyContacts.Views
 {
-    public partial class MyProfilesView
+    public partial class ReceivedContactsView
     {
-        public MyProfilesView()
+        public ReceivedContactsView()
         {
             InitializeComponent();
         }

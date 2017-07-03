@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -17,12 +18,15 @@ namespace ShareEmergencyContacts.ViewModels
     public class ScanCodeViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly Action<EmergencyProfile> _add;
         private bool _finished;
         private bool _isAnalyzing;
         private bool _isScanning;
 
-        public ScanCodeViewModel(INavigationService navigationService)
+        public ScanCodeViewModel(INavigationService navigationService, Action<EmergencyProfile> add)
         {
+            _add = add ?? throw new ArgumentNullException(nameof(add));
+
             _navigationService = navigationService;
             ScanCommand = new Command(o =>
             {
@@ -87,7 +91,7 @@ namespace ShareEmergencyContacts.ViewModels
                     _finished = true;
                     IsScanning = false;
                     // on match, exit but not before registering the new file
-                    MainViewModel.ReceivedContact = p;
+                    _add(p);
                     _navigationService.GoBackAsync();
                 }
                 else

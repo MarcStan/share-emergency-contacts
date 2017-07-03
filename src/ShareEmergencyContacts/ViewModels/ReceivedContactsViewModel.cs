@@ -2,29 +2,30 @@
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
     /// <summary>
     /// Lists received contacts.
     /// </summary>
-    public class MainViewModel : ProfileListViewModel
+    public class ReceivedContactsViewModel : ProfileListViewModel
     {
         private readonly INavigationService _navigationService;
 
-        public MainViewModel(INavigationService navigationService) : base(false)
+        public ReceivedContactsViewModel(INavigationService navigationService) : base(false)
         {
             _navigationService = navigationService;
+            ScanCommand = new Command(ScanNewContact);
         }
+
+        public ICommand ScanCommand { get; }
 
         public void ScanNewContact()
         {
-            _navigationService.NavigateToViewModelAsync<ScanCodeViewModel>();
-        }
-
-        public void ShareMyDetails()
-        {
-            _navigationService.NavigateToViewModelAsync<MyProfilesViewModel>();
+            var vm = new ScanCodeViewModel(_navigationService, Add);
+            _navigationService.NavigateToInstanceAsync(vm);
         }
 
         protected override void ProfileSelected(EmergencyProfile profile)

@@ -1,7 +1,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShareEmergencyContacts.Views.MainView"
+             x:Class="ShareEmergencyContacts.Views.ReceivedContactsView"
              x:Name="Contacts">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Scan" Icon="qr.png" Command="{Binding ScanCommand}" />
+    </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

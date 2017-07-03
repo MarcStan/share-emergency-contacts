@@ -1,18 +1,10 @@
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:ShareEmergencyContacts.Views"
-                xmlns:viewModels="clr-namespace:ShareEmergencyContacts.ViewModels;assembly=ShareEmergencyContacts"
-                xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core"
-                x:Class="ShareEmergencyContacts.Views.RootView" Title="Received contacts"
-                windows:Page.ToolbarPlacement="Top"
-                MasterBehavior="Popover" IsPresented="{Binding MenuIsPresented, Mode=TwoWay}">
-    <MasterDetailPage.BindingContext>
-        <viewModels:RootViewModel />
-    </MasterDetailPage.BindingContext>
-    <MasterDetailPage.Master>
-        <views:MenuView Title="Menu" BindingContext="{Binding MenuViewModel}" />
-    </MasterDetailPage.Master>
-    <MasterDetailPage.Detail>
-        <views:MainView Title="" BindingContext="{Binding MainViewModel}"/>
-    </MasterDetailPage.Detail>
-</MasterDetailPage>
+                x:Class="ShareEmergencyContacts.Views.RootView">
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="About" Icon="information.png" Command="{Binding AboutCommand}" />
+    </TabbedPage.ToolbarItems>
+    <views:ReceivedContactsView Title="Received contacts" BindingContext="{Binding ReceivedContactsViewModel}"/>
+    <views:MyProfilesView Title="My profiles" BindingContext="{Binding MyProfilesViewModel}"/>
+</TabbedPage>

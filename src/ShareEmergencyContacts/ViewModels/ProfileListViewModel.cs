@@ -23,8 +23,6 @@ namespace ShareEmergencyContacts.ViewModels
         private bool _isLoading;
         private ProfileViewModel _selectedItem;
 
-        public static EmergencyProfile ReceivedContact;
-
         /// <summary>
         /// 
         /// </summary>
@@ -248,24 +246,33 @@ namespace ShareEmergencyContacts.ViewModels
         }
 #endif
 
-        public async Task OnPageActivateAsync()
+        /// <summary>
+        /// Adds the specific profile to the current collection by validating that its name is uniqe.
+        /// </summary>
+        /// <param name="profile"></param>
+        public async void Add(EmergencyProfile profile)
         {
-            if (ReceivedContact != null)
+            if (profile == null)
+                return;
+
+            // show overlay asking user for a new name; do not allow existing names
+            var forbidden = _existingContacts.Select(c => c.ProfileName).ToArray();
+            var name = await AskUserForNameAsync(forbidden, profile.ProfileName);
+            // if name is null, user doesn't want to save contact
+            if (name != null)
             {
-                var newContact = ReceivedContact;
-                ReceivedContact = null;
-                // show overlay asking user for a new name; do not allow existing names
-                var forbidden = _existingContacts.Select(c => c.ProfileName).ToArray();
-                var name = await AskUserForNameAsync(forbidden, newContact.ProfileName);
-                // if name is null, user doesn't want to save contact
-                if (name != null)
+                profile.ProfileName = name;
+                var storage = IoC.Get<IStorageContainer>();
+                var dia = IoC.Get<IUserDialogs>();
+                if (_workWithMyProfiles)
                 {
-                    newContact.ProfileName = name;
-                    var storage = IoC.Get<IStorageContainer>();
-                    if (_workWithMyProfiles)
-                        await storage.SaveProfileAsync(newContact);
-                    else
-                        await storage.SaveReceivedContactAsync(newContact);
+                    await storage.SaveProfileAsync(profile);
+                    dia.Toast("Added new profile!");
+                }
+                else
+                {
+                    await storage.SaveReceivedContactAsync(profile);
+                    dia.Toast("Added new contact!");
                 }
             }
         }
@@ -290,7 +297,7 @@ namespace ShareEmergencyContacts.ViewModels
                 Placeholder = "profile name",
                 OnTextChanged = args =>
                 {
-                    args.IsValid = !string.IsNullOrWhiteSpace(args.Value) && !forbidden.Contains(args.Value);
+                    args.IsValid = !string.IsNullOrWhiteSpace(args.Value) && !ContainsInvalidChars(args.Value);
                 }
             };
             var dia = IoC.Get<IUserDialogs>();
@@ -299,7 +306,12 @@ namespace ShareEmergencyContacts.ViewModels
                 var result = await dia.PromptAsync(prompt);
                 if (result.Ok)
                 {
-                    var name = result.Text;
+                    var name = result.Text?.Trim() ?? "";
+                    if (ContainsInvalidChars(name))
+                    {
+                        dia.Alert("Profile names may only contain letters, digits, spaces or any of these: _-+()[]", "Invalid name", "Ok");
+                        continue;
+                    }
                     if (!forbidden.Contains(name))
                         return result.Value;
 
@@ -316,6 +328,18 @@ namespace ShareEmergencyContacts.ViewModels
                     return null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks if the name contains any forbidden chars.
+        /// All digits/letters are allowed as well as " _-+()[]"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private static bool ContainsInvalidChars(string name)
+        {
+            var allowed = new[] { ' ', '_', '-', '+', '(', ')', '[', ']' };
+            return name.ToCharArray().Any(c => !char.IsLetterOrDigit(c) && !allowed.Contains(c));
         }
 
         public async void Delete(EmergencyProfile profile)

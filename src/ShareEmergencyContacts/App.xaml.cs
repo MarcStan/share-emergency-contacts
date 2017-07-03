@@ -22,7 +22,7 @@ namespace ShareEmergencyContacts
             _container = container;
             InitializeComponent();
 
-            var ns = typeof(MainViewModel).Namespace;
+            var ns = typeof(RootViewModel).Namespace;
             // auto register all view models
             RegisterAllViewModels(ns);
 

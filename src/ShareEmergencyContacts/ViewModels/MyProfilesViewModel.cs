@@ -2,6 +2,8 @@
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
@@ -15,7 +17,10 @@ namespace ShareEmergencyContacts.ViewModels
         public MyProfilesViewModel(INavigationService navigationService) : base(true)
         {
             _navigationService = navigationService;
+            AddCommand = new Command(AddNewProfile);
         }
+
+        public ICommand AddCommand { get; }
 
         public void AddNewProfile()
         {
