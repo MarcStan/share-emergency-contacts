@@ -29,8 +29,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public async void AddNewProfile()
         {
-            var p = new EmergencyProfile();
-            var vm = new EditProfileViewModel(_navigationService, p, Add);
+            var vm = new EditProfileViewModel(_navigationService, null, Add);
             await _navigationService.NavigateToInstanceAsync(vm);
         }
 
