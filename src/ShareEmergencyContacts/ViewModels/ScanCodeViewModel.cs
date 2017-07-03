@@ -96,10 +96,7 @@ namespace ShareEmergencyContacts.ViewModels
                 }
                 else
                 {
-                    using (IoC.Get<IUserDialogs>().Alert("Not a valid contact! Please scan the barcode from another user!", "Invalid format"))
-                    {
-
-                    }
+                    IoC.Get<IUserDialogs>().Alert("Not a valid contact! Please scan the barcode from another user!", "Invalid format");
                     // continue anlyzing
                     IsAnalyzing = true;
                 }

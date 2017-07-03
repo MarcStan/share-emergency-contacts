@@ -264,6 +264,7 @@ namespace ShareEmergencyContacts.ViewModels
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
+                ExistingContacts.Add(new ProfileViewModel(profile, this));
                 if (_workWithMyProfiles)
                 {
                     await storage.SaveProfileAsync(profile);
@@ -287,35 +288,37 @@ namespace ShareEmergencyContacts.ViewModels
         /// <returns></returns>
         private async Task<string> AskUserForNameAsync(string[] forbidden, string defaultName = null)
         {
-            var prompt = new PromptConfig
-            {
-                Text = defaultName,
-                Message = "Enter a name for the profile",
-                CancelText = "Cancel",
-                OkText = "Ok",
-                Title = "Set profile name",
-                Placeholder = "profile name",
-                OnTextChanged = args =>
-                {
-                    args.IsValid = !string.IsNullOrWhiteSpace(args.Value) && !ContainsInvalidChars(args.Value);
-                }
-            };
             var dia = IoC.Get<IUserDialogs>();
+            var name = defaultName ?? "";
             while (true)
             {
+                var prompt = new PromptConfig
+                {
+                    Text = name,
+                    Message = "Enter a name for the profile",
+                    CancelText = "Cancel",
+                    OkText = "Ok",
+                    Title = "Set profile name",
+                    Placeholder = "profile name",
+                    OnAction = null,
+                    OnTextChanged = args =>
+                    {
+                        args.IsValid = !string.IsNullOrWhiteSpace(args.Value) && !ContainsInvalidChars(args.Value);
+                    }
+                };
                 var result = await dia.PromptAsync(prompt);
                 if (result.Ok)
                 {
-                    var name = result.Text?.Trim() ?? "";
+                    name = result.Text?.Trim() ?? "";
                     if (ContainsInvalidChars(name))
                     {
-                        dia.Alert("Profile names may only contain letters, digits, spaces or any of these: _-+()[]", "Invalid name", "Ok");
+                        await dia.AlertAsync("Profile names may only contain letters, digits, spaces or any of these: _-+()[]", "Invalid name", "Ok");
                         continue;
                     }
                     if (!forbidden.Contains(name))
                         return result.Value;
 
-                    dia.Alert("The name is already used!", "Name in use", "Ok");
+                    await dia.AlertAsync("The name is already used!", "Name in use", "Ok");
                 }
                 else
                 {

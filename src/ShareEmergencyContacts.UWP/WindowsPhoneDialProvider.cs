@@ -7,7 +7,7 @@ namespace ShareEmergencyContacts.UWP
 {
     public class WindowsPhoneDialProvider : IPhoneDialProvider
     {
-        public void Dial(string number, string name)
+        public async void Dial(string number, string name)
         {
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.Calls.CallsPhoneContract", 1))
             {
@@ -18,7 +18,7 @@ namespace ShareEmergencyContacts.UWP
             {
                 // this prompts to install an app that can handle tel: on desktop because PhoneCallManager is not supported
                 // on phone it would display "add contact" with the details but shouldn't because the other part of the if should be called on a phone
-                Launcher.LaunchUriAsync(new Uri($"tel:{number}", UriKind.Absolute));
+                await Launcher.LaunchUriAsync(new Uri($"tel:{number}", UriKind.Absolute));
             }
         }
     }
