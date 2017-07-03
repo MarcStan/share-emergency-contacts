@@ -1,7 +1,9 @@
-﻿using ShareEmergencyContacts.Models.Data;
+﻿using Caliburn.Micro;
+using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels.ForModels
@@ -9,7 +11,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// <summary>
     /// Wrapper for the <see cref="EmergencyContact"/> to display all its data.
     /// </summary>
-    public class ContactViewModel
+    public class ContactViewModel : PropertyChangedBase
     {
         private readonly bool _displayInsuranceNumber;
         private readonly bool _isChild;
@@ -21,9 +23,20 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             _isChild = isChild;
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
             PhoneNumbers = profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name)).ToList();
+            AddNumberCommand = new Command(AddPhoneNumber);
         }
 
-        public string ProfileName => _profile.ProfileName;
+        public string ProfileName
+        {
+            get => _profile.ProfileName;
+            set
+            {
+                if (_profile.ProfileName == value)
+                    return;
+                _profile.ProfileName = value;
+                NotifyOfPropertyChange(nameof(ProfileName));
+            }
+        }
 
         public StackOrientation NameOrientation => _isChild ? StackOrientation.Horizontal : StackOrientation.Vertical;
 
@@ -62,5 +75,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public string InsuranceNumber => _displayInsuranceNumber ? _profile.InsuranceNumber : null;
 
         public List<PhoneNumberViewModel> PhoneNumbers { get; }
+
+        public ICommand AddNumberCommand { get; }
+
+        private void AddPhoneNumber()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

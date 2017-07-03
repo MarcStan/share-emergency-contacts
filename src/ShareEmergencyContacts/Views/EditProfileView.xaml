@@ -1,7 +1,19 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.EditProfileView" Title="Edit profile details">
-
-    <StackLayout>
-    </StackLayout>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" x:Name="Save" />
+    </ContentPage.ToolbarItems>
+    <Grid Margin="10">
+        <ScrollView>
+            <StackLayout>
+                <StackLayout>
+                    <Label Text="Profile name:" TextColor="Accent" FontSize="{Binding NameSize}" />
+                    <Entry Text="{Binding ProfileName}" />
+                </StackLayout>
+                <userControls:EditContactDetails BindingContext="{Binding Selected}" />
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

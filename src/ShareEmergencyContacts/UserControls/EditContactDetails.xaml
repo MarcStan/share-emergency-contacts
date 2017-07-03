@@ -1,0 +1,55 @@
+﻿<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+             xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
+             x:Class="ShareEmergencyContacts.UserControls.EditContactDetails">
+    <ContentView.Content>
+        <StackLayout>
+            <StackLayout>
+                <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
+                <Entry Text="{Binding Name}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Insurance number:" TextColor="Accent" />
+                <Entry Text="{Binding InsuranceNumber}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Birthday:" TextColor="Accent" />
+                <Entry Text="{Binding BirthDate}" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Address:" TextColor="Accent" />
+                <Editor Text="{Binding Address}" MinimumHeightRequest="70" />
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Phone numbers:" FontSize="20" />
+                <controls:RepeaterView x:TypeArguments="forModels:PhoneNumberViewModel" Margin="20,0,0,0" ItemsSource="{Binding PhoneNumbers}">
+                    <controls:RepeaterView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Orientation="Horizontal" Margin="10,5" VerticalOptions="Center">
+                                    <Label Text="{Binding Type}" />
+                                    <Label Text=": " />
+                                    <Label Text="{Binding Number}" />
+                                </StackLayout>
+                                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                    <Button Command="{Binding EditNumber}" Image="edit.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:RepeaterView.ItemTemplate>
+                </controls:RepeaterView>
+            </StackLayout>
+            <Label Text="No phone numbers provided" TextColor="Accent" IsVisible="{Binding PhoneNumbers, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
+            <Button Text="Add phone number" Command="{Binding AddNumberCommand}" HorizontalOptions="End" />
+            <StackLayout IsVisible="{Binding Note, Converter={StaticResource NullToFalseConverter}}">
+                <Label Text="Note:" TextColor="Accent" />
+                <Editor Text="{Binding Note}" MinimumHeightRequest="70" />
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

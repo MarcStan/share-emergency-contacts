@@ -1,4 +1,5 @@
-﻿using ShareEmergencyContacts.Models.Data;
+﻿using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
 using System.Windows.Input;
@@ -8,14 +9,16 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class EditProfileViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private readonly Action<EmergencyProfile> _onOk;
         private ProfileViewModel _selected;
 
-        public EditProfileViewModel(EmergencyProfile toEdit, Action<EmergencyProfile> onOk)
+        public EditProfileViewModel(INavigationService navigationService, EmergencyProfile toEdit, Action<EmergencyProfile> onOk)
         {
+            _navigationService = navigationService;
             _onOk = onOk;
             Selected = new ProfileViewModel(toEdit, null);
-            OkCommand = new Command(Ok);
+            SaveCommand = new Command(Ok);
         }
 
         public ProfileViewModel Selected
@@ -29,11 +32,13 @@ namespace ShareEmergencyContacts.ViewModels
             }
         }
 
-        public ICommand OkCommand { get; }
+        public ICommand SaveCommand { get; }
 
-        public void Ok()
+        public async void Ok()
         {
             _onOk(Selected.Actual);
+            await _navigationService.GoBackAsync();
+
         }
     }
 }
