@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
-    public class EditProfileViewModel : ViewModelBase
+    public class EditProfileViewModel : Screen
     {
         private readonly INavigationService _navigationService;
         private readonly Action<EmergencyProfile> _onOk;
@@ -24,20 +24,13 @@ namespace ShareEmergencyContacts.ViewModels
             toEdit = toEdit ?? new EmergencyProfile();
             Selected = new ProfileViewModel(toEdit, null);
             SaveCommand = new Command(Ok);
+            AddEmergencyContactCommand = new Command(AddEmergencyContact);
+            AddInsuranceContactCommand = new Command(AddInsuranceContact);
         }
 
-        public override async void CanClose(Action<bool> callback)
-        {
-            // TODO: this is never called
-            var dia = IoC.Get<IUserDialogs>();
-            var r = await dia.ConfirmAsync($"Do you really want to cancel profile {(_creatingNew ? "creation" : "editing")}? All changes will be lost.", "Confirm abort", "Yes", "No");
-            if (!r)
-            {
-                callback(false);
-                return;
-            }
-            base.CanClose(callback);
-        }
+        public ICommand AddEmergencyContactCommand { get; }
+
+        public ICommand AddInsuranceContactCommand { get; }
 
         public ProfileViewModel Selected
         {
@@ -52,11 +45,34 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand SaveCommand { get; }
 
+        public override async void CanClose(Action<bool> callback)
+        {
+            // TODO: this is never called
+            var dia = IoC.Get<IUserDialogs>();
+            var r = await dia.ConfirmAsync($"Do you really want to cancel profile {(_creatingNew ? "creation" : "editing")}? All changes will be lost.", "Confirm abort", "Yes", "No");
+            if (!r)
+            {
+                callback(false);
+                return;
+            }
+            base.CanClose(callback);
+        }
+
         public async void Ok()
         {
             _onOk(Selected.Actual);
             await _navigationService.GoBackAsync();
 
+        }
+
+        private void AddEmergencyContact()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddInsuranceContact()
+        {
+            throw new NotImplementedException();
         }
     }
 }

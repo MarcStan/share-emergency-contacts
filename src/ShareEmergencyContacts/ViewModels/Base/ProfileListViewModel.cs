@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
-using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
@@ -17,9 +16,8 @@ namespace ShareEmergencyContacts.ViewModels
     /// <summary>
     /// Viewmodel that works with both contacts and own profiles.
     /// </summary>
-    public abstract class ProfileListViewModel : ViewModelBase, IWorkWithProfiles
+    public abstract class ProfileListViewModel : Screen
     {
-        private readonly INavigationService _navigationService;
         private readonly bool _workWithMyProfiles;
         private ObservableCollection<ProfileViewModel> _existingContacts;
         private bool _isLoading;
@@ -28,11 +26,9 @@ namespace ShareEmergencyContacts.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="navigationService"></param>
         /// <param name="workWithMyProfiles">If true, works with my profiles otherwise with contacts.</param>
-        protected ProfileListViewModel(INavigationService navigationService, bool workWithMyProfiles)
+        protected ProfileListViewModel(bool workWithMyProfiles)
         {
-            _navigationService = navigationService;
             _workWithMyProfiles = workWithMyProfiles;
             ExistingContacts = new ObservableCollection<ProfileViewModel>();
             IsLoading = true;
@@ -56,7 +52,7 @@ namespace ShareEmergencyContacts.ViewModels
                     contacts = LoadMockContacts();
                 }
 #endif
-                var profiles = contacts.Select(c => new ProfileViewModel(c, this)).ToList();
+                var profiles = contacts.Select(c => new ProfileViewModel(c, Delete)).ToList();
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -268,7 +264,7 @@ namespace ShareEmergencyContacts.ViewModels
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
-                ExistingContacts.Add(new ProfileViewModel(profile, this));
+                ExistingContacts.Add(new ProfileViewModel(profile, Delete));
                 if (_workWithMyProfiles)
                 {
                     await storage.SaveProfileAsync(profile);

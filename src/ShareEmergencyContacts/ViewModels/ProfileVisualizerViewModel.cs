@@ -11,7 +11,7 @@ namespace ShareEmergencyContacts.ViewModels
     /// <summary>
     /// Viewmodel for a single selected profile with all its emergency contacts and 
     /// </summary>
-    public class ProfileVisualizerViewModel : ViewModelBase
+    public class ProfileVisualizerViewModel : Screen
     {
         private ProfileViewModel _selected;
         private string _barcodeContent;

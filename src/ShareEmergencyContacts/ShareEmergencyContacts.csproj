@@ -69,20 +69,18 @@
     <Compile Include="UserControls\EditContactDetails.xaml.cs">
       <DependentUpon>EditContactDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ExpandableEditor.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\ForModels\PhoneNumberViewModel.cs" />
-    <Compile Include="ViewModels\IWorkWithProfiles.cs" />
     <Compile Include="ViewModels\ReceivedContactsViewModel.cs" />
     <Compile Include="ViewModels\MyProfilesViewModel.cs" />
-    <Compile Include="ViewModels\ProfileListViewModel.cs" />
+    <Compile Include="ViewModels\Base\ProfileListViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
     <Compile Include="ViewModels\ScanCodeViewModel.cs" />
     <Compile Include="ViewModels\ForModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\ForModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\ProfileVisualizerViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -104,9 +102,6 @@
     </Compile>
     <Compile Include="Views\ProfileVisualizerView.xaml.cs">
       <DependentUpon>ProfileVisualizerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -170,10 +165,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RootView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SettingsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

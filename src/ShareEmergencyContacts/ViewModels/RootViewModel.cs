@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
-    public class RootViewModel : ViewModelBase
+    public class RootViewModel : Screen
     {
         private readonly INavigationService _navigationService;
 

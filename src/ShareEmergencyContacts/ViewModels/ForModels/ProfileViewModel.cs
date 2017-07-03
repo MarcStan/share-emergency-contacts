@@ -14,14 +14,14 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     {
         private readonly EmergencyProfile _profile;
 
-        public ProfileViewModel(EmergencyProfile profile, IWorkWithProfiles mv) : base(profile, false, false)
+        public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete) : base(profile, false, false)
         {
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
 
             EmergencyContacts = profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true)).ToList();
             InsuranceContacts = profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true)).ToList();
 
-            DeleteCommand = new Command(() => mv?.Delete(Actual));
+            DeleteCommand = new Command(() => delete?.Invoke(Actual));
         }
 
         public ICommand DeleteCommand { get; }

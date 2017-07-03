@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
-    public class AboutViewModel : ViewModelBase
+    public class AboutViewModel : Screen
     {
         private bool _betaOverlay;
 

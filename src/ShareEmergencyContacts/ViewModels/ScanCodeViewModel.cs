@@ -15,7 +15,7 @@ namespace ShareEmergencyContacts.ViewModels
     /// View model for the screen to scan barcodes.
     /// As soon as it is created it will scan barcodes and continuously callback for each found barcode.
     /// </summary>
-    public class ScanCodeViewModel : ViewModelBase
+    public class ScanCodeViewModel : Screen
     {
         private readonly INavigationService _navigationService;
         private readonly Action<EmergencyProfile> _add;

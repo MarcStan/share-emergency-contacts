@@ -16,7 +16,7 @@ namespace ShareEmergencyContacts.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public ReceivedContactsViewModel(INavigationService navigationService) : base(navigationService, false)
+        public ReceivedContactsViewModel(INavigationService navigationService) : base(false)
         {
             _navigationService = navigationService;
             ScanCommand = new Command(ScanNewContact);

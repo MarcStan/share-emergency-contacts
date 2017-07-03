@@ -19,7 +19,7 @@ namespace ShareEmergencyContacts.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public MyProfilesViewModel(INavigationService navigationService) : base(navigationService, true)
+        public MyProfilesViewModel(INavigationService navigationService) : base(true)
         {
             _navigationService = navigationService;
             AddCommand = new Command(AddNewProfile);
@@ -69,7 +69,7 @@ namespace ShareEmergencyContacts.ViewModels
                     throw new NotSupportedException("Item not found");
 
                 ExistingContacts.RemoveAt(idx);
-                ExistingContacts.Insert(idx, new ProfileViewModel(profile, this));
+                ExistingContacts.Insert(idx, new ProfileViewModel(profile, Delete));
                 var dia = IoC.Get<IUserDialogs>();
                 dia.Toast("Profile updated!");
             });

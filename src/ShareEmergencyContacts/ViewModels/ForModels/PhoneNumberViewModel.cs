@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using ShareEmergencyContacts.Models.Data;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -25,6 +26,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             _name = name;
             DialNumber = new Command(CallAsync);
             CopyNumber = new Command(Copy);
+            EditNumber = new Command(Edit);
         }
 
         public string Type => _phone.Type.ToString();
@@ -34,6 +36,8 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public ICommand DialNumber { get; }
 
         public ICommand CopyNumber { get; }
+
+        public ICommand EditNumber { get; }
 
         public async void CallAsync()
         {
@@ -59,6 +63,11 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             clip.Copy(Number);
             var dia = IoC.Get<IUserDialogs>();
             dia.Toast($"Copied {Number} to clipboard.");
+        }
+
+        private void Edit()
+        {
+            throw new NotImplementedException();
         }
     }
 }
