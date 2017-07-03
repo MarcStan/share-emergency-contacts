@@ -14,13 +14,16 @@
         <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
         <Label Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" Text="No contacts have been received yet. Press the scan icon to scan one!" IsVisible="{Binding NoContacts}"
                VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Margin="10" />
-        <ListView Margin="10" Grid.Row="1" ItemsSource="{Binding ExistingContacts}" SelectedItem="{Binding SelectedItem}"
-                               IsVisible="{Binding NoContacts, Converter={StaticResource InvertBoolConverter}}" ItemSelected="ListView_OnItemSelected">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <userControls:ContactListEntry />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout Margin="10" Grid.Row="1">
+            <Label Text="Click on a profile to view or share" HorizontalOptions="Center" />
+            <ListView ItemsSource="{Binding ExistingContacts}" SelectedItem="{Binding SelectedItem}"
+                      IsVisible="{Binding NoContacts, Converter={StaticResource InvertBoolConverter}}" ItemSelected="ListView_OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <userControls:ContactListEntry />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </Grid>
 </ContentPage>

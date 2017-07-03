@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
@@ -14,23 +13,22 @@ namespace ShareEmergencyContacts.ViewModels
     /// </summary>
     public class ProfileVisualizerViewModel : ViewModelBase
     {
-        private readonly INavigationService _navigationService;
         private ProfileViewModel _selected;
         private string _barcodeContent;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="navigationService"></param>
         /// <param name="profile"></param>
+        /// <param name="deleteAction"></param>
+        /// <param name="editAction"></param>
         /// <param name="showBarcodeFirst">If true, shows the barcode fullscreen first.</param>
-        /// <param name="canEdit"></param>
-        public ProfileVisualizerViewModel(INavigationService navigationService, ProfileViewModel profile, bool showBarcodeFirst = false, bool canEdit = false)
+        public ProfileVisualizerViewModel(ProfileViewModel profile, Action<EmergencyProfile> deleteAction, Action<EmergencyProfile> editAction, bool showBarcodeFirst = false)
         {
-            _navigationService = navigationService;
             Selected = profile ?? throw new ArgumentNullException(nameof(profile));
             ShowBarcodeFirst = showBarcodeFirst;
-            CanEdit = canEdit;
+            CanEdit = editAction != null;
+            CanDelete = deleteAction != null;
 
             var appInfo = IoC.Get<IAppInfoProvider>();
             // margin of 10 around each side of the screen so make it roughly the size of the screen
@@ -45,15 +43,22 @@ namespace ShareEmergencyContacts.ViewModels
             };
             EditCommand = new Command(() =>
             {
-                if (!canEdit)
+                if (!CanEdit)
                     return;
-                _navigationService.NavigateToViewAsync<EditProfileViewModel>();
+                editAction(Selected.Actual);
             });
-
+            DeleteCommand = new Command(() =>
+            {
+                if (!CanDelete)
+                    return;
+                deleteAction(Selected.Actual);
+            });
             BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
         }
 
         public ICommand EditCommand { get; }
+
+        public ICommand DeleteCommand { get; }
 
         public string BarcodeContent
         {
@@ -69,6 +74,8 @@ namespace ShareEmergencyContacts.ViewModels
         public bool ShowBarcodeFirst { get; }
 
         public bool CanEdit { get; }
+
+        public bool CanDelete { get; }
 
         public QrCodeEncodingOptions Options { get; }
 

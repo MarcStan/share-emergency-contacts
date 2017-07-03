@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro.Xamarin.Forms;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace ShareEmergencyContacts.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public ReceivedContactsViewModel(INavigationService navigationService) : base(false)
+        public ReceivedContactsViewModel(INavigationService navigationService) : base(navigationService, false)
         {
             _navigationService = navigationService;
             ScanCommand = new Command(ScanNewContact);
@@ -37,7 +39,16 @@ namespace ShareEmergencyContacts.ViewModels
             if (match == null)
                 return;
 
-            var vm = new ProfileVisualizerViewModel(_navigationService, match);
+            var vm = new ProfileVisualizerViewModel(match, async p =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                var r = await dia.ConfirmAsync($"Reaylly delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
+                if (!r)
+                    return;
+
+                Delete(p);
+                await _navigationService.GoBackToRootAsync();
+            }, null);
             _navigationService.NavigateToInstanceAsync(vm);
         }
     }

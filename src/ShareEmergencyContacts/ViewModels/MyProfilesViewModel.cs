@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro.Xamarin.Forms;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace ShareEmergencyContacts.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public MyProfilesViewModel(INavigationService navigationService) : base(true)
+        public MyProfilesViewModel(INavigationService navigationService) : base(navigationService, true)
         {
             _navigationService = navigationService;
             AddCommand = new Command(AddNewProfile);
@@ -37,7 +39,16 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
 
             // display barcode directly on my own profiles as user most likely wants to share
-            var vm = new ProfileVisualizerViewModel(_navigationService, match, true, true);
+            var vm = new ProfileVisualizerViewModel(match, async p =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                var r = await dia.ConfirmAsync($"Reaylly delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
+                if (!r)
+                    return;
+
+                Delete(p);
+                await _navigationService.GoBackToRootAsync();
+            }, Edit);
             _navigationService.NavigateToInstanceAsync(vm);
         }
     }

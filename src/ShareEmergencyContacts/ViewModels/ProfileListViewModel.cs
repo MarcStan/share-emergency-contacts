@@ -1,5 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
@@ -18,6 +20,7 @@ namespace ShareEmergencyContacts.ViewModels
     /// </summary>
     public abstract class ProfileListViewModel : ViewModelBase, IWorkWithProfiles
     {
+        private readonly INavigationService _navigationService;
         private readonly bool _workWithMyProfiles;
         private ObservableCollection<ProfileViewModel> _existingContacts;
         private bool _isLoading;
@@ -26,9 +29,11 @@ namespace ShareEmergencyContacts.ViewModels
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="navigationService"></param>
         /// <param name="workWithMyProfiles">If true, works with my profiles otherwise with contacts.</param>
-        protected ProfileListViewModel(bool workWithMyProfiles)
+        protected ProfileListViewModel(INavigationService navigationService, bool workWithMyProfiles)
         {
+            _navigationService = navigationService;
             _workWithMyProfiles = workWithMyProfiles;
             ExistingContacts = new ObservableCollection<ProfileViewModel>();
             IsLoading = true;
@@ -356,6 +361,20 @@ namespace ShareEmergencyContacts.ViewModels
             var match = ExistingContacts.FirstOrDefault(c => c.Actual == profile);
             if (match != null)
                 ExistingContacts.Remove(match);
+        }
+
+        public async void Edit(EmergencyProfile profile)
+        {
+            var vm = new EditProfileViewModel(profile);
+            await _navigationService.NavigateToInstanceAsync(vm);
+
+            var storage = IoC.Get<IStorageContainer>();
+            if (_workWithMyProfiles)
+                await storage.SaveProfileAsync(profile);
+            else
+                throw new NotSupportedException("Cannot edit received contacts");
+
+            // TODO: update UI
         }
 
         protected abstract void ProfileSelected(EmergencyProfile profile);
