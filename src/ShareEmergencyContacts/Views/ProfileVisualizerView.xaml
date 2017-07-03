@@ -1,0 +1,72 @@
+﻿<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
+             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+             xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
+             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             x:Class="ShareEmergencyContacts.Views.ProfileVisualizerView"
+             Title="{Binding Selected.ProfileName}">
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="Edit" Icon="edit.png" Command="{Binding EditCommand}" x:Name="Edit" />
+    </TabbedPage.ToolbarItems>
+    <!-- 
+            Two views in 1 because I'm lazy af
+            First view is just the details
+            Second view is a barcode
+        -->
+    <ContentPage Title="Details">
+        <Grid Margin="10">
+            <ScrollView>
+                <StackLayout>
+                    <userControls:ContactDetails BindingContext="{Binding Selected}" />
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.BloodType, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Blood group: " TextColor="Accent" />
+                        <Label Text="{Binding Selected.BloodType}" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.Weight, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Weight: " TextColor="Accent" />
+                        <Label Text="{Binding Selected.Weight}" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.Height, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Height: " TextColor="Accent" />
+                        <Label Text="{Binding Selected.Height}" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                        <Label Text="Emergency contacts:" FontSize="32" />
+                        <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.EmergencyContacts}">
+                            <controls:RepeaterView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <userControls:ContactDetails />
+                                    </ViewCell>
+                                </DataTemplate>
+                            </controls:RepeaterView.ItemTemplate>
+                        </controls:RepeaterView>
+                    </StackLayout>
+                    <Label Text="No emergency contacts provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
+                    <StackLayout IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                        <Label Text="Insurance details:" FontSize="32" />
+                        <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.InsuranceContacts}">
+                            <controls:RepeaterView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <userControls:ContactDetails />
+                                    </ViewCell>
+                                </DataTemplate>
+                            </controls:RepeaterView.ItemTemplate>
+                        </controls:RepeaterView>
+                    </StackLayout>
+                    <Label Text="No Insurance details provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Auto. deletes after: " TextColor="Accent" />
+                        <Label Text="{Binding Selected.ExpirationDate}" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage>
+    <ContentPage Title="Share">
+        <forms:ZXingBarcodeImageView BarcodeFormat="QR_CODE" BarcodeValue="{Binding BarcodeContent}"
+                                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BarcodeOptions="{Binding Options}" />
+    </ContentPage>
+</TabbedPage>

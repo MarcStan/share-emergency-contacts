@@ -240,11 +240,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\..\icons\76x76\edit2.png">
-      <Link>Resources\drawable-hdpi\edit2.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\..\icons\76x76\qr.png">
       <Link>Resources\drawable-hdpi\qr.png</Link>
     </AndroidResource>
@@ -257,6 +252,16 @@
   <ItemGroup>
     <AndroidResource Include="..\..\icons\76x76\information.png">
       <Link>Resources\drawable-hdpi\information.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\copy.png">
+      <Link>Resources\drawable-hdpi\copy.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\icons\76x76\edit.png">
+      <Link>Resources\drawable-hdpi\edit.png</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

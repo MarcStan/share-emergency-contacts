@@ -37,7 +37,7 @@ namespace ShareEmergencyContacts.ViewModels
             if (match == null)
                 return;
 
-            var vm = new SelectedProfileViewModel(match);
+            var vm = new ProfileVisualizerViewModel(_navigationService, match);
             _navigationService.NavigateToInstanceAsync(vm);
         }
     }

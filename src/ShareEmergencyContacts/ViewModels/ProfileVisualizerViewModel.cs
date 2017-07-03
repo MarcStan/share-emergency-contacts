@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
@@ -11,17 +12,25 @@ namespace ShareEmergencyContacts.ViewModels
     /// <summary>
     /// Viewmodel for a single selected profile with all its emergency contacts and 
     /// </summary>
-    public class SelectedProfileViewModel : ViewModelBase
+    public class ProfileVisualizerViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private ProfileViewModel _selected;
-        private bool _showBarcode;
         private string _barcodeContent;
 
-        public SelectedProfileViewModel(ProfileViewModel profile, bool showBarcode = false, bool canShare = false)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="navigationService"></param>
+        /// <param name="profile"></param>
+        /// <param name="showBarcodeFirst">If true, shows the barcode fullscreen first.</param>
+        /// <param name="canEdit"></param>
+        public ProfileVisualizerViewModel(INavigationService navigationService, ProfileViewModel profile, bool showBarcodeFirst = false, bool canEdit = false)
         {
+            _navigationService = navigationService;
             Selected = profile ?? throw new ArgumentNullException(nameof(profile));
-            ShowBarcode = showBarcode;
-            CanShare = canShare;
+            ShowBarcodeFirst = showBarcodeFirst;
+            CanEdit = canEdit;
 
             var appInfo = IoC.Get<IAppInfoProvider>();
             // margin of 10 around each side of the screen so make it roughly the size of the screen
@@ -34,11 +43,15 @@ namespace ShareEmergencyContacts.ViewModels
                 Width = s,
                 Height = s
             };
-            EditCommand = new Command(() => { ShowBarcode = false; });
-            ShareCommand = new Command(() => { ShowBarcode = true; });
-        }
+            EditCommand = new Command(() =>
+            {
+                if (!canEdit)
+                    return;
+                _navigationService.NavigateToViewAsync<EditProfileViewModel>();
+            });
 
-        public ICommand ShareCommand { get; }
+            BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+        }
 
         public ICommand EditCommand { get; }
 
@@ -53,21 +66,9 @@ namespace ShareEmergencyContacts.ViewModels
             }
         }
 
-        public bool ShowBarcode
-        {
-            get => _showBarcode;
-            private set
-            {
-                if (value == _showBarcode) return;
-                _showBarcode = value;
-                // update barcode anytime user toggles to share view as he could have updated the values
-                if (ShowBarcode)
-                    BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
-                NotifyOfPropertyChange(nameof(ShowBarcode));
-            }
-        }
+        public bool ShowBarcodeFirst { get; }
 
-        public bool CanShare { get; }
+        public bool CanEdit { get; }
 
         public QrCodeEncodingOptions Options { get; }
 

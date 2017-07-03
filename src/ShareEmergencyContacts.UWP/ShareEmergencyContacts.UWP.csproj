@@ -119,8 +119,11 @@
     <Content Include="..\..\icons\76x76\add.png">
       <Link>add.png</Link>
     </Content>
-    <Content Include="..\..\icons\76x76\edit2.png">
-      <Link>edit2.png</Link>
+    <Content Include="..\..\icons\76x76\copy.png">
+      <Link>copy.png</Link>
+    </Content>
+    <Content Include="..\..\icons\76x76\edit.png">
+      <Link>edit.png</Link>
     </Content>
     <Content Include="..\..\icons\76x76\information.png">
       <Link>information.png</Link>

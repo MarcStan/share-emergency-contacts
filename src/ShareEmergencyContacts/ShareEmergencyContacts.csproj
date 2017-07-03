@@ -77,7 +77,7 @@
     <Compile Include="ViewModels\ScanCodeViewModel.cs" />
     <Compile Include="ViewModels\ForModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\ForModels\ProfileViewModel.cs" />
-    <Compile Include="ViewModels\SelectedProfileViewModel.cs" />
+    <Compile Include="ViewModels\ProfileVisualizerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShareViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -97,8 +97,8 @@
     <Compile Include="Views\ScanCodeView.xaml.cs">
       <DependentUpon>ScanCodeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SelectedProfileView.xaml.cs">
-      <DependentUpon>SelectedProfileView.xaml</DependentUpon>
+    <Compile Include="Views\ProfileVisualizerView.xaml.cs">
+      <DependentUpon>ProfileVisualizerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -189,7 +189,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\SelectedProfileView.xaml">
+    <EmbeddedResource Include="Views\ProfileVisualizerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
