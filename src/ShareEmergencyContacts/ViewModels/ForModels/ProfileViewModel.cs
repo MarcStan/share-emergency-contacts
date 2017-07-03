@@ -55,7 +55,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             get
             {
                 var d = _profile.ExpirationDate;
-                return d?.ToString("D");
+                if (!d.HasValue)
+                    return null;
+                int x = (d.Value - DateTime.Now.Date).Days;
+
+                var specifier = x == 0 ? "" : $" ({x} day{(x == 1 ? "" : "s")})";
+                return $"{d.Value:D}{specifier}";
             }
         }
         public List<ContactViewModel> EmergencyContacts { get; }

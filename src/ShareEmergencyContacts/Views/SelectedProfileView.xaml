@@ -60,7 +60,7 @@
                 </StackLayout>
                 <Label Text="No Insurance details provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                 <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
-                    <Label Text="Auto. deletes: " TextColor="Accent" />
+                    <Label Text="Auto. deletes after: " TextColor="Accent" />
                     <Label Text="{Binding Selected.ExpirationDate}" />
                 </StackLayout>
             </StackLayout>
