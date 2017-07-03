@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using System.Reflection;
 
 namespace ShareEmergencyContacts.ViewModels
 {
@@ -6,7 +6,7 @@ namespace ShareEmergencyContacts.ViewModels
     {
         public AboutViewModel()
         {
-            Version = $"Share emergency contacts v{IoC.Get<IAppInfoProvider>().UserFriendlyVersion}";
+            Version = $"Share emergency contacts v{GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
         }
 
         /// <summary>
