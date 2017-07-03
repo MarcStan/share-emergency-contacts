@@ -57,6 +57,7 @@ namespace ShareEmergencyContacts
             EnsureExists<IStorageProvider>();
             EnsureExists<IPhoneDialProvider>();
             EnsureExists<IClipboardProvider>();
+            EnsureExists<IShareProvider>();
             EnsureExists<IUserDialogs>();
         }
 

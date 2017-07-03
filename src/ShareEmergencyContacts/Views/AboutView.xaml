@@ -2,10 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShareEmergencyContacts.Views.AboutView" Title="About">
     <Grid>
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" HorizontalOptions="Center" VerticalOptions="Center" />
-            <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" HorizontalOptions="Center" VerticalOptions="Center" />
-            <Label FontAttributes="Bold" FontSize="22" Text="Copyright 2017" HorizontalOptions="Center" VerticalOptions="Center" />
-        </StackLayout>
-    </Grid>
+        <ScrollView>
+            <StackLayout Margin="10" HorizontalOptions="Center">
+                <Label FontAttributes="Bold" FontSize="32" Text="Share emergency contacts" HorizontalOptions="Center" Margin="10" />
+                <StackLayout Orientation="Horizontal" Margin="10">
+                    <Label FontAttributes="Bold" FontSize="22" Text="Version: " />
+                    <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" />
+                </StackLayout>
+                <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" Margin="10" />
+                <Label FontAttributes="Bold" FontSize="22" Text="Copyright 2017" Margin="10" />
+                <Button FontAttributes="Bold" FontSize="22" Text="marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Start" />
+                <Label FontAttributes="Bold" FontSize="22" Text="This app is in beta" HorizontalOptions="Center" Margin="10,50,10,10" TextColor="Red" />
+                <Button FontAttributes="Bold" FontSize="22" Text="Invite a friend to the beta" Margin="0,0,0,50" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
+            </StackLayout>
+        </ScrollView>
+        </Grid>
 </ContentPage>

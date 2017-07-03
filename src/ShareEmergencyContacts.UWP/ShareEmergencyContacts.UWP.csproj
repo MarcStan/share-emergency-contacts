@@ -106,6 +106,7 @@
     <Compile Include="WindowsAppInfoProvider.cs" />
     <Compile Include="WindowsClipboardProvider.cs" />
     <Compile Include="WindowsPhoneDialProvider.cs" />
+    <Compile Include="WindowsShareProvider.cs" />
     <Compile Include="WindowsStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>

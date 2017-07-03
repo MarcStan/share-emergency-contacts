@@ -95,6 +95,7 @@
     <Compile Include="IOSAppInfoProvider.cs" />
     <Compile Include="IOSClipboardProvider.cs" />
     <Compile Include="IOSPhoneDialProvider.cs" />
+    <Compile Include="IOSShareProvider.cs" />
     <Compile Include="IOSStorageProvider.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

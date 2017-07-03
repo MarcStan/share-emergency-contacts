@@ -26,6 +26,7 @@ namespace ShareEmergencyContacts.iOS
             _container.RegisterInstance(typeof(IStorageProvider), null, new IOSStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new IOSPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new IOSClipboardProvider());
+            _container.RegisterInstance(typeof(IShareProvider), null, new IOSShareProvider());
             _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
         }
 

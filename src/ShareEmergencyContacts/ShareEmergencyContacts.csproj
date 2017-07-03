@@ -52,6 +52,7 @@
     <Compile Include="IAppInfoProvider.cs" />
     <Compile Include="IClipboardProvider.cs" />
     <Compile Include="IPhoneDialProvider.cs" />
+    <Compile Include="IShareProvider.cs" />
     <Compile Include="Models\Data\EmergencyContact.cs" />
     <Compile Include="Models\Data\EmergencyProfile.cs" />
     <Compile Include="Models\Data\PhoneNumber.cs" />
