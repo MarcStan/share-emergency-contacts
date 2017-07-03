@@ -33,7 +33,6 @@
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Orientation="Horizontal" Margin="10,5" VerticalOptions="Center">
                                     <Label Text="{Binding Type}" />
-                                    <Label Text=": " />
                                     <Label Text="{Binding Number}" />
                                 </StackLayout>
                                 <StackLayout Grid.Column="1" Orientation="Horizontal">

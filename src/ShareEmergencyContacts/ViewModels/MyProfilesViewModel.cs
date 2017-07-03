@@ -8,6 +8,7 @@ using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
 using System.Linq;
 using System.Windows.Input;
+using ShareEmergencyContacts.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels

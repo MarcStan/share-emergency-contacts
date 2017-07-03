@@ -33,7 +33,7 @@
                         <controls:RepeaterView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <userControls:ContactDetails />
+                                    <userControls:EditContactDetails />
                                 </ViewCell>
                             </DataTemplate>
                         </controls:RepeaterView.ItemTemplate>
@@ -47,7 +47,7 @@
                         <controls:RepeaterView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <userControls:ContactDetails />
+                                    <userControls:EditContactDetails />
                                 </ViewCell>
                             </DataTemplate>
                         </controls:RepeaterView.ItemTemplate>

@@ -18,7 +18,6 @@ namespace ShareEmergencyContacts.Extensions
             _navigationPage = navigationPage;
         }
 
-
         /// <summary>
         /// Helper that allows to navigate to generated viewmodel.
         /// Caliburn.Micro can only inject items from IoC or set via SetParam which late-binds the values OnNavigated to properties.

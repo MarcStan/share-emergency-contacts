@@ -10,7 +10,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// <summary>
     ///  Wrapper to dislay data for <see cref="PhoneNumber"/>.
     /// </summary>
-    public class PhoneNumberViewModel
+    public class PhoneNumberViewModel : PropertyChangedBase
     {
         private readonly PhoneNumber _phone;
         private readonly string _name;
@@ -27,6 +27,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             DialNumber = new Command(CallAsync);
             CopyNumber = new Command(Copy);
             EditNumber = new Command(Edit);
+            DeleteNumber = new Command(Delete);
         }
 
         public string Type => _phone.Type.ToString();
@@ -38,6 +39,10 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public ICommand CopyNumber { get; }
 
         public ICommand EditNumber { get; }
+
+        public ICommand DeleteNumber { get; }
+
+        public bool IsEditable { get; set; }
 
         public async void CallAsync()
         {
@@ -66,6 +71,11 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         }
 
         private void Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Delete()
         {
             throw new NotImplementedException();
         }

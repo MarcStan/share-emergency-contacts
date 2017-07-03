@@ -6,9 +6,12 @@
              x:Class="ShareEmergencyContacts.UserControls.EditContactDetails">
     <ContentView.Content>
         <StackLayout>
-            <StackLayout>
-                <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                <Entry Text="{Binding Name}" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <StackLayout HorizontalOptions="FillAndExpand">
+                    <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
+                    <Entry Text="{Binding ProfileName}" IsVisible="{Binding IsEditable, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <Button HorizontalOptions="End" Command="{Binding DeleteContactCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Start" IsVisible="{Binding CanDelete}" />
             </StackLayout>
             <StackLayout IsVisible="{Binding CanHaveInsuranceNumber}">
                 <Label Text="Insurance number:" TextColor="Accent" />
@@ -34,11 +37,11 @@
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Orientation="Horizontal" Margin="10,5" VerticalOptions="Center">
                                     <Label Text="{Binding Type}" />
-                                    <Label Text=": " />
                                     <Label Text="{Binding Number}" />
                                 </StackLayout>
                                 <StackLayout Grid.Column="1" Orientation="Horizontal">
                                     <Button Command="{Binding EditNumber}" Image="edit.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                                    <Button Command="{Binding DeleteNumber}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
                                 </StackLayout>
                             </Grid>
                         </DataTemplate>

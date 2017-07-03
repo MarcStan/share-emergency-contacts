@@ -1,6 +1,6 @@
-﻿using ShareEmergencyContacts.Models.Data;
+﻿using Caliburn.Micro;
+using ShareEmergencyContacts.Models.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -12,28 +12,44 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class ProfileViewModel : ContactViewModel
     {
-        private readonly EmergencyProfile _profile;
-
-        public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete) : base(profile, false, false)
+        public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete) : base(profile, false, false, null)
         {
-            _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+            Actual = profile ?? throw new ArgumentNullException(nameof(profile));
 
-            EmergencyContacts = profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true)).ToList();
-            InsuranceContacts = profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true)).ToList();
+            EmergencyContacts = new BindableCollection<ContactViewModel>(profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true, p => EmergencyContacts.Remove(p))));
+            InsuranceContacts = new BindableCollection<ContactViewModel>(profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true, p => InsuranceContacts.Remove(p))));
 
             DeleteCommand = new Command(() => delete?.Invoke(Actual));
         }
 
         public ICommand DeleteCommand { get; }
 
+        public override bool IsEditable
+        {
+            get => base.IsEditable;
+            set
+            {
+                if (IsEditable == value) return;
+                base.IsEditable = value;
+                foreach (var i in InsuranceContacts)
+                {
+                    i.IsEditable = IsEditable;
+                }
+                foreach (var e in EmergencyContacts)
+                {
+                    e.IsEditable = IsEditable;
+                }
+            }
+        }
+
         public string Weight
         {
             get
             {
-                if (_profile.WeightInKg <= 0)
+                if (Actual.WeightInKg <= 0)
                     return null;
 
-                return $"{_profile.WeightInKg} kg";
+                return $"{Actual.WeightInKg} kg";
             }
         }
 
@@ -41,20 +57,20 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         {
             get
             {
-                if (_profile.HeightInCm <= 0)
+                if (Actual.HeightInCm <= 0)
                     return null;
 
-                return $"{_profile.HeightInCm / 100:0.00} m";
+                return $"{Actual.HeightInCm / 100:0.00} m";
             }
         }
 
-        public string BloodType => _profile.BloodType;
+        public string BloodType => Actual.BloodType;
 
         public string ExpirationDate
         {
             get
             {
-                var d = _profile.ExpirationDate;
+                var d = Actual.ExpirationDate;
                 if (!d.HasValue)
                     return null;
                 int x = (d.Value - DateTime.Now.Date).Days;
@@ -63,10 +79,10 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 return $"{d.Value:D}{specifier}";
             }
         }
-        public List<ContactViewModel> EmergencyContacts { get; }
+        public BindableCollection<ContactViewModel> EmergencyContacts { get; }
 
-        public List<ContactViewModel> InsuranceContacts { get; }
+        public BindableCollection<ContactViewModel> InsuranceContacts { get; }
 
-        public EmergencyProfile Actual => _profile;
+        public EmergencyProfile Actual { get; }
     }
 }

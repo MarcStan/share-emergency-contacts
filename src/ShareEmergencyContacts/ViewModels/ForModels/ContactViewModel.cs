@@ -1,8 +1,9 @@
 ﻿using Caliburn.Micro;
 using ShareEmergencyContacts.Models.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels.ForModels
 {
@@ -11,21 +12,54 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class ContactViewModel : PropertyChangedBase
     {
-        private readonly bool _displayInsuranceNumber;
+        private bool _isEditable;
+
         private readonly bool _isChild;
         private readonly EmergencyContact _profile;
 
-        public ContactViewModel(EmergencyContact profile, bool displayInsuranceNumber, bool isChild)
+        public ContactViewModel(EmergencyContact profile, bool displayInsuranceNumber, bool isChild, Action<ContactViewModel> delete)
         {
-            _displayInsuranceNumber = displayInsuranceNumber;
+            CanHaveInsuranceNumber = displayInsuranceNumber;
+            CanDelete = delete != null;
             _isChild = isChild;
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
-            PhoneNumbers = profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name)).ToList();
+            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name)));
+
+            DeleteContactCommand = new Command(() => delete?.Invoke(this));
         }
 
-        public string ProfileName => _profile.ProfileName;
+        public string ProfileName
+        {
+            get => _profile.ProfileName;
+            set
+            {
+                if (value == ProfileName) return;
+                _profile.ProfileName = value;
+            }
+        }
 
         public int NameSize => _isChild ? 24 : 16;
+
+        public bool CanHaveInsuranceNumber { get; }
+
+        public bool CanDelete { get; }
+
+        public ICommand DeleteContactCommand { get; }
+
+        public virtual bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                if (value == _isEditable) return;
+                _isEditable = value;
+                NotifyOfPropertyChange(nameof(IsEditable));
+                foreach (var n in PhoneNumbers)
+                {
+                    n.IsEditable = IsEditable;
+                }
+            }
+        }
 
         public string Name
         {
@@ -57,8 +91,8 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public string Note => _profile.Note;
 
-        public string InsuranceNumber => _displayInsuranceNumber ? _profile.InsuranceNumber : null;
+        public string InsuranceNumber => CanHaveInsuranceNumber ? _profile.InsuranceNumber : null;
 
-        public List<PhoneNumberViewModel> PhoneNumbers { get; }
+        public BindableCollection<PhoneNumberViewModel> PhoneNumbers { get; }
     }
 }

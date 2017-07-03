@@ -54,6 +54,7 @@ namespace ShareEmergencyContacts.ViewModels
                 deleteAction(Selected.Actual);
             });
             BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+            profile.IsEditable = CanEdit;
         }
 
         public ICommand EditCommand { get; }

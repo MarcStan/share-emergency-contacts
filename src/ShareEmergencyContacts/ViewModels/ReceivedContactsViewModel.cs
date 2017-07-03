@@ -5,6 +5,7 @@ using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System.Linq;
 using System.Windows.Input;
+using ShareEmergencyContacts.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels

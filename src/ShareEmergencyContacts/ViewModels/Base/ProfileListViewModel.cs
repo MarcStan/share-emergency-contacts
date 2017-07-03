@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace ShareEmergencyContacts.ViewModels
+namespace ShareEmergencyContacts.ViewModels.Base
 {
     /// <summary>
     /// Viewmodel that works with both contacts and own profiles.
