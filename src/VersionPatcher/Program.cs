@@ -216,8 +216,6 @@ namespace VersionPatcher
             var newVersion = $"\"{version}\"";
 
             var index1 = text.IndexOf(v);
-            var index2 = text.IndexOf(fv);
-            var index3 = text.IndexOf(iv);
             if (index1 == -1)
             {
                 throw new NotSupportedException($"Could not find required text '{v}' in assemblyInfo file '{assemblyInfo}'");
@@ -227,6 +225,7 @@ namespace VersionPatcher
             string end;
             text = ReplaceVersion(text, index1, v, newVersion);
 
+            var index2 = text.IndexOf(fv);
             // now do the same for the two optional values
             if (index2 != -1)
             {
@@ -239,6 +238,7 @@ namespace VersionPatcher
                 end = text.Substring(endIndex);
                 text = front + newVersion + end;
             }
+            var index3 = text.IndexOf(iv);
             if (index3 != -1)
             {
                 front = text.Substring(0, index3 + iv.Length);
