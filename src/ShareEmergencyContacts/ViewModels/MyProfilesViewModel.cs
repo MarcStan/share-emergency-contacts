@@ -2,7 +2,10 @@
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
+using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
+using ShareEmergencyContacts.ViewModels.ForModels;
+using System;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -24,9 +27,11 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand AddCommand { get; }
 
-        public void AddNewProfile()
+        public async void AddNewProfile()
         {
-            _navigationService.NavigateToViewModelAsync<EditProfileViewModel>();
+            var p = new EmergencyProfile();
+            var vm = new EditProfileViewModel(p, Add);
+            await _navigationService.NavigateToInstanceAsync(vm);
         }
 
         protected override void ProfileSelected(EmergencyProfile profile)
@@ -42,7 +47,7 @@ namespace ShareEmergencyContacts.ViewModels
             var vm = new ProfileVisualizerViewModel(match, async p =>
             {
                 var dia = IoC.Get<IUserDialogs>();
-                var r = await dia.ConfirmAsync($"Reaylly delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
+                var r = await dia.ConfirmAsync($"Really delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
                 if (!r)
                     return;
 
@@ -50,6 +55,26 @@ namespace ShareEmergencyContacts.ViewModels
                 await _navigationService.GoBackToRootAsync();
             }, Edit);
             _navigationService.NavigateToInstanceAsync(vm);
+        }
+
+        public async void Edit(EmergencyProfile profile)
+        {
+            var vm = new EditProfileViewModel(profile, async editedProfile =>
+            {
+                var storage = IoC.Get<IStorageContainer>();
+                await storage.SaveProfileAsync(profile);
+
+                // update UI by just reinserting the item
+                var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
+                if (idx == -1)
+                    throw new NotSupportedException("Item not found");
+
+                ExistingContacts.RemoveAt(idx);
+                ExistingContacts.Insert(idx, new ProfileViewModel(profile, this));
+                var dia = IoC.Get<IUserDialogs>();
+                dia.Toast("Profile updated!");
+            });
+            await _navigationService.NavigateToInstanceAsync(vm);
         }
     }
 }

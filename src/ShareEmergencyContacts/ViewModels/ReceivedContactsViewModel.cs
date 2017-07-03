@@ -42,7 +42,7 @@ namespace ShareEmergencyContacts.ViewModels
             var vm = new ProfileVisualizerViewModel(match, async p =>
             {
                 var dia = IoC.Get<IUserDialogs>();
-                var r = await dia.ConfirmAsync($"Reaylly delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
+                var r = await dia.ConfirmAsync($"Really delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
                 if (!r)
                     return;
 

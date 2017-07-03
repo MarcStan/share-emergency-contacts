@@ -21,7 +21,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             EmergencyContacts = profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true)).ToList();
             InsuranceContacts = profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true)).ToList();
 
-            DeleteCommand = new Command(() => mv.Delete(Actual));
+            DeleteCommand = new Command(() => mv?.Delete(Actual));
         }
 
         public ICommand DeleteCommand { get; }
