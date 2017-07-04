@@ -347,6 +347,19 @@ namespace ShareEmergencyContacts.ViewModels.Base
 
         public async void Delete(EmergencyProfile profile)
         {
+            var dia = IoC.Get<IUserDialogs>();
+            string expiry;
+            if (profile.ExpirationDate.HasValue)
+            {
+                var days = (profile.ExpirationDate.Value - DateTime.Now).Days;
+                expiry = $"It would expire in {days} day" + (days == 1 ? "" : "s") + ".";
+            }
+            else expiry = null;
+            var type = _workWithMyProfiles ? "profile" : "received contact";
+            var r = await dia.ConfirmAsync($"Really delete {type} '{profile.ProfileName}'?" + expiry, "Really delete?", "Yes", "No");
+            if (!r)
+                return;
+
             var storage = IoC.Get<IStorageContainer>();
             if (_workWithMyProfiles)
                 await storage.DeleteProfileAsync(profile);

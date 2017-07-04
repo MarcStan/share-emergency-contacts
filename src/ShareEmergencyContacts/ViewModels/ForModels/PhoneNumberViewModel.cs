@@ -20,14 +20,15 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         /// </summary>
         /// <param name="phone"></param>
         /// <param name="name">A name to be displayed alongside the number when calling. Necessary on some platforms.</param>
-        public PhoneNumberViewModel(PhoneNumber phone, string name)
+        /// <param name="remove"></param>
+        public PhoneNumberViewModel(PhoneNumber phone, string name, Action<PhoneNumberViewModel> remove)
         {
             _phone = phone;
             _name = name;
             DialNumber = new Command(CallAsync);
             CopyNumber = new Command(Copy);
             EditNumber = new Command(Edit);
-            DeleteNumber = new Command(Delete);
+            DeleteNumber = new Command(() => remove(this));
         }
 
         public string Type => _phone.Type.ToString();
@@ -71,11 +72,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         }
 
         private void Edit()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Delete()
         {
             throw new NotImplementedException();
         }

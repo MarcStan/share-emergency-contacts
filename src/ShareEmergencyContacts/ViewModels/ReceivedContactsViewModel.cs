@@ -3,9 +3,10 @@ using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
+using ShareEmergencyContacts.ViewModels.Base;
+using System;
 using System.Linq;
 using System.Windows.Input;
-using ShareEmergencyContacts.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
@@ -43,7 +44,14 @@ namespace ShareEmergencyContacts.ViewModels
             var vm = new ProfileVisualizerViewModel(match, async p =>
             {
                 var dia = IoC.Get<IUserDialogs>();
-                var r = await dia.ConfirmAsync($"Really delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
+                string expiry;
+                if (p.ExpirationDate.HasValue)
+                {
+                    var days = (p.ExpirationDate.Value - DateTime.Now).Days;
+                    expiry = $"It would expire in {days} day" + (days == 1 ? "" : "s") + ".";
+                }
+                else expiry = null;
+                var r = await dia.ConfirmAsync($"Really delete received contact '{profile.ProfileName}'?" + expiry, "Really delete?", "Yes", "No");
                 if (!r)
                     return;
 

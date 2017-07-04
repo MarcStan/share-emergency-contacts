@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Linq;
@@ -23,9 +24,23 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             CanDelete = delete != null;
             _isChild = isChild;
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
-            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name)));
+            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name, async phone =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
+                {
+                    PhoneNumbers.Remove(phone);
+                }
+            })));
 
-            DeleteContactCommand = new Command(() => delete?.Invoke(this));
+            DeleteContactCommand = new Command(async () =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                if (await dia.ConfirmAsync($"Really delete '{ProfileName}'?", "Confirm delete", "Yes", "No"))
+                {
+                    delete?.Invoke(this);
+                }
+            });
         }
 
         public string ProfileName
