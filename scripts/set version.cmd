@@ -11,7 +11,7 @@ if not "%2"=="" (
   set appcode=--appCode=%2
 )
 dotnet restore ..\src\VersionPatcher\VersionPatcher.csproj
-dotnet build ..\src\VersionPatcher\VersionPatcher.csproj
+dotnet build ..\src\VersionPatcher\VersionPatcher.csproj -c Release
 dotnet ..\src\VersionPatcher\bin\Debug\netcoreapp1.1\VersionPatcher.dll    -v %1 ^
                                                                         -c ..\src\GlobalAssemblyInfo.cs ^
                                                                         -i "..\src\ShareEmergencyContacts.iOS\Info.plist" ^
