@@ -41,7 +41,7 @@ namespace ShareEmergencyContacts.ViewModels
             };
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            var response = await client.GetAsync($"api/sec/update/?v={v}&p={p}");
+            var response = await client.GetAsync($"api/sec/update/{p}/{v}");
             if (!response.IsSuccessStatusCode)
                 return; // silent fail
 
