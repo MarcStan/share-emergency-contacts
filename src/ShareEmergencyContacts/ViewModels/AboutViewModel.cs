@@ -8,8 +8,6 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class AboutViewModel : Screen
     {
-        private bool _betaOverlay;
-
         public AboutViewModel()
         {
             Version = $"{GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
@@ -17,22 +15,12 @@ namespace ShareEmergencyContacts.ViewModels
             {
                 Device.OpenUri(new Uri("https://marcstan.net/"));
             });
+
             ShareBetaCommand = new Command(() =>
             {
                 var share = IoC.Get<IShareProvider>();
-                share.ShareUrl("https://marcstan.net/private/betas/ShareEmergencyContacts/", "Download \"Share emergency contacts\"", "Check out the app \"Share emergency contacts\" (currently in beta)");
+                share.ShareUrl("https://marcstan.net/betas/SEC/", "Download \"Share emergency contacts\"", "Check out the app \"Share emergency contacts\" (currently in beta)");
             });
-        }
-
-        public bool BetaOverlay
-        {
-            get => _betaOverlay;
-            set
-            {
-                if (value == _betaOverlay) return;
-                _betaOverlay = value;
-                NotifyOfPropertyChange(nameof(BetaOverlay));
-            }
         }
 
         /// <summary>

@@ -17,10 +17,17 @@ namespace ShareEmergencyContacts
 
         public App(SimpleContainer container)
         {
-            Initialize();
-
             _container = container;
             InitializeComponent();
+
+            Initialize();
+
+            // XAML doesn't support conditionals so create a binding
+#if BETA
+            Resources.Add("IsInBeta", true);
+#else
+            Resources.Add("IsInBeta", false);
+#endif
 
             var ns = typeof(RootViewModel).Namespace;
             // auto register all view models

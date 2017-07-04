@@ -12,8 +12,8 @@
                 <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" Margin="10" />
                 <Label FontAttributes="Bold" FontSize="22" Text="Copyright 2017" Margin="10" />
                 <Button FontAttributes="Bold" FontSize="22" Text="marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Start" />
-                <Label FontAttributes="Bold" FontSize="22" Text="This app is in beta" HorizontalOptions="Center" Margin="10,50,10,10" TextColor="Red" />
-                <Button FontAttributes="Bold" FontSize="22" Text="Invite a friend to the beta" Margin="0,0,0,50" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
+                <Label IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="22" Text="This app is in beta" HorizontalOptions="Center" Margin="10,50,10,10" TextColor="Red" />
+                <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="22" Text="Invite a friend to the beta" Margin="0,0,0,50" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
             </StackLayout>
         </ScrollView>
         </Grid>

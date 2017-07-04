@@ -9,7 +9,6 @@
             <converters:NullToFalseConverter x:Key="NullToFalseConverter" />
             <converters:DateTimeConverter x:Key="DateTimeConverter" />
             <converters:ListCountToBoolConverter x:Key="ListCountToBoolConverter" />
-
             <Style x:Key="MenuButton" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="BorderColor" Value="Transparent" />
