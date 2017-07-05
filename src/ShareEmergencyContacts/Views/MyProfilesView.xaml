@@ -14,7 +14,7 @@
         <Label Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" Text="No profiles set up yet. Press the plus icon to add one!" IsVisible="{Binding NoContacts}"
                VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Margin="10" />
         <StackLayout Margin="10" Grid.Row="1">
-            <Label Text="Click on a profile to share or edit" HorizontalOptions="Center" />
+            <Label Text="Click on a profile to share or edit" HorizontalOptions="Center" IsVisible="{Binding NoContacts, Converter={StaticResource InvertBoolConverter}}" />
             <ListView ItemsSource="{Binding ExistingContacts}" SelectedItem="{Binding SelectedItem}"
                   IsVisible="{Binding NoContacts, Converter={StaticResource InvertBoolConverter}}" ItemSelected="ListView_OnItemSelected">
                 <ListView.ItemTemplate>

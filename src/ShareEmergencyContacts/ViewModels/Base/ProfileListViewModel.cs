@@ -5,7 +5,6 @@ using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,7 +18,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
     public abstract class ProfileListViewModel : Screen
     {
         private readonly bool _workWithMyProfiles;
-        private ObservableCollection<ProfileViewModel> _existingContacts;
+        private BindableCollection<ProfileViewModel> _existingContacts;
         private bool _isLoading;
         private ProfileViewModel _selectedItem;
 
@@ -30,7 +29,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
         protected ProfileListViewModel(bool workWithMyProfiles)
         {
             _workWithMyProfiles = workWithMyProfiles;
-            ExistingContacts = new ObservableCollection<ProfileViewModel>();
+            ExistingContacts = new BindableCollection<ProfileViewModel>();
             IsLoading = true;
             ItemSelectedCommand = new Command(o =>
             {
@@ -56,7 +55,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    ExistingContacts = new ObservableCollection<ProfileViewModel>(profiles);
+                    ExistingContacts = new BindableCollection<ProfileViewModel>(profiles);
                     IsLoading = false;
                 });
             });
@@ -92,9 +91,9 @@ namespace ShareEmergencyContacts.ViewModels.Base
             }
         }
 
-        public bool NoContacts => ExistingContacts.Count == 0;
+        public bool NoContacts => ExistingContacts == null || ExistingContacts.Count == 0;
 
-        public ObservableCollection<ProfileViewModel> ExistingContacts
+        public BindableCollection<ProfileViewModel> ExistingContacts
         {
             get => _existingContacts;
             set
@@ -265,6 +264,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
                 ExistingContacts.Add(new ProfileViewModel(profile, Delete));
+                NotifyOfPropertyChange(nameof(NoContacts));
                 if (_workWithMyProfiles)
                 {
                     await storage.SaveProfileAsync(profile);
@@ -369,6 +369,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             var match = ExistingContacts.FirstOrDefault(c => c.Actual == profile);
             if (match != null)
                 ExistingContacts.Remove(match);
+            NotifyOfPropertyChange(nameof(NoContacts));
         }
 
         protected abstract void ProfileSelected(EmergencyProfile profile);
