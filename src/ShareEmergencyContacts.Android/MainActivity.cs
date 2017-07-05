@@ -9,11 +9,13 @@ using ZXing.Net.Mobile.Android;
 
 namespace ShareEmergencyContacts.Droid
 {
-    [Activity(Label = "Share emergency contacts", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Share emergency contacts", Icon = "@drawable/icon", Theme = "@style/SplashTheme",
+            MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
+            SetTheme(Resource.Style.MainTheme);
             base.OnCreate(bundle);
 
             Forms.Init(this, bundle);

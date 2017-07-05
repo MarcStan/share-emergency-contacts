@@ -10,11 +10,11 @@ using System.Reflection;
 namespace ShareEmergencyContacts.Droid
 {
     [Application]
-    public class Application : CaliburnApplication
+    public class CaliburnApplication : Caliburn.Micro.CaliburnApplication
     {
         private readonly SimpleContainer _container;
 
-        public Application(IntPtr javaReference, JniHandleOwnership transfer)
+        public CaliburnApplication(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         {
             _container = new SimpleContainer();
