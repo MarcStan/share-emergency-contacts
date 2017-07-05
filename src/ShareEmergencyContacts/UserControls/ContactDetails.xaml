@@ -5,7 +5,7 @@
              x:Class="ShareEmergencyContacts.UserControls.ContactDetails">
     <ContentView.Content>
         <StackLayout>
-            <StackLayout Orientation="{Binding NameOrientation}" IsVisible="{Binding Name, Converter={StaticResource NullToFalseConverter}}">
+            <StackLayout>
                 <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
                 <Label Text="{Binding FormattedName}" FontSize="{Binding NameSize}" />
             </StackLayout>
