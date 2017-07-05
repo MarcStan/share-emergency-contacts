@@ -61,6 +61,19 @@ namespace ShareEmergencyContacts.ViewModels.Base
             });
         }
 
+        public string CenterText
+        {
+            get
+            {
+                if (IsLoading)
+                    return "Loading...";
+
+                return _workWithMyProfiles
+                    ? "No profiles set up yet. Press the plus icon to add one!"
+                    : "No contacts have been received yet. Press the scan icon to scan one!";
+            }
+        }
+
         public ICommand ItemSelectedCommand { get; }
 
         public ProfileViewModel SelectedItem
@@ -88,6 +101,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             {
                 _isLoading = value;
                 NotifyOfPropertyChange(nameof(IsLoading));
+                NotifyOfPropertyChange(nameof(CenterText));
             }
         }
 
