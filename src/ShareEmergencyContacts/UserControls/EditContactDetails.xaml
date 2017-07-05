@@ -8,8 +8,12 @@
         <StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <StackLayout HorizontalOptions="FillAndExpand">
-                    <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                    <Entry Text="{Binding ProfileName}" IsVisible="{Binding IsEditable, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <Label Text="First name:" TextColor="Accent" FontSize="{Binding NameSize}" />
+                    <Entry Text="{Binding FirstName}" IsVisible="{Binding IsEditable, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <StackLayout HorizontalOptions="FillAndExpand">
+                    <Label Text="Last name:" TextColor="Accent" FontSize="{Binding NameSize}" />
+                    <Entry Text="{Binding LastName}" IsVisible="{Binding IsEditable, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
                 <Button HorizontalOptions="End" Command="{Binding DeleteContactCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Start" IsVisible="{Binding CanDelete}" />
             </StackLayout>
@@ -17,9 +21,13 @@
                 <Label Text="Insurance number:" TextColor="Accent" />
                 <Entry Text="{Binding InsuranceNumber}" />
             </StackLayout>
-            <StackLayout>
+            <StackLayout IsVisible="{Binding HasBirthday}">
                 <Label Text="Birthday:" TextColor="Accent" />
-                <Entry Text="{Binding BirthDate}" />
+                <StackLayout Orientation="Horizontal">
+                    <Button Command="{Binding AddBirthdayCommand}" Text="add birthday" Margin="5" VerticalOptions="Start" IsVisible="{Binding NoBirthday}" />
+                    <DatePicker HorizontalOptions="FillAndExpand" Date="{Binding ActualBirthDate}" Margin="0" IsVisible="{Binding NoBirthday, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" />
+                    <Button Command="{Binding DeleteBirthdayCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="End" IsVisible="{Binding NoBirthday, Converter={StaticResource InvertBoolConverter}}"/>
+                </StackLayout>
             </StackLayout>
             <StackLayout>
                 <Label Text="Address:" TextColor="Accent" />

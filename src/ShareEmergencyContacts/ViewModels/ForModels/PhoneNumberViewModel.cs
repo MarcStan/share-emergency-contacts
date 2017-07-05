@@ -31,9 +31,29 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             DeleteNumber = new Command(() => remove(this));
         }
 
-        public string Type => _phone.Type.ToString();
+        public string Type
+        {
+            get => _phone.Type.ToString();
+            set
+            {
+                if (Type == value) return;
+                if (!Enum.TryParse(value, out PhoneType t))
+                    throw new NotSupportedException($"Value '{value}' not part of phone type enum.");
+                _phone.Type = t;
+                NotifyOfPropertyChange(nameof(Type));
+            }
+        }
 
-        public string Number => _phone.Number;
+        public string Number
+        {
+            get => _phone.Number;
+            set
+            {
+                if (Number == value) return;
+                _phone.Number = value;
+                NotifyOfPropertyChange(nameof(Number));
+            }
+        }
 
         public ICommand DialNumber { get; }
 

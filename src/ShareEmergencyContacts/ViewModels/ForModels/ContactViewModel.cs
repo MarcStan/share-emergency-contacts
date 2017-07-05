@@ -17,6 +17,8 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         private readonly bool _isChild;
         private readonly EmergencyContact _profile;
+        private BindableCollection<PhoneNumberViewModel> _phoneNumbers;
+        private bool _noBirthday;
 
         public ContactViewModel(EmergencyContact profile, bool displayInsuranceNumber, bool isChild, Action<ContactViewModel> delete)
         {
@@ -24,7 +26,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             CanDelete = delete != null;
             _isChild = isChild;
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
-            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, Name, async phone =>
+            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, FormattedName, async phone =>
             {
                 var dia = IoC.Get<IUserDialogs>();
                 if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
@@ -41,6 +43,15 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     delete?.Invoke(this);
                 }
             });
+            NoBirthday = !profile.BirthDate.HasValue;
+            AddBirthdayCommand = new Command(() =>
+            {
+                NoBirthday = false;
+            });
+            DeleteBirthdayCommand = new Command(() =>
+            {
+                NoBirthday = true;
+            });
         }
 
         public string ProfileName
@@ -50,8 +61,29 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             {
                 if (value == ProfileName) return;
                 _profile.ProfileName = value;
+                NotifyOfPropertyChange(nameof(ProfileName));
             }
         }
+
+        public bool NoBirthday
+        {
+            get => _noBirthday;
+            set
+            {
+                if (value == _noBirthday) return;
+                _noBirthday = value;
+                if (NoBirthday)
+                    _profile.BirthDate = null;
+                NotifyOfPropertyChange(nameof(NoBirthday));
+                NotifyOfPropertyChange(nameof(ActualBirthDate));
+            }
+        }
+
+        public ICommand AddBirthdayCommand { get; }
+
+        public ICommand DeleteBirthdayCommand { get; }
+
+        public bool HasBirthday => CanHaveInsuranceNumber == false;
 
         public int NameSize => _isChild ? 24 : 16;
 
@@ -76,7 +108,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
-        public string Name
+        public string FormattedName
         {
             get
             {
@@ -93,6 +125,32 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
+        public string FirstName
+        {
+            get => _profile.FirstName;
+            set
+            {
+                if (value == FirstName) return;
+                _profile.FirstName = value;
+                NotifyOfPropertyChange(nameof(FirstName));
+                NotifyOfPropertyChange(nameof(FormattedName));
+                NotifyOfPropertyChange(nameof(ProfileName));
+            }
+        }
+
+        public string LastName
+        {
+            get => _profile.LastName;
+            set
+            {
+                if (value == LastName) return;
+                _profile.LastName = value;
+                NotifyOfPropertyChange(nameof(LastName));
+                NotifyOfPropertyChange(nameof(FormattedName));
+                NotifyOfPropertyChange(nameof(ProfileName));
+            }
+        }
+
         public string BirthDate
         {
             get
@@ -102,12 +160,59 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
-        public string Address => _profile.Address;
+        public DateTime ActualBirthDate
+        {
+            get => _profile.BirthDate ?? new DateTime(1970, 1, 1);
+            set
+            {
+                if (ActualBirthDate == value) return;
+                _profile.BirthDate = value;
+                NotifyOfPropertyChange(nameof(ActualBirthDate));
+            }
+        }
 
-        public string Note => _profile.Note;
+        public string Address
+        {
+            get => _profile.Address;
+            set
+            {
+                if (Address == value) return;
+                _profile.Address = value;
+                NotifyOfPropertyChange(nameof(Address));
+            }
+        }
 
-        public string InsuranceNumber => CanHaveInsuranceNumber ? _profile.InsuranceNumber : null;
+        public string Note
+        {
+            get => _profile.Note;
+            set
+            {
+                if (Note == value) return;
+                _profile.Note = value;
+                NotifyOfPropertyChange(nameof(Note));
+            }
+        }
 
-        public BindableCollection<PhoneNumberViewModel> PhoneNumbers { get; }
+        public string InsuranceNumber
+        {
+            get => CanHaveInsuranceNumber ? _profile.InsuranceNumber : null;
+            set
+            {
+                if (InsuranceNumber == value) return;
+                _profile.InsuranceNumber = value;
+                NotifyOfPropertyChange(nameof(InsuranceNumber));
+            }
+        }
+
+        public BindableCollection<PhoneNumberViewModel> PhoneNumbers
+        {
+            get => _phoneNumbers;
+            set
+            {
+                if (Equals(value, _phoneNumbers)) return;
+                _phoneNumbers = value;
+                NotifyOfPropertyChange(nameof(PhoneNumbers));
+            }
+        }
     }
 }

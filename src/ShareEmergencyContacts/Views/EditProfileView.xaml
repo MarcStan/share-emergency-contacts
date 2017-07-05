@@ -11,8 +11,8 @@
         <ScrollView>
             <StackLayout>
                 <StackLayout>
-                    <Label Text="Profile name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                    <Entry Text="{Binding ProfileName}" />
+                    <Label Text="Profile name:" TextColor="Accent" FontSize="{Binding Selected.NameSize}" />
+                    <Entry Text="{Binding Selected.ProfileName}" />
                 </StackLayout>
                 <userControls:EditContactDetails BindingContext="{Binding Selected}" />
                 <StackLayout>
@@ -20,12 +20,12 @@
                     <Entry Text="{Binding Selected.BloodType}" />
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Weight: " TextColor="Accent" />
-                    <Entry Text="{Binding Selected.Weight}" />
+                    <Label Text="Weight (in kg): " TextColor="Accent" />
+                    <Entry Text="{Binding Selected.ActualWeightInKg}" Keyboard="Numeric" />
                 </StackLayout>
                 <StackLayout>
-                    <Label Text="Height: " TextColor="Accent" />
-                    <Entry Text="{Binding Selected.Height}" />
+                    <Label Text="Height (in cm): " TextColor="Accent" />
+                    <Entry Text="{Binding Selected.ActualHeightInCm}" Keyboard="Numeric" />
                 </StackLayout>
                 <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
                     <Label Text="Emergency contacts:" FontSize="32" />

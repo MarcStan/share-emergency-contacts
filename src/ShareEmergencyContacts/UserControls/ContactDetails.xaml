@@ -7,7 +7,7 @@
         <StackLayout>
             <StackLayout Orientation="{Binding NameOrientation}" IsVisible="{Binding Name, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                <Label Text="{Binding Name}" FontSize="{Binding NameSize}" />
+                <Label Text="{Binding FormattedName}" FontSize="{Binding NameSize}" />
             </StackLayout>
             <StackLayout Orientation="Horizontal" IsVisible="{Binding InsuranceNumber, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Insurance number:" TextColor="Accent" />

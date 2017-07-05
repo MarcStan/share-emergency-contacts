@@ -12,7 +12,7 @@ namespace ShareEmergencyContacts.UWP
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.Calls.CallsPhoneContract", 1))
             {
                 // on phone this prompts with a textbox to edit the number and then calls it on "call"
-                PhoneCallManager.ShowPhoneCallUI(number, name ?? "call");
+                PhoneCallManager.ShowPhoneCallUI(number, name ?? "unknown");
             }
             else
             {

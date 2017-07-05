@@ -12,6 +12,11 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class ProfileViewModel : ContactViewModel
     {
+        private BindableCollection<ContactViewModel> _insuranceContacts;
+        private BindableCollection<ContactViewModel> _emergencyContacts;
+        private bool _weightIsValid;
+        private bool _heightIsValid;
+
         public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete) : base(profile, false, false, null)
         {
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
@@ -53,6 +58,33 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
+        public string ActualWeightInKg
+        {
+            get => Actual.WeightInKg == -1 ? "" : Actual.WeightInKg.ToString();
+            set
+            {
+                if (ActualWeightInKg == value) return;
+                WeightIsValid = int.TryParse(value, out int x);
+                if (WeightIsValid)
+                    Actual.WeightInKg = x;
+                else if (string.IsNullOrWhiteSpace(value))
+                    Actual.WeightInKg = -1;
+
+                NotifyOfPropertyChange(nameof(ActualWeightInKg));
+            }
+        }
+
+        public bool WeightIsValid
+        {
+            get { return _weightIsValid; }
+            set
+            {
+                if (value == _weightIsValid) return;
+                _weightIsValid = value;
+                NotifyOfPropertyChange(nameof(WeightIsValid));
+            }
+        }
+
         public string Height
         {
             get
@@ -64,7 +96,43 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
-        public string BloodType => Actual.BloodType;
+        public string ActualHeightInCm
+        {
+            get => Actual.HeightInCm == -1 ? "" : Actual.HeightInCm.ToString();
+            set
+            {
+                if (ActualHeightInCm == value) return;
+                HeightIsValid = int.TryParse(value, out int x);
+                if (HeightIsValid)
+                    Actual.HeightInCm = x;
+                else if (string.IsNullOrWhiteSpace(value))
+                    Actual.HeightInCm = -1;
+
+                NotifyOfPropertyChange(nameof(ActualHeightInCm));
+            }
+        }
+
+        public bool HeightIsValid
+        {
+            get { return _heightIsValid; }
+            set
+            {
+                if (value == _heightIsValid) return;
+                _heightIsValid = value;
+                NotifyOfPropertyChange(nameof(HeightIsValid));
+            }
+        }
+
+        public string BloodType
+        {
+            get => Actual.BloodType;
+            set
+            {
+                if (BloodType == value) return;
+                Actual.BloodType = value;
+                NotifyOfPropertyChange(nameof(BloodType));
+            }
+        }
 
         public string ExpirationDate
         {
@@ -79,9 +147,28 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 return $"{d.Value:D}{specifier}";
             }
         }
-        public BindableCollection<ContactViewModel> EmergencyContacts { get; }
 
-        public BindableCollection<ContactViewModel> InsuranceContacts { get; }
+        public BindableCollection<ContactViewModel> EmergencyContacts
+        {
+            get => _emergencyContacts;
+            set
+            {
+                if (Equals(value, _emergencyContacts)) return;
+                _emergencyContacts = value;
+                NotifyOfPropertyChange(nameof(EmergencyContacts));
+            }
+        }
+
+        public BindableCollection<ContactViewModel> InsuranceContacts
+        {
+            get => _insuranceContacts;
+            set
+            {
+                if (Equals(value, _insuranceContacts)) return;
+                _insuranceContacts = value;
+                NotifyOfPropertyChange(nameof(InsuranceContacts));
+            }
+        }
 
         public EmergencyProfile Actual { get; }
     }
