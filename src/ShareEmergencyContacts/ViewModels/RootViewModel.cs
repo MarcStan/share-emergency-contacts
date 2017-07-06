@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Acr.UserDialogs;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
 #endif
@@ -41,13 +42,13 @@ namespace ShareEmergencyContacts.ViewModels
             };
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            var response = await client.GetAsync($"api/sec/update/{p}/{v}");
-            if (!response.IsSuccessStatusCode)
-                return; // silent fail
-
-            var json = await response.Content.ReadAsStringAsync();
             try
             {
+                var response = await client.GetAsync($"api/sec/update/{p}/{v}");
+                if (!response.IsSuccessStatusCode)
+                    return; // silent fail
+
+                var json = await response.Content.ReadAsStringAsync();
                 var update = JsonConvert.DeserializeObject<UpdateCheck>(json);
                 if (update.UpdateAvailable)
                 {
@@ -59,9 +60,12 @@ namespace ShareEmergencyContacts.ViewModels
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // silent ignore again
+                // silently ignore all
+                Debug.WriteLine(e);
+                if (Debugger.IsAttached)
+                    Debugger.Break();
             }
         }
 
