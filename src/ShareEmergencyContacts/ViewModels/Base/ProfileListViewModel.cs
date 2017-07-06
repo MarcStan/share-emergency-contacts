@@ -145,7 +145,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     {
                         new EmergencyContact
                         {
-                            ProfileName = "REGA",
+                            FirstName = "REGA",
                             InsuranceNumber = "#1234",
                             PhoneNumbers = new List<PhoneNumber>
                             {
@@ -154,7 +154,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                         },
                         new EmergencyContact
                         {
-                            ProfileName = "POLIZEI",
+                            FirstName = "POLIZEI",
                             InsuranceNumber = "#1234.68.123",
                             PhoneNumbers = new List<PhoneNumber>
                             {
@@ -184,7 +184,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     {
                         new EmergencyContact
                         {
-                            ProfileName = "Dad",
+                            FirstName = "Dad",
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "1234567890")
@@ -192,7 +192,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                         },
                         new EmergencyContact
                         {
-                            ProfileName = "Mom",
+                            FirstName = "Mom",
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "1234567890 2")
@@ -218,7 +218,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     {
                         new EmergencyContact
                         {
-                            ProfileName = "REGA",
+                            FirstName = "REGA",
                             InsuranceNumber = "#1234",
                             PhoneNumbers = new List<PhoneNumber>
                             {
@@ -227,7 +227,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                         },
                         new EmergencyContact
                         {
-                            ProfileName = "POLIZEI",
+                            FirstName = "POLIZEI",
                             InsuranceNumber = "#1234.68.123",
                             PhoneNumbers = new List<PhoneNumber>
                             {
@@ -239,7 +239,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     {
                         new EmergencyContact
                         {
-                            ProfileName = "Dad",
+                            FirstName = "Dad",
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "1234567890")
@@ -247,7 +247,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                         },
                         new EmergencyContact
                         {
-                            ProfileName = "Mom",
+                            FirstName = "Mom",
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "1234567890 2")

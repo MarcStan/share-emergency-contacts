@@ -356,10 +356,13 @@ namespace ShareEmergencyContacts.Helpers
         /// <param name="entry"></param>
         private static void WriteEmergencyContact(EmergencyContact contact, Action<string> entry)
         {
+            var fn = contact.ProfileName;
             if (contact.ProfileName == null)
+                fn = contact.FirstName + " " + contact.LastName;
+            if (fn == null)
                 throw new NotSupportedException("Profile name must be set");
 
-            EncodeAndAppendIfSet("FN", contact.ProfileName, entry);
+            EncodeAndAppendIfSet("FN", fn, entry);
 
             // all other properties may be null and thus may not be set
             var f = FormatNameIfPossible(contact.FirstName, contact.LastName);
@@ -421,6 +424,9 @@ namespace ShareEmergencyContacts.Helpers
         /// <returns></returns>
         private static string Encode(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return "";
+
             var sb = new StringBuilder();
 
             for (int i = 0; i < text.Length; i++)
