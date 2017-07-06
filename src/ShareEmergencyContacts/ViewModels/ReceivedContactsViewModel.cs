@@ -1,10 +1,7 @@
-﻿using Acr.UserDialogs;
-using Caliburn.Micro;
-using Caliburn.Micro.Xamarin.Forms;
+﻿using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
-using System;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -43,20 +40,9 @@ namespace ShareEmergencyContacts.ViewModels
 
             var vm = new ProfileVisualizerViewModel(match, async p =>
             {
-                var dia = IoC.Get<IUserDialogs>();
-                string expiry;
-                if (p.ExpirationDate.HasValue)
-                {
-                    var days = (p.ExpirationDate.Value - DateTime.Now).Days;
-                    expiry = $"It would expire in {days} day" + (days == 1 ? "" : "s") + ".";
-                }
-                else expiry = null;
-                var r = await dia.ConfirmAsync($"Really delete received contact '{profile.ProfileName}'?" + expiry, "Really delete?", "Yes", "No");
-                if (!r)
-                    return;
-
-                Delete(p);
-                await _navigationService.GoBackToRootAsync();
+                var r = await Delete(p);
+                if (r)
+                    Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
             }, null);
             _navigationService.NavigateToInstanceAsync(vm);
         }

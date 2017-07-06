@@ -64,7 +64,6 @@ namespace ShareEmergencyContacts.ViewModels
         public void Ok()
         {
             _onOk(Selected.Actual);
-            _navigationService.GoBackAsync();
         }
 
         private void AddEmergencyContact()

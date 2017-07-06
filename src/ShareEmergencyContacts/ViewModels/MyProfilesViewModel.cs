@@ -4,11 +4,11 @@ using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
+using ShareEmergencyContacts.ViewModels.Base;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
 using System.Linq;
 using System.Windows.Input;
-using ShareEmergencyContacts.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
@@ -46,35 +46,35 @@ namespace ShareEmergencyContacts.ViewModels
             // display barcode directly on my own profiles as user most likely wants to share
             var vm = new ProfileVisualizerViewModel(match, async p =>
             {
-                var dia = IoC.Get<IUserDialogs>();
-                var r = await dia.ConfirmAsync($"Really delete profile '{profile.ProfileName}'?", "Really delete?", "Yes", "No");
-                if (!r)
-                    return;
-
-                Delete(p);
-                await _navigationService.GoBackToRootAsync();
+                var r = await Delete(p);
+                if (r)
+                    Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
             }, Edit);
             _navigationService.NavigateToInstanceAsync(vm);
         }
 
         public async void Edit(EmergencyProfile profile)
         {
-            var vm = new EditProfileViewModel(_navigationService, profile, async editedProfile =>
-            {
-                var storage = IoC.Get<IStorageContainer>();
-                await storage.SaveProfileAsync(profile);
-
-                // update UI by just reinserting the item
-                var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
-                if (idx == -1)
-                    throw new NotSupportedException("Item not found");
-
-                ExistingContacts.RemoveAt(idx);
-                ExistingContacts.Insert(idx, new ProfileViewModel(profile, Delete));
-                var dia = IoC.Get<IUserDialogs>();
-                dia.Toast("Profile updated!");
-            });
+            var vm = new EditProfileViewModel(_navigationService, profile, UpdateEdited);
             await _navigationService.NavigateToInstanceAsync(vm);
+        }
+
+        private async void UpdateEdited(EmergencyProfile profile)
+        {
+            var storage = IoC.Get<IStorageContainer>();
+            await storage.SaveProfileAsync(profile);
+
+            // update UI by just reinserting the item
+            var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
+            if (idx == -1)
+                throw new NotSupportedException("Item not found");
+
+            ExistingContacts.RemoveAt(idx);
+            ExistingContacts.Insert(idx, new ProfileViewModel(profile, async p => await Delete(p)));
+            var dia = IoC.Get<IUserDialogs>();
+            dia.Toast("Profile updated!");
+
+            Device.BeginInvokeOnMainThread(() => _navigationService.GoBackAsync());
         }
     }
 }

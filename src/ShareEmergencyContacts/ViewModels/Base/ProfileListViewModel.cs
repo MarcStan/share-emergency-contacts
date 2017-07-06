@@ -51,7 +51,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     contacts = LoadMockContacts();
                 }
 #endif
-                var profiles = contacts.Select(c => new ProfileViewModel(c, Delete)).ToList();
+                var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await Delete(p))).ToList();
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -277,7 +277,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
-                ExistingContacts.Add(new ProfileViewModel(profile, Delete));
+                ExistingContacts.Add(new ProfileViewModel(profile, async e => await Delete(e)));
                 NotifyOfPropertyChange(nameof(NoContacts));
                 if (_workWithMyProfiles)
                 {
@@ -359,7 +359,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             return name.ToCharArray().Any(c => !char.IsLetterOrDigit(c) && !allowed.Contains(c));
         }
 
-        public async void Delete(EmergencyProfile profile)
+        public async Task<bool> Delete(EmergencyProfile profile)
         {
             var dia = IoC.Get<IUserDialogs>();
             string expiry;
@@ -372,7 +372,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             var type = _workWithMyProfiles ? "profile" : "received contact";
             var r = await dia.ConfirmAsync($"Really delete {type} '{profile.ProfileName}'?" + expiry, "Really delete?", "Yes", "No");
             if (!r)
-                return;
+                return false;
 
             var storage = IoC.Get<IStorageContainer>();
             if (_workWithMyProfiles)
@@ -384,6 +384,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             if (match != null)
                 ExistingContacts.Remove(match);
             NotifyOfPropertyChange(nameof(NoContacts));
+            return true;
         }
 
         protected abstract void ProfileSelected(EmergencyProfile profile);
