@@ -359,7 +359,7 @@ namespace ShareEmergencyContacts.Helpers
             var fn = contact.ProfileName;
             if (contact.ProfileName == null)
                 fn = contact.FirstName + " " + contact.LastName;
-            if (fn == null)
+            if (fn == null || fn == " ")
                 throw new NotSupportedException("Profile name must be set");
 
             EncodeAndAppendIfSet("FN", fn, entry);
