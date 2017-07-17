@@ -5,8 +5,8 @@ logo.png -> %androidRes%-hdpi\logo.png (72x72)
 logo.png -> %androidRes%-xhdpi\logo.png (96x96)
 logo.png -> %androidRes%-xxhdpi\logo.png (144x144)
 
-splashscreen.png -> %androidRes%\splashscreen.png (310x150)
-splashscreen.png -> %androidRes%-xhdpi\splashscreen.png (620x300)
+splashscreen.png -> %androidRes%\splashscreen.png (310x150, maintain-aspect-ratio)
+splashscreen.png -> %androidRes%-xhdpi\splashscreen.png (620x300, maintain-aspect-ratio)
 
 in app icons\*.png -> %androidRes%\* (32x32)
 in app icons\*.png -> %androidRes%-hdpi\* (48x48)

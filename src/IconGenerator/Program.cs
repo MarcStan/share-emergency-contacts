@@ -45,6 +45,7 @@ namespace IconGenerator
             foreach (var ico in icons)
             {
                 ico.Generate();
+                Console.WriteLine($"Generated '{ico.OutputPath}'.");
             }
         }
 
@@ -55,6 +56,12 @@ namespace IconGenerator
 
             var variables = lines.TakeWhile(l => l != "---").ToArray();
             var transforms = lines.SkipWhile(l => l != "---").Skip(1).ToArray();
+            if (variables.Any() && !transforms.Any())
+            {
+                // no "---" line, thus everything is transforms
+                transforms = variables;
+                variables = new string[0];
+            }
 
             var vars = new Dictionary<string, string>();
             foreach (var v in variables)
@@ -107,6 +114,14 @@ namespace IconGenerator
                 var path = Path.Combine(fileDir, output.Substring(0, lastBracket).Trim());
                 var size = output.Substring(lastBracket + 1);
                 size = size.Substring(0, size.IndexOf(')'));
+                var maintain = false;
+                if (size.Contains(","))
+                {
+                    if (size.Contains("maintain-aspect-ratio"))
+                        maintain = true;
+
+                    size = size.Substring(0, size.IndexOf(','));
+                }
                 var spl = size.Split('x');
                 var w = int.Parse(spl[0]);
                 var h = int.Parse(spl[1]);
@@ -131,7 +146,7 @@ namespace IconGenerator
                         throw new NotSupportedException($"Input file '{f}' not found.");
 
                     var name = Path.GetFileName(f);
-                    yield return new Icon(f, addName ? path + name : path, w, h);
+                    yield return new Icon(f, addName ? path + name : path, w, h, maintain);
                 }
             }
         }
