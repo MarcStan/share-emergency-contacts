@@ -34,3 +34,14 @@ project.lock.json
 *.nuget.props
 *.nuget.targets
 launchSettings.json
+
+# Auto. generated icon resources
+
+src/ShareEmergencyContacts.Android/Resources/**/*.png
+src/ShareEmergencyContacts.Android/Resources/Resource.Designer.cs
+
+src/ShareEmergencyContacts.iOS/Resources/*.png
+src/ShareEmergencyContacts.iOS/iTunesArtwork*
+
+src/ShareEmergencyContacts.UWP/Assets/*
+src/ShareEmergencyContacts.UWP/*.png
