@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
@@ -39,26 +40,11 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand SaveCommand { get; }
 
-        public override void CanClose(Action<bool> callback)
-        {
-            // this is never called when back button is used
-            // supposedly this is not good practice on iOS anyway
-
-            //// ask user to confirm abortion
-            //var dia = IoC.Get<IUserDialogs>();
-            //var r = await dia.ConfirmAsync($"Do you really want to cancel profile {(_creatingNew ? "creation" : "editing")}? All changes will be lost.", "Confirm abort", "Yes", "No");
-            //if (!r)
-            //{
-            //    callback(false);
-            //    base.CanClose(callback);
-            //    return;
-            //}
-            //base.CanClose(callback);
-        }
-
         public void Ok()
         {
             _onOk(Selected.Actual);
+
+            IoC.Get<INavigationService>().GoBackAsync();
         }
 
         private void AddEmergencyContact()

@@ -28,10 +28,10 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand AddCommand { get; }
 
-        public async void AddNewProfile()
+        public void AddNewProfile()
         {
             var vm = new EditProfileViewModel(null, Add);
-            await _navigationService.NavigateToInstanceAsync(vm);
+            _navigationService.NavigateToInstanceAsync(vm);
         }
 
         protected override void ProfileSelected(EmergencyProfile profile)
@@ -53,16 +53,16 @@ namespace ShareEmergencyContacts.ViewModels
             _navigationService.NavigateToInstanceAsync(vm);
         }
 
-        public async void Edit(EmergencyProfile profile)
+        public void Edit(EmergencyProfile profile)
         {
             var vm = new EditProfileViewModel(profile, UpdateEdited);
-            await _navigationService.NavigateToInstanceAsync(vm);
+            _navigationService.NavigateToInstanceAsync(vm);
         }
 
-        private async void UpdateEdited(EmergencyProfile profile)
+        private void UpdateEdited(EmergencyProfile profile)
         {
             var storage = IoC.Get<IStorageContainer>();
-            await storage.SaveProfileAsync(profile);
+            storage.SaveProfileAsync(profile);
 
             // update UI by just reinserting the item
             var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
@@ -73,8 +73,6 @@ namespace ShareEmergencyContacts.ViewModels
             ExistingContacts.Insert(idx, new ProfileViewModel(profile, async p => await Delete(p)));
             var dia = IoC.Get<IUserDialogs>();
             dia.Toast("Profile updated!");
-
-            Device.BeginInvokeOnMainThread(() => _navigationService.GoBackAsync());
         }
     }
 }

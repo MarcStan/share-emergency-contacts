@@ -1,0 +1,15 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShareEmergencyContacts.Views.EditPhoneNumberView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" x:Name="Save" />
+    </ContentPage.ToolbarItems>
+    <Grid Margin="10">
+        <StackLayout>
+            <Label Text="Phone type:" TextColor="Accent" FontSize="22" />
+            <Picker ItemsSource="{Binding PhoneTypes}" SelectedItem="{Binding SelectedPhoneType}" />
+            <Label Text="Phone number:" TextColor="Accent" FontSize="22" />
+            <Entry Text="{Binding Number}" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

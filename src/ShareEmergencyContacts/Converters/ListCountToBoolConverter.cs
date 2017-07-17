@@ -23,12 +23,12 @@ namespace ShareEmergencyContacts.Converters
             if (collection != null)
                 return collection.Count > 0;
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

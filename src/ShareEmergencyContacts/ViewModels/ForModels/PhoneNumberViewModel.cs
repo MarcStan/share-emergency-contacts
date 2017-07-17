@@ -1,5 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Windows.Input;
@@ -93,7 +95,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            var vm = new EditPhoneNumberViewModel(_phone, p =>
+            {
+                Number = p.Number;
+                Type = p.Type.ToString();
+            });
+            IoC.Get<INavigationService>().NavigateToInstanceAsync(vm);
         }
     }
 }

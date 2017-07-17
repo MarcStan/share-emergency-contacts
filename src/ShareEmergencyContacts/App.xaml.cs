@@ -87,7 +87,7 @@ namespace ShareEmergencyContacts
                 // so write to debug as well
                 var msg = $"No implementation of {typeof(T)} has been provided on {Device.RuntimePlatform}.";
                 System.Diagnostics.Debug.WriteLine(msg);
-                throw new NotImplementedException(msg);
+                throw new NotSupportedException(msg);
             }
         }
 

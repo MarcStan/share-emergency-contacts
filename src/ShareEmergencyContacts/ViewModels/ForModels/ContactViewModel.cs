@@ -1,5 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
+using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Linq;
@@ -32,6 +34,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
                 {
                     PhoneNumbers.Remove(phone);
+                    NotifyOfPropertyChange(nameof(PhoneNumbers));
                 }
             })));
 
@@ -52,7 +55,10 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             {
                 NoBirthday = true;
             });
+            AddNumberCommand = new Command(AddNumber);
         }
+
+        public ICommand AddNumberCommand { get; }
 
         public string ProfileName
         {
@@ -213,6 +219,25 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 _phoneNumbers = value;
                 NotifyOfPropertyChange(nameof(PhoneNumbers));
             }
+        }
+
+        public void AddNumber()
+        {
+            var vm = new EditPhoneNumberViewModel(null, num =>
+            {
+                PhoneNumbers.Add(new PhoneNumberViewModel(num,
+                    FormattedName, async phone =>
+                    {
+                        var dia = IoC.Get<IUserDialogs>();
+                        if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
+                        {
+                            PhoneNumbers.Remove(phone);
+                            NotifyOfPropertyChange(nameof(PhoneNumbers));
+                        }
+                    }));
+            });
+            var nav = IoC.Get<INavigationService>();
+            nav.NavigateToInstanceAsync(vm);
         }
     }
 }
