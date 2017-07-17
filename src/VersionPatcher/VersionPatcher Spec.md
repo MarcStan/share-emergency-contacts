@@ -35,12 +35,14 @@ Android android:versionName is set to "1.2.3" and android:versionCode is set to 
 
 # Command line
 
+```
 v|version - must be valid version(e.g. "1.2.3", "1.0.0.0").
 c|csharp - path to the C# file containing "[assembly: AssemblyVersion(", "[assembly: AssemblyFileVersion(" and optionally "[assembly: AssemblyInformationalVersion(" will set all three to the new value with 0 for revision (e.g. "1.2.3.0")
 a|android - path to the AndroidManifest.xml will set the versionName to e.g. "1.2.3"
 i|ios - path to the Info.plist file, will set both CFBundleShortVersionString and CFBundleVersion to e.g. "1.2.3"
 u|uwp - path to the Package.appxmanifest file. Will set the Version to the provided value
 appCode - (Requires a|android parameter as well). Will set the android appCode to the new int value (Either provide valid int or the string "++". Providing "++" will increment the existing int my 1). Note that in order to upload android versions, this int must be larger than any previously provided value. Either increment it by 1 for each release, or calculate it from version (e.g. multiply each version by 1000 more than the next smaller one. E.g. "1.2.3" -> "1 * 1000 * 1000 + 2 * 1000 + 3, of course no version may individually be larger than 999 or the App store upload might fail due too smaller version number).
+```
 
 Tip for AssemblyInfo.cs: Use a shared assembly info file [like so](https://stackoverflow.com/questions/6771694/shared-assemblyinfo-for-uniform-versioning-across-the-solution).
 
@@ -61,4 +63,4 @@ Set C#, Android, iOS and UWP version:
 Increment only android AppCode
 > Vpatch.exe -a %projects%\my\app\android\AndroidManifest.xml -appCode ++
 
-Note that my using "-appCode ++" the existing int is incremented by 1.
+Note that by using "-appCode ++" the existing int is incremented by 1.
