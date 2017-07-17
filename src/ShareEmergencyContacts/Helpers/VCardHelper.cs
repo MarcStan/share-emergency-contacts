@@ -137,10 +137,6 @@ namespace ShareEmergencyContacts.Helpers
                 p.InsuranceContacts.Add(c);
             }
 
-            if (lines.Any())
-            {
-                // TODO: log warning about unsupported?
-            }
             return p;
         }
 

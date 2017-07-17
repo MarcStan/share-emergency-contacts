@@ -46,7 +46,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public override void CanClose(Action<bool> callback)
         {
-            // TODO: this is never called when back button is used
+            // this is never called when back button is used
             // supposedly this is not good practice on iOS anyway
 
             //// ask user to confirm abortion
