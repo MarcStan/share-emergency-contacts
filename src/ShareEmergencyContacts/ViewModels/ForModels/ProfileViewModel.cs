@@ -21,8 +21,18 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         {
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
 
-            EmergencyContacts = new BindableCollection<ContactViewModel>(profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true, p => EmergencyContacts.Remove(p))));
-            InsuranceContacts = new BindableCollection<ContactViewModel>(profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true, p => InsuranceContacts.Remove(p))));
+            EmergencyContacts = new BindableCollection<ContactViewModel>(profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true,
+                p =>
+                {
+                    EmergencyContacts.Remove(p);
+                    NotifyOfPropertyChange(nameof(EmergencyContacts));
+                })));
+            InsuranceContacts = new BindableCollection<ContactViewModel>(profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true,
+                p =>
+                {
+                    InsuranceContacts.Remove(p);
+                    NotifyOfPropertyChange(nameof(InsuranceContacts));
+                })));
 
             DeleteCommand = new Command(() => delete?.Invoke(Actual));
         }

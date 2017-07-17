@@ -30,7 +30,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public async void AddNewProfile()
         {
-            var vm = new EditProfileViewModel(_navigationService, null, Add);
+            var vm = new EditProfileViewModel(null, Add);
             await _navigationService.NavigateToInstanceAsync(vm);
         }
 
@@ -55,7 +55,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public async void Edit(EmergencyProfile profile)
         {
-            var vm = new EditProfileViewModel(_navigationService, profile, UpdateEdited);
+            var vm = new EditProfileViewModel(profile, UpdateEdited);
             await _navigationService.NavigateToInstanceAsync(vm);
         }
 

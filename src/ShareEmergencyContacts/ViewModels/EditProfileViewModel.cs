@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
@@ -10,15 +9,11 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class EditProfileViewModel : Screen
     {
-        private readonly INavigationService _navigationService;
         private readonly Action<EmergencyProfile> _onOk;
         private ProfileViewModel _selected;
-        private readonly bool _creatingNew;
 
-        public EditProfileViewModel(INavigationService navigationService, EmergencyProfile toEdit, Action<EmergencyProfile> onOk)
+        public EditProfileViewModel(EmergencyProfile toEdit, Action<EmergencyProfile> onOk)
         {
-            _creatingNew = toEdit == null;
-            _navigationService = navigationService;
             _onOk = onOk;
             toEdit = toEdit ?? new EmergencyProfile();
             Selected = new ProfileViewModel(toEdit, null);
@@ -68,12 +63,22 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void AddEmergencyContact()
         {
-            throw new NotImplementedException();
+            Selected.EmergencyContacts.Add(new ContactViewModel(new EmergencyContact(), false, true, p =>
+            {
+                Selected.EmergencyContacts.Remove(p);
+                NotifyOfPropertyChange(nameof(Selected));
+            }));
+            NotifyOfPropertyChange(nameof(Selected));
         }
 
         private void AddInsuranceContact()
         {
-            throw new NotImplementedException();
+            Selected.InsuranceContacts.Add(new ContactViewModel(new EmergencyContact(), true, true, p =>
+            {
+                Selected.InsuranceContacts.Remove(p);
+                NotifyOfPropertyChange(nameof(Selected));
+            }));
+            NotifyOfPropertyChange(nameof(Selected));
         }
     }
 }
