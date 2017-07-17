@@ -5,5 +5,5 @@
 	<uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
 	<uses-permission android:name="android.permission.CAPTURE_SECURE_VIDEO_OUTPUT" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Share emergency contacts" android:hardwareAccelerated="true"></application>
+	<application android:label="Share emergency contacts" android:hardwareAccelerated="true" android:icon="@drawable/logo"></application>
 </manifest>

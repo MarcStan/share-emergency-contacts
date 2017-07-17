@@ -116,39 +116,7 @@
     <None Include="ShareEmergencyContacts.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\icons\76x76\add.png">
-      <Link>add.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\copy.png">
-      <Link>copy.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\delete.png">
-      <Link>delete.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\edit.png">
-      <Link>edit.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\information.png">
-      <Link>information.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\phone.png">
-      <Link>phone.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\qr.png">
-      <Link>qr.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\save.png">
-      <Link>save.png</Link>
-    </Content>
-    <Content Include="..\..\icons\76x76\share.png">
-      <Link>share.png</Link>
-    </Content>
-    <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-100.png" />
-    <Content Include="Assets\LockScreenLogo.scale-125.png" />
-    <Content Include="Assets\LockScreenLogo.scale-150.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-400.png" />
+    <Content Include="add.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
@@ -164,17 +132,21 @@
     <Content Include="Assets\Square44x44Logo.scale-150.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-32_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="copy.png" />
+    <Content Include="delete.png" />
+    <Content Include="edit.png" />
+    <Content Include="information.png" />
+    <Content Include="phone.png" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="qr.png" />
+    <Content Include="save.png" />
+    <Content Include="share.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
