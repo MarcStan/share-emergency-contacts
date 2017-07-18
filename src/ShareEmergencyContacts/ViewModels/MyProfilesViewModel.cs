@@ -31,7 +31,7 @@ namespace ShareEmergencyContacts.ViewModels
         public void AddNewProfile()
         {
             EditProfileViewModel vm = null;
-            vm = new EditProfileViewModel(null, () => Add(vm.Selected.Actual));
+            vm = new EditProfileViewModel(null, async () => await Add(vm.Selected.Actual));
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 

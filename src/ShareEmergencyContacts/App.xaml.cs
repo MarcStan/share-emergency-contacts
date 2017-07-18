@@ -6,6 +6,7 @@ using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using ShareEmergencyContacts.Views;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using Xamarin.Forms;
 
@@ -18,8 +19,8 @@ namespace ShareEmergencyContacts
         public App(SimpleContainer container)
         {
             _container = container;
-            InitializeComponent();
 
+            InitializeComponent();
             Initialize();
 
             // XAML doesn't support conditionals so create a binding
@@ -34,6 +35,9 @@ namespace ShareEmergencyContacts
             RegisterAllViewModels(ns);
 
             EnsurePlatformProvidersExist();
+
+            var handler = IoC.Get<IUnhandledExceptionHandler>();
+            handler.OnException += UnhandledException;
 
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
@@ -55,6 +59,13 @@ namespace ShareEmergencyContacts
             DisplayRootView<RootView>();
         }
 
+        private void UnhandledException(object sender, Exception exception)
+        {
+            if (Debugger.IsAttached)
+                Debugger.Break();
+            // TODO: do this: https://peterno.wordpress.com/2015/04/15/unhandled-exception-handling-in-ios-and-android-with-xamarin/
+        }
+
         /// <summary>
         /// Call once to throw on any platform that failed to provide an implementation of a required provider.
         /// </summary>
@@ -66,6 +77,7 @@ namespace ShareEmergencyContacts
             EnsureExists<IClipboardProvider>();
             EnsureExists<IShareProvider>();
             EnsureExists<IUserDialogs>();
+            EnsureExists<IUnhandledExceptionHandler>();
         }
 
         private static void EnsureExists<T>()

@@ -1,12 +1,12 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using ShareEmergencyContacts.Models;
+using ShareEmergencyContacts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml.Controls;
-using ShareEmergencyContacts.Models;
-using ShareEmergencyContacts.ViewModels;
 using ZXing.Net.Mobile.Forms.WindowsUniversal;
 
 namespace ShareEmergencyContacts.UWP
@@ -36,6 +36,7 @@ namespace ShareEmergencyContacts.UWP
             _container.RegisterInstance(typeof(IClipboardProvider), null, new WindowsClipboardProvider());
             _container.RegisterInstance(typeof(IShareProvider), null, new WindowsShareProvider());
             _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
+            _container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new WindowsUnhandledExceptionHandler());
         }
 
         protected override void PrepareViewFirst(Frame rootFrame)

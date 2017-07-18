@@ -25,7 +25,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public void ScanNewContact()
         {
-            var vm = new ScanCodeViewModel(_navigationService, Add);
+            var vm = new ScanCodeViewModel(_navigationService, async p => await Add(p));
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 

@@ -260,10 +260,10 @@ namespace ShareEmergencyContacts.ViewModels.Base
 #endif
 
         /// <summary>
-        /// Adds the specific profile to the current collection by validating that its name is uniqe.
+        /// Adds the specific profile to the current collection by validating that its name is unique.
         /// </summary>
         /// <param name="profile"></param>
-        public async void Add(EmergencyProfile profile)
+        public async Task Add(EmergencyProfile profile)
         {
             if (profile == null)
                 return;

@@ -27,7 +27,7 @@ namespace ShareEmergencyContacts.Droid
             var container = IoC.Get<SimpleContainer>();
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources));
-
+            container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new AndroidUnhandledExceptionHandler());
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(IoC.Get<App>());
         }
