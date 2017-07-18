@@ -1,12 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
-using ShareEmergencyContacts.Models;
-using ShareEmergencyContacts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml.Controls;
+using ShareEmergencyContacts.Models;
+using ShareEmergencyContacts.ViewModels;
+using ZXing.Net.Mobile.Forms.WindowsUniversal;
 
 namespace ShareEmergencyContacts.UWP
 {
@@ -47,7 +48,12 @@ namespace ShareEmergencyContacts.UWP
             if (args.PreviousExecutionState == ApplicationExecutionState.Running)
                 return;
 
-            Xamarin.Forms.Forms.Init(args);
+            ZXingScannerViewRenderer.Init();
+            var refs = new List<Assembly>
+            {
+                typeof(ZXingBarcodeImageViewRenderer).GetTypeInfo().Assembly
+            };
+            Xamarin.Forms.Forms.Init(args, refs);
 
             DisplayRootView<MainPage>();
         }
