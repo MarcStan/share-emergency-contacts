@@ -112,19 +112,39 @@ namespace IconGenerator
 
                 var lastBracket = output.LastIndexOf('(');
                 var path = Path.Combine(fileDir, output.Substring(0, lastBracket).Trim());
-                var size = output.Substring(lastBracket + 1);
-                size = size.Substring(0, size.IndexOf(')'));
-                var maintain = false;
-                if (size.Contains(","))
+                var cfg = output.Substring(lastBracket + 1);
+                cfg = cfg.Substring(0, cfg.IndexOf(')'));
+                string[] options;
+                if (cfg.Contains(","))
                 {
-                    if (size.Contains("maintain-aspect-ratio"))
-                        maintain = true;
-
-                    size = size.Substring(0, size.IndexOf(','));
+                    options = cfg.Split(',');
                 }
-                var spl = size.Split('x');
-                var w = int.Parse(spl[0]);
-                var h = int.Parse(spl[1]);
+                else
+                {
+                    options = new[] { cfg };
+                }
+                int w = -1, h = -1;
+                int margin = 0;
+                foreach (var o in options)
+                {
+                    var opt = o.Trim();
+                    if (opt.Contains("x"))
+                    {
+                        // size in WxH
+                        var spl = opt.Split('x');
+                        w = int.Parse(spl[0]);
+                        h = int.Parse(spl[1]);
+                    }
+                    else if (opt.EndsWith("%"))
+                    {
+                        // margin
+                        margin = int.Parse(opt.Substring(0, opt.Length - 1));
+                        if (margin > 49)
+                            throw new NotSupportedException("Margin must be between 0 and 49 as it is applied equally from all sides.");
+                    }
+                }
+                if (w == -1 || h == -1)
+                    throw new NotSupportedException("Width must be explicitely set!");
 
                 foreach (var v in vars)
                 {
@@ -146,7 +166,7 @@ namespace IconGenerator
                         throw new NotSupportedException($"Input file '{f}' not found.");
 
                     var name = Path.GetFileName(f);
-                    yield return new Icon(f, addName ? path + name : path, w, h, maintain);
+                    yield return new Icon(f, addName ? path + name : path, w, h, margin);
                 }
             }
         }

@@ -10,20 +10,20 @@
 
         public int Height { get; }
 
-        public bool MaintainAspectRatio { get; }
+        public int Margin { get; }
 
-        public Icon(string input, string outputPath, int width, int height, bool maintainAspectRatio)
+        public Icon(string input, string outputPath, int width, int height, int margin)
         {
             InputPath = input;
             OutputPath = outputPath;
             Width = width;
             Height = height;
-            MaintainAspectRatio = maintainAspectRatio;
+            Margin = margin;
         }
 
         public void Generate()
         {
-            ImageUtilities.ResizeImage(InputPath, OutputPath, Width, Height, MaintainAspectRatio);
+            ImageUtilities.ResizeImage(InputPath, OutputPath, Width, Height, Margin);
         }
 
         public override string ToString()
