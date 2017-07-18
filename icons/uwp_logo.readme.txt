@@ -1,0 +1,1 @@
+uwp_logo.png is the same as logo.png except that 500px margin was added to each side to prevent tile image from overlapping with branding bar
