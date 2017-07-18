@@ -25,12 +25,14 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 p =>
                 {
                     EmergencyContacts.Remove(p);
+                    profile.EmergencyContacts.Remove(p.Profile);
                     NotifyOfPropertyChange(nameof(EmergencyContacts));
                 })));
             InsuranceContacts = new BindableCollection<ContactViewModel>(profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true,
                 p =>
                 {
                     InsuranceContacts.Remove(p);
+                    profile.InsuranceContacts.Remove(p.Profile);
                     NotifyOfPropertyChange(nameof(InsuranceContacts));
                 })));
 
@@ -70,7 +72,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public string ActualWeightInKg
         {
-            get => Actual.WeightInKg == -1 ? "" : Actual.WeightInKg.ToString();
+            get => Actual.WeightInKg == -1 ? null : Actual.WeightInKg.ToString();
             set
             {
                 if (ActualWeightInKg == value) return;

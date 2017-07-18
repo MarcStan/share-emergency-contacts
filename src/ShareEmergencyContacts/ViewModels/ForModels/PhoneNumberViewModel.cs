@@ -14,7 +14,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class PhoneNumberViewModel : PropertyChangedBase
     {
-        private readonly PhoneNumber _phone;
         private readonly string _name;
 
         /// <summary>
@@ -25,7 +24,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         /// <param name="remove"></param>
         public PhoneNumberViewModel(PhoneNumber phone, string name, Action<PhoneNumberViewModel> remove)
         {
-            _phone = phone;
+            Phone = phone;
             _name = name;
             DialNumber = new Command(CallAsync);
             CopyNumber = new Command(Copy);
@@ -33,26 +32,28 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             DeleteNumber = new Command(() => remove(this));
         }
 
+        public PhoneNumber Phone { get; }
+
         public string Type
         {
-            get => _phone.Type.ToString();
+            get => Phone.Type.ToString();
             set
             {
                 if (Type == value) return;
                 if (!Enum.TryParse(value, out PhoneType t))
                     throw new NotSupportedException($"Value '{value}' not part of phone type enum.");
-                _phone.Type = t;
+                Phone.Type = t;
                 NotifyOfPropertyChange(nameof(Type));
             }
         }
 
         public string Number
         {
-            get => _phone.Number;
+            get => Phone.Number;
             set
             {
                 if (Number == value) return;
-                _phone.Number = value;
+                Phone.Number = value;
                 NotifyOfPropertyChange(nameof(Number));
             }
         }
@@ -95,7 +96,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         private void Edit()
         {
-            var vm = new EditPhoneNumberViewModel(_phone, p =>
+            var vm = new EditPhoneNumberViewModel(Phone, p =>
             {
                 Number = p.Number;
                 Type = p.Type.ToString();

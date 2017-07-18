@@ -56,7 +56,7 @@
                     </controls:RepeaterView.ItemTemplate>
                 </controls:RepeaterView>
             </StackLayout>
-            <Label Text="No phone numbers provided" TextColor="Red" IsVisible="{Binding PhoneNumbers, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
+            <Label Text="No phone numbers provided!" TextColor="Red" IsVisible="{Binding PhoneNumbers, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
             <Button Text="Add phone number" Command="{Binding AddNumberCommand}" HorizontalOptions="Center" WidthRequest="250" />
             <StackLayout>
                 <Label Text="Note:" TextColor="Accent" />

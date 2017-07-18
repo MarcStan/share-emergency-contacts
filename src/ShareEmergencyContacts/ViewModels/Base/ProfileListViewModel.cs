@@ -51,7 +51,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     contacts = LoadMockContacts();
                 }
 #endif
-                var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await Delete(p))).ToList();
+                var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await ConfirmDelete(p))).ToList();
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -277,7 +277,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
-                ExistingContacts.Add(new ProfileViewModel(profile, async e => await Delete(e)));
+                ExistingContacts.Add(new ProfileViewModel(profile, async e => await ConfirmDelete(e)));
                 NotifyOfPropertyChange(nameof(NoContacts));
                 if (_workWithMyProfiles)
                 {
@@ -359,7 +359,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             return name.ToCharArray().Any(c => !char.IsLetterOrDigit(c) && !allowed.Contains(c));
         }
 
-        public async Task<bool> Delete(EmergencyProfile profile)
+        public async Task<bool> ConfirmDelete(EmergencyProfile profile)
         {
             var dia = IoC.Get<IUserDialogs>();
             string expiry;

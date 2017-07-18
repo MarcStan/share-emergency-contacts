@@ -2,23 +2,23 @@
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
-using System;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Action = System.Action;
 
 namespace ShareEmergencyContacts.ViewModels
 {
     public class EditProfileViewModel : Screen
     {
-        private readonly Action<EmergencyProfile> _onOk;
+        private readonly Action _save;
         private ProfileViewModel _selected;
 
-        public EditProfileViewModel(EmergencyProfile toEdit, Action<EmergencyProfile> onOk)
+        public EditProfileViewModel(EmergencyProfile toEdit, Action save)
         {
-            _onOk = onOk;
+            _save = save;
             toEdit = toEdit ?? new EmergencyProfile();
             Selected = new ProfileViewModel(toEdit, null);
-            SaveCommand = new Command(Ok);
+            SaveCommand = new Command(Save);
             AddEmergencyContactCommand = new Command(AddEmergencyContact);
             AddInsuranceContactCommand = new Command(AddInsuranceContact);
         }
@@ -40,18 +40,21 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand SaveCommand { get; }
 
-        public void Ok()
+        public void Save()
         {
-            _onOk(Selected.Actual);
+            _save();
 
             IoC.Get<INavigationService>().GoBackAsync();
         }
 
         private void AddEmergencyContact()
         {
-            Selected.EmergencyContacts.Add(new ContactViewModel(new EmergencyContact(), false, true, p =>
+            var contact = new EmergencyContact();
+            Selected.Actual.EmergencyContacts.Add(contact);
+            Selected.EmergencyContacts.Add(new ContactViewModel(contact, false, true, p =>
             {
                 Selected.EmergencyContacts.Remove(p);
+                Selected.Actual.EmergencyContacts.Remove(p.Profile);
                 NotifyOfPropertyChange(nameof(Selected));
             }));
             NotifyOfPropertyChange(nameof(Selected));
@@ -59,9 +62,12 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void AddInsuranceContact()
         {
-            Selected.InsuranceContacts.Add(new ContactViewModel(new EmergencyContact(), true, true, p =>
+            var contact = new EmergencyContact();
+            Selected.Actual.InsuranceContacts.Add(contact);
+            Selected.InsuranceContacts.Add(new ContactViewModel(contact, true, true, p =>
             {
                 Selected.InsuranceContacts.Remove(p);
+                Selected.Actual.InsuranceContacts.Remove(p.Profile);
                 NotifyOfPropertyChange(nameof(Selected));
             }));
             NotifyOfPropertyChange(nameof(Selected));

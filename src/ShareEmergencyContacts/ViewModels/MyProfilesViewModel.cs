@@ -30,7 +30,8 @@ namespace ShareEmergencyContacts.ViewModels
 
         public void AddNewProfile()
         {
-            var vm = new EditProfileViewModel(null, Add);
+            EditProfileViewModel vm = null;
+            vm = new EditProfileViewModel(null, () => Add(vm.Selected.Actual));
             _navigationService.NavigateToInstanceAsync(vm);
         }
 
@@ -44,34 +45,44 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
 
             // display barcode directly on my own profiles as user most likely wants to share
-            var vm = new ProfileVisualizerViewModel(match, async p =>
-            {
-                var r = await Delete(p);
-                if (r)
-                    Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
-            }, Edit);
+            var vm = new ProfileVisualizerViewModel(match, Delete, Edit);
             _navigationService.NavigateToInstanceAsync(vm);
         }
 
         public void Edit(EmergencyProfile profile)
         {
-            var vm = new EditProfileViewModel(profile, UpdateEdited);
+            EditProfileViewModel vm = null;
+            vm = new EditProfileViewModel(profile, () =>
+            {
+                UpdateEdited(vm.Selected.Actual);
+            });
             _navigationService.NavigateToInstanceAsync(vm);
         }
 
-        private void UpdateEdited(EmergencyProfile profile)
+        public async void Delete(EmergencyProfile p)
+        {
+            var r = await ConfirmDelete(p);
+            if (r)
+                Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
+        }
+
+        private async void UpdateEdited(EmergencyProfile profile)
         {
             var storage = IoC.Get<IStorageContainer>();
-            storage.SaveProfileAsync(profile);
+            await storage.SaveProfileAsync(profile);
 
             // update UI by just reinserting the item
             var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
             if (idx == -1)
                 throw new NotSupportedException("Item not found");
 
+
             ExistingContacts.RemoveAt(idx);
-            ExistingContacts.Insert(idx, new ProfileViewModel(profile, async p => await Delete(p)));
+            var pr = new ProfileViewModel(profile, Delete);
+            ExistingContacts.Insert(idx, pr);
             var dia = IoC.Get<IUserDialogs>();
+            await _navigationService.GoBackToRootAsync();
+            await _navigationService.NavigateToInstanceAsync(new ProfileVisualizerViewModel(pr, Delete, Edit));
             dia.Toast("Profile updated!");
         }
     }

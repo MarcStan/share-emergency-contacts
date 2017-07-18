@@ -40,7 +40,7 @@ namespace ShareEmergencyContacts.ViewModels
 
             var vm = new ProfileVisualizerViewModel(match, async p =>
             {
-                var r = await Delete(p);
+                var r = await ConfirmDelete(p);
                 if (r)
                     Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
             }, null, true);

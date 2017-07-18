@@ -18,7 +18,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         private bool _isEditable;
 
         private readonly bool _isChild;
-        private readonly EmergencyContact _profile;
         private BindableCollection<PhoneNumberViewModel> _phoneNumbers;
         private bool _noBirthday;
 
@@ -27,13 +26,14 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             CanHaveInsuranceNumber = displayInsuranceNumber;
             CanDelete = delete != null;
             _isChild = isChild;
-            _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+            Profile = profile ?? throw new ArgumentNullException(nameof(profile));
             PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, FormattedName, async phone =>
             {
                 var dia = IoC.Get<IUserDialogs>();
                 if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
                 {
                     PhoneNumbers.Remove(phone);
+                    profile.PhoneNumbers.Remove(phone.Phone);
                     NotifyOfPropertyChange(nameof(PhoneNumbers));
                 }
             })));
@@ -58,15 +58,17 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             AddNumberCommand = new Command(AddNumber);
         }
 
+        public EmergencyContact Profile { get; }
+
         public ICommand AddNumberCommand { get; }
 
         public string ProfileName
         {
-            get => _profile.ProfileName;
+            get => Profile.ProfileName;
             set
             {
                 if (value == ProfileName) return;
-                _profile.ProfileName = value;
+                Profile.ProfileName = value;
                 NotifyOfPropertyChange(nameof(ProfileName));
             }
         }
@@ -79,7 +81,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 if (value == _noBirthday) return;
                 _noBirthday = value;
                 if (NoBirthday)
-                    _profile.BirthDate = null;
+                    Profile.BirthDate = null;
                 NotifyOfPropertyChange(nameof(NoBirthday));
                 NotifyOfPropertyChange(nameof(ActualBirthDate));
             }
@@ -119,25 +121,25 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             get
             {
                 // try to always return a name
-                if (string.IsNullOrWhiteSpace(_profile.FirstName) && string.IsNullOrWhiteSpace(_profile.LastName))
+                if (string.IsNullOrWhiteSpace(Profile.FirstName) && string.IsNullOrWhiteSpace(Profile.LastName))
                     return ProfileName;
 
-                if (string.IsNullOrWhiteSpace(_profile.FirstName))
-                    return string.IsNullOrWhiteSpace(_profile.LastName) ? null : _profile.LastName;
-                if (string.IsNullOrWhiteSpace(_profile.LastName))
-                    return string.IsNullOrWhiteSpace(_profile.FirstName) ? null : _profile.FirstName;
+                if (string.IsNullOrWhiteSpace(Profile.FirstName))
+                    return string.IsNullOrWhiteSpace(Profile.LastName) ? null : Profile.LastName;
+                if (string.IsNullOrWhiteSpace(Profile.LastName))
+                    return string.IsNullOrWhiteSpace(Profile.FirstName) ? null : Profile.FirstName;
 
-                return $"{_profile.FirstName} {_profile.LastName}";
+                return $"{Profile.FirstName} {Profile.LastName}";
             }
         }
 
         public string FirstName
         {
-            get => _profile.FirstName;
+            get => Profile.FirstName;
             set
             {
                 if (value == FirstName) return;
-                _profile.FirstName = value;
+                Profile.FirstName = value;
                 NotifyOfPropertyChange(nameof(FirstName));
                 NotifyOfPropertyChange(nameof(FormattedName));
                 NotifyOfPropertyChange(nameof(ProfileName));
@@ -146,11 +148,11 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public string LastName
         {
-            get => _profile.LastName;
+            get => Profile.LastName;
             set
             {
                 if (value == LastName) return;
-                _profile.LastName = value;
+                Profile.LastName = value;
                 NotifyOfPropertyChange(nameof(LastName));
                 NotifyOfPropertyChange(nameof(FormattedName));
                 NotifyOfPropertyChange(nameof(ProfileName));
@@ -161,51 +163,51 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         {
             get
             {
-                var b = _profile.BirthDate;
+                var b = Profile.BirthDate;
                 return b?.ToString("D");
             }
         }
 
         public DateTime ActualBirthDate
         {
-            get => _profile.BirthDate ?? new DateTime(1970, 1, 1);
+            get => Profile.BirthDate ?? new DateTime(1970, 1, 1);
             set
             {
                 if (ActualBirthDate == value) return;
-                _profile.BirthDate = value;
+                Profile.BirthDate = value;
                 NotifyOfPropertyChange(nameof(ActualBirthDate));
             }
         }
 
         public string Address
         {
-            get => _profile.Address;
+            get => Profile.Address;
             set
             {
                 if (Address == value) return;
-                _profile.Address = value;
+                Profile.Address = value;
                 NotifyOfPropertyChange(nameof(Address));
             }
         }
 
         public string Note
         {
-            get => _profile.Note;
+            get => Profile.Note;
             set
             {
                 if (Note == value) return;
-                _profile.Note = value;
+                Profile.Note = value;
                 NotifyOfPropertyChange(nameof(Note));
             }
         }
 
         public string InsuranceNumber
         {
-            get => CanHaveInsuranceNumber ? _profile.InsuranceNumber : null;
+            get => CanHaveInsuranceNumber ? Profile.InsuranceNumber : null;
             set
             {
                 if (InsuranceNumber == value) return;
-                _profile.InsuranceNumber = value;
+                Profile.InsuranceNumber = value;
                 NotifyOfPropertyChange(nameof(InsuranceNumber));
             }
         }
@@ -225,6 +227,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         {
             var vm = new EditPhoneNumberViewModel(null, num =>
             {
+                Profile.PhoneNumbers.Add(num);
                 PhoneNumbers.Add(new PhoneNumberViewModel(num,
                     FormattedName, async phone =>
                     {
@@ -232,6 +235,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                         if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
                         {
                             PhoneNumbers.Remove(phone);
+                            Profile.PhoneNumbers.Remove(phone.Phone);
                             NotifyOfPropertyChange(nameof(PhoneNumbers));
                         }
                     }));
