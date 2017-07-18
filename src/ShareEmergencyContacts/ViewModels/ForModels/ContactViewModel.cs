@@ -41,7 +41,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             DeleteContactCommand = new Command(async () =>
             {
                 var dia = IoC.Get<IUserDialogs>();
-                if (await dia.ConfirmAsync($"Really delete '{ProfileName}'?", "Confirm delete", "Yes", "No"))
+                if (await dia.ConfirmAsync($"Really delete '{FormattedName}'?", "Confirm delete", "Yes", "No"))
                 {
                     delete?.Invoke(this);
                 }

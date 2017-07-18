@@ -213,6 +213,12 @@ namespace ShareEmergencyContacts.Helpers
                 var splits = format.Split(new[] { ';' }, StringSplitOptions.None);
                 contact.FirstName = splits[0];
                 contact.LastName = splits[1];
+                if ((!string.IsNullOrWhiteSpace(contact.FirstName) || !string.IsNullOrWhiteSpace(contact.LastName)) &&
+                    !(contact is EmergencyProfile))
+                {
+                    // insurance and emergency contacts don't need the name if their first/last is set
+                    contact.ProfileName = "";
+                }
             }
             contact.Address = GetValue(lines, "ADR");
             contact.Note = GetValue(lines, "NOTE");

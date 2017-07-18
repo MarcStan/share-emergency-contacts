@@ -43,7 +43,7 @@ namespace ShareEmergencyContacts.ViewModels
                 var r = await ConfirmDelete(p);
                 if (r)
                     Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
-            }, null, true);
+            }, null);
             _navigationService.NavigateToInstanceAsync(vm);
         }
     }

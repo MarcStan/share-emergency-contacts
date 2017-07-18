@@ -45,7 +45,7 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
 
             // display barcode directly on my own profiles as user most likely wants to share
-            var vm = new ProfileVisualizerViewModel(match, Delete, Edit);
+            var vm = new ProfileVisualizerViewModel(match, Delete, Edit, true);
             _navigationService.NavigateToInstanceAsync(vm);
         }
 
