@@ -50,7 +50,7 @@ namespace ShareEmergencyContacts.ViewModels
             }
             _save();
 
-            IoC.Get<INavigationService>().GoBackAsync();
+            Device.BeginInvokeOnMainThread(() => IoC.Get<INavigationService>().GoBackAsync());
         }
 
         private bool CanSave(out string message)

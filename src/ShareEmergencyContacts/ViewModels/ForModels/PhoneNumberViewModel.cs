@@ -101,7 +101,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 Number = p.Number;
                 Type = p.Type.ToString();
             });
-            IoC.Get<INavigationService>().NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => IoC.Get<INavigationService>().NavigateToInstanceAsync(vm));
         }
     }
 }

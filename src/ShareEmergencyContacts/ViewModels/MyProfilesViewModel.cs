@@ -32,7 +32,7 @@ namespace ShareEmergencyContacts.ViewModels
         {
             EditProfileViewModel vm = null;
             vm = new EditProfileViewModel(null, () => Add(vm.Selected.Actual));
-            _navigationService.NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
         protected override void ProfileSelected(EmergencyProfile profile)
@@ -46,7 +46,7 @@ namespace ShareEmergencyContacts.ViewModels
 
             // display barcode directly on my own profiles as user most likely wants to share
             var vm = new ProfileVisualizerViewModel(match, Delete, Edit, true);
-            _navigationService.NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
         public void Edit(EmergencyProfile profile)
@@ -57,7 +57,7 @@ namespace ShareEmergencyContacts.ViewModels
             {
                 UpdateEdited(vm.Selected.Actual, originalName);
             });
-            _navigationService.NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
         public async void Delete(EmergencyProfile p)
@@ -88,8 +88,11 @@ namespace ShareEmergencyContacts.ViewModels
             var pr = new ProfileViewModel(profile, Delete);
             ExistingContacts.Insert(idx, pr);
             var dia = IoC.Get<IUserDialogs>();
-            await _navigationService.GoBackToRootAsync();
-            await _navigationService.NavigateToInstanceAsync(new ProfileVisualizerViewModel(pr, Delete, Edit));
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await _navigationService.GoBackToRootAsync();
+                await _navigationService.NavigateToInstanceAsync(new ProfileVisualizerViewModel(pr, Delete, Edit));
+            });
             dia.Toast("Profile updated!");
         }
     }

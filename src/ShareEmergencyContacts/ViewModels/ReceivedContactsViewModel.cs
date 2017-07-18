@@ -26,7 +26,7 @@ namespace ShareEmergencyContacts.ViewModels
         public void ScanNewContact()
         {
             var vm = new ScanCodeViewModel(_navigationService, Add);
-            _navigationService.NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
         protected override void ProfileSelected(EmergencyProfile profile)
@@ -44,7 +44,7 @@ namespace ShareEmergencyContacts.ViewModels
                 if (r)
                     Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
             }, null);
-            _navigationService.NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
     }
 }

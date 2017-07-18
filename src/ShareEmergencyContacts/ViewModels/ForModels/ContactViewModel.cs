@@ -241,7 +241,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     }));
             });
             var nav = IoC.Get<INavigationService>();
-            nav.NavigateToInstanceAsync(vm);
+            Device.BeginInvokeOnMainThread(() => nav.NavigateToInstanceAsync(vm));
         }
     }
 }

@@ -70,7 +70,7 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
             }
             _onSave(new PhoneNumber(SelectedPhoneType, Number));
-            IoC.Get<INavigationService>().GoBackAsync();
+            Device.BeginInvokeOnMainThread(() => IoC.Get<INavigationService>().GoBackAsync());
         }
     }
 }
