@@ -1,22 +1,30 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              x:Class="ShareEmergencyContacts.Views.AboutView" Title="About">
-    <Grid>
+    <Grid Margin="10">
         <ScrollView>
-            <StackLayout Margin="10" HorizontalOptions="Center">
-                <Label FontAttributes="Bold" FontSize="32" Text="Share emergency contacts" HorizontalOptions="Center" Margin="10" />
-                <StackLayout Orientation="Horizontal" Margin="10">
+            <StackLayout HorizontalOptions="Center">
+                <Label FontAttributes="Bold" FontSize="32" Text="Share emergency contacts" HorizontalOptions="Center" />
+                <StackLayout Orientation="Horizontal">
                     <Label FontAttributes="Bold" FontSize="22" Text="Version: " />
                     <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" />
+                    <Label FontAttributes="Bold" FontSize="22" Text="BETA" TextColor="Red" IsVisible="{x:StaticResource IsInBeta}" />
                 </StackLayout>
-                <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" Margin="10" />
-                <Label FontAttributes="Bold" FontSize="22" Text="Copyright 2017" Margin="10" />
+                <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" />
                 <StackLayout Orientation="Horizontal">
-                    <Label FontAttributes="Bold" FontSize="22" Text="Website: " Margin="10" />
+                    <Label FontAttributes="Bold" FontSize="22" Text="More info:" Margin="0,8,0,5" />
                     <Button FontAttributes="Bold" FontSize="22" Text="marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Start" />
                 </StackLayout>
-                <Label IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="22" Text="This app is in beta" HorizontalOptions="Center" Margin="10,50,10,10" TextColor="Red" />
-                <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="22" Text="Invite a friend to the beta" Margin="0,0,0,50" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
+                <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
+                <Label FontAttributes="Bold" FontSize="22" Text="Built using:" />
+                <controls:RepeaterView x:TypeArguments="x:String" ItemsSource="{Binding PoweredBy}">
+                    <controls:RepeaterView.ItemTemplate>
+                        <DataTemplate>
+                            <Label FontAttributes="Bold" FontSize="20" Text="{Binding}" Margin="5" />
+                        </DataTemplate>
+                    </controls:RepeaterView.ItemTemplate>
+                </controls:RepeaterView>
             </StackLayout>
         </ScrollView>
         </Grid>
