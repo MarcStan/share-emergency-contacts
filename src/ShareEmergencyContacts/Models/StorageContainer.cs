@@ -52,7 +52,9 @@ namespace ShareEmergencyContacts.Models
             {
                 var content = await _storageProvider.ReadAllTextAsync(f);
                 var c = EmergencyProfile.ParseFromText(content);
-                if (c.ExpirationDate.HasValue && c.ExpirationDate < DateTime.Now)
+                if (c == null)
+                    continue;
+                if (c.ExpirationDate.HasValue && c.ExpirationDate < DateTime.Now.Date)
                 {
                     // contact expired, delete
                     await _storageProvider.DeleteFileAsync(f);
