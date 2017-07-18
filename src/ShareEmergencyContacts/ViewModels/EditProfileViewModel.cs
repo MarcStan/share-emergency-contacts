@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
@@ -42,9 +43,65 @@ namespace ShareEmergencyContacts.ViewModels
 
         public void Save()
         {
+            if (!CanSave(out string message))
+            {
+                IoC.Get<IUserDialogs>().Alert(message);
+                return;
+            }
             _save();
 
             IoC.Get<INavigationService>().GoBackAsync();
+        }
+
+        private bool CanSave(out string message)
+        {
+            if (string.IsNullOrWhiteSpace(Selected.ProfileName))
+            {
+                message = "ProfileName cannot be empty!";
+                return false;
+            }
+            foreach (var e in Selected.EmergencyContacts)
+            {
+                if (string.IsNullOrWhiteSpace(e.FirstName) && string.IsNullOrWhiteSpace(e.LastName))
+                {
+                    message = "Emergency contact must have either first or last name!";
+                    return false;
+                }
+                foreach (var p in e.PhoneNumbers)
+                {
+                    if (string.IsNullOrWhiteSpace(p.Number))
+                    {
+                        message = "Phone number cannot be empty!";
+                        return false;
+                    }
+                }
+            }
+            foreach (var i in Selected.InsuranceContacts)
+            {
+                if (string.IsNullOrWhiteSpace(i.FirstName) && string.IsNullOrWhiteSpace(i.LastName))
+                {
+                    message = "Insurance contact must have either first or last name!";
+                    return false;
+                }
+                foreach (var p in i.PhoneNumbers)
+                {
+                    if (string.IsNullOrWhiteSpace(p.Number))
+                    {
+                        message = "Phone number cannot be empty!";
+                        return false;
+                    }
+                }
+            }
+            foreach (var p in Selected.PhoneNumbers)
+            {
+                if (string.IsNullOrWhiteSpace(p.Number))
+                {
+                    message = "Phone number cannot be empty!";
+                    return false;
+                }
+            }
+            message = null;
+            return true;
         }
 
         private void AddEmergencyContact()
