@@ -53,7 +53,7 @@ namespace ShareEmergencyContacts.ViewModels
                     return;
                 deleteAction(Selected.Actual);
             });
-            BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+
             profile.IsEditable = CanEdit;
         }
 
@@ -70,6 +70,12 @@ namespace ShareEmergencyContacts.ViewModels
                 _barcodeContent = value;
                 NotifyOfPropertyChange(nameof(BarcodeContent));
             }
+        }
+
+        protected override void OnActivate()
+        {
+            BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+            base.OnActivate();
         }
 
         public bool ShowBarcodeFirst { get; }

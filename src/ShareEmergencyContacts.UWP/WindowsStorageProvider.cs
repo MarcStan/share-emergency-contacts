@@ -37,6 +37,9 @@ namespace ShareEmergencyContacts.UWP
             {
                 // if we have subdir we need to create it if it doesn't exist
                 filePath = filePath.Replace("/", "\\");
+                if (filePath.StartsWith("\\"))
+                    filePath = filePath.Substring(1);
+
                 var last = filePath.LastIndexOf('\\');
                 var dirPath = filePath.Substring(0, last);
                 fileName = filePath.Substring(last + 1);
@@ -92,10 +95,6 @@ namespace ShareEmergencyContacts.UWP
 
         public async Task DeleteFileAsync(string filePath)
         {
-            var fi = new FileInfo(filePath);
-            if (!fi.Exists)
-                return;
-
             var tuple = await GetFolderAndFileName(filePath);
             var dir = tuple.Item1;
             var fileName = tuple.Item2;
