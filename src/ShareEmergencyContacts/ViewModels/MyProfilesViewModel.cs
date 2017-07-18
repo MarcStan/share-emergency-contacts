@@ -52,9 +52,10 @@ namespace ShareEmergencyContacts.ViewModels
         public void Edit(EmergencyProfile profile)
         {
             EditProfileViewModel vm = null;
+            var originalName = profile.ProfileName;
             vm = new EditProfileViewModel(profile, () =>
             {
-                UpdateEdited(vm.Selected.Actual);
+                UpdateEdited(vm.Selected.Actual, originalName);
             });
             _navigationService.NavigateToInstanceAsync(vm);
         }
@@ -66,16 +67,22 @@ namespace ShareEmergencyContacts.ViewModels
                 Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
         }
 
-        private async void UpdateEdited(EmergencyProfile profile)
+        private async void UpdateEdited(EmergencyProfile profile, string originalName)
         {
             var storage = IoC.Get<IStorageContainer>();
+            if (originalName != profile.ProfileName)
+            {
+                // delete old file, write new
+                // just needs a dummy profile to infer the filename from ProfileName property
+                var mock = new EmergencyProfile { ProfileName = originalName };
+                await storage.DeleteProfileAsync(mock);
+            }
             await storage.SaveProfileAsync(profile);
 
             // update UI by just reinserting the item
             var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
             if (idx == -1)
                 throw new NotSupportedException("Item not found");
-
 
             ExistingContacts.RemoveAt(idx);
             var pr = new ProfileViewModel(profile, Delete);
