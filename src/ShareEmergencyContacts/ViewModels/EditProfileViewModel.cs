@@ -55,11 +55,6 @@ namespace ShareEmergencyContacts.ViewModels
 
         private bool CanSave(out string message)
         {
-            if (string.IsNullOrWhiteSpace(Selected.ProfileName))
-            {
-                message = "ProfileName cannot be empty!";
-                return false;
-            }
             foreach (var e in Selected.EmergencyContacts)
             {
                 if (string.IsNullOrWhiteSpace(e.FirstName) && string.IsNullOrWhiteSpace(e.LastName))

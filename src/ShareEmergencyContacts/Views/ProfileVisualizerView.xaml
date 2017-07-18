@@ -16,7 +16,7 @@
             Second view is a barcode
         -->
     <ContentPage Title="Details">
-        <Grid Margin="10">
+        <Grid Margin="10,0,10,0">
             <ScrollView>
                 <StackLayout>
                     <userControls:ContactDetails BindingContext="{Binding Selected}" />
@@ -33,34 +33,38 @@
                         <Label Text="{Binding Selected.Height}" />
                     </StackLayout>
                     <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                        <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                         <Label Text="Emergency contacts:" FontSize="32" />
                         <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.EmergencyContacts}">
                             <controls:RepeaterView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>
+                                    <StackLayout>
                                         <userControls:ContactDetails />
-                                    </ViewCell>
+                                        <StackLayout HeightRequest="1" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
+                                    </StackLayout>
                                 </DataTemplate>
                             </controls:RepeaterView.ItemTemplate>
                         </controls:RepeaterView>
                     </StackLayout>
                     <Label Text="No emergency contacts provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                     <StackLayout IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                        <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                         <Label Text="Insurance details:" FontSize="32" />
                         <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.InsuranceContacts}">
                             <controls:RepeaterView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>
+                                    <StackLayout>
                                         <userControls:ContactDetails />
-                                    </ViewCell>
+                                        <StackLayout HeightRequest="1" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
+                                    </StackLayout>
                                 </DataTemplate>
                             </controls:RepeaterView.ItemTemplate>
                         </controls:RepeaterView>
                     </StackLayout>
                     <Label Text="No Insurance details provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
-                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
-                        <Label Text="Auto. deletes after: " TextColor="Accent" />
-                        <Label Text="{Binding Selected.ExpirationDate}" />
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,25,0,0" IsVisible="{Binding Selected.ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
+                        <Label FontSize="16" Text="Auto. deletes after: " TextColor="Accent" />
+                        <Label FontSize="16" Text="{Binding Selected.ExpirationDate}" />
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

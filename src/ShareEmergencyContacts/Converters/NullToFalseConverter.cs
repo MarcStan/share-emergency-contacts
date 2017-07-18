@@ -8,7 +8,13 @@ namespace ShareEmergencyContacts.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null;
+            if (value == null)
+                return false;
+
+            if (value as string == "")
+                return false;
+
+            return true;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

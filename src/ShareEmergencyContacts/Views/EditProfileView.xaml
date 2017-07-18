@@ -7,13 +7,9 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" x:Name="Save" />
     </ContentPage.ToolbarItems>
-    <Grid Margin="10">
+    <Grid Margin="10,0,10,0">
         <ScrollView>
             <StackLayout>
-                <StackLayout>
-                    <Label Text="Profile name:" TextColor="Accent" FontSize="{Binding Selected.NameSize}" />
-                    <Entry Text="{Binding Selected.ProfileName}" />
-                </StackLayout>
                 <userControls:EditContactDetails BindingContext="{Binding Selected}" />
                 <StackLayout>
                     <Label Text="Blood group: " TextColor="Accent" />
@@ -28,13 +24,15 @@
                     <Entry Text="{Binding Selected.ActualHeightInCm}" Keyboard="Numeric" />
                 </StackLayout>
                 <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                    <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                     <Label Text="Emergency contacts:" FontSize="32" />
                     <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.EmergencyContacts}">
                         <controls:RepeaterView.ItemTemplate>
                             <DataTemplate>
-                                <ViewCell>
+                                <StackLayout>
                                     <userControls:EditContactDetails />
-                                </ViewCell>
+                                    <StackLayout HeightRequest="1" BackgroundColor="Black" Margin="10,20" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
+                                </StackLayout>
                             </DataTemplate>
                         </controls:RepeaterView.ItemTemplate>
                     </controls:RepeaterView>
@@ -42,18 +40,20 @@
                 <Label Text="No emergency contacts provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                 <Button Text="Add emergency contact" Command="{Binding AddEmergencyContactCommand}" HorizontalOptions="Center" WidthRequest="250" />
                 <StackLayout IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}}">
+                    <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                     <Label Text="Insurance details:" FontSize="32" />
                     <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.InsuranceContacts}">
                         <controls:RepeaterView.ItemTemplate>
                             <DataTemplate>
-                                <ViewCell>
+                                <StackLayout>
                                     <userControls:EditContactDetails />
-                                </ViewCell>
+                                    <StackLayout HeightRequest="1" BackgroundColor="Black" Margin="10,20" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
+                                </StackLayout>
                             </DataTemplate>
                         </controls:RepeaterView.ItemTemplate>
                     </controls:RepeaterView>
                 </StackLayout>
-                <Label Text="No Insurance details provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
+                <Label Text="No insurance details provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                 <Button Text="Add insurance contact" Command="{Binding AddInsuranceContactCommand}" HorizontalOptions="Center" WidthRequest="250" />
             </StackLayout>
         </ScrollView>

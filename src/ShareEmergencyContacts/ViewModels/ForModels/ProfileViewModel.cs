@@ -72,7 +72,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public string ActualWeightInKg
         {
-            get => Actual.WeightInKg == -1 ? null : Actual.WeightInKg.ToString();
+            get => Actual.WeightInKg <= 0 ? null : Actual.WeightInKg.ToString();
             set
             {
                 if (ActualWeightInKg == value) return;
@@ -110,7 +110,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public string ActualHeightInCm
         {
-            get => Actual.HeightInCm == -1 ? "" : Actual.HeightInCm.ToString();
+            get => Actual.HeightInCm <= 0 ? "" : Actual.HeightInCm.ToString();
             set
             {
                 if (ActualHeightInCm == value) return;
