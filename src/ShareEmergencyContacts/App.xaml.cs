@@ -84,7 +84,7 @@ namespace ShareEmergencyContacts
                 // exception is swallowed (maybe because in ctor?) and throws an unrelated (with no info) InvocationException 
                 // so write to debug as well
                 var msg = $"No implementation of {typeof(T)} has been provided on {Device.RuntimePlatform}.";
-                System.Diagnostics.Debug.WriteLine(msg);
+                Debug.WriteLine(msg);
                 throw new NotSupportedException(msg);
             }
         }

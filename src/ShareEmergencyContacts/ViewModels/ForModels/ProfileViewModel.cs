@@ -38,11 +38,17 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
             DeleteCommand = new Command(() => delete?.Invoke(Actual));
             RenameCommand = new Command(() => rename?.Invoke(Actual));
+            SendEmailCommand = new Command(() =>
+            {
+                Device.OpenUri(new Uri($"mailto:{Email}"));
+            });
         }
 
         public ICommand DeleteCommand { get; }
 
         public ICommand RenameCommand { get; }
+
+        public ICommand SendEmailCommand { get; }
 
         public override bool IsEditable
         {

@@ -18,7 +18,10 @@
             </StackLayout>
             <StackLayout IsVisible="{Binding Email, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Email:" TextColor="Accent" />
-                <Label Text="{Binding Email}" />
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding Email}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+                    <Button Command="{Binding SendEmailCommand}" Image="email.png" Style="{StaticResource IconButton}" Margin="5" HorizontalOptions="End" />
+                </StackLayout>
             </StackLayout>
             <StackLayout IsVisible="{Binding Address, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Address:" TextColor="Accent" />

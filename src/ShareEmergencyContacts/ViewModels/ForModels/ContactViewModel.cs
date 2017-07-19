@@ -73,6 +73,17 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
+        public string Email
+        {
+            get => Profile.Email;
+            set
+            {
+                if (value == Email) return;
+                Profile.Email = value;
+                NotifyOfPropertyChange(nameof(Email));
+            }
+        }
+
         public bool NoBirthday
         {
             get => _noBirthday;
