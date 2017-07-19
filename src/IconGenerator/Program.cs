@@ -151,13 +151,10 @@ namespace IconGenerator
                     path = path.Replace(v.Key, v.Value);
                 }
 
-                bool addName = false;
                 if (inputFiles.Length > 1)
                 {
-                    if (!path.EndsWith("*"))
-                        throw new NotSupportedException("Output path must end with '*' when input path contains '*'.");
-                    path = path.Substring(0, path.Length - 1);
-                    addName = true;
+                    if (!path.Contains("*"))
+                        throw new NotSupportedException("Output path must also contain '*' when input path contains '*'.");
                 }
 
                 foreach (var f in inputFiles)
@@ -165,8 +162,9 @@ namespace IconGenerator
                     if (!File.Exists(f))
                         throw new NotSupportedException($"Input file '{f}' not found.");
 
-                    var name = Path.GetFileName(f);
-                    yield return new Icon(f, addName ? path + name : path, w, h, margin);
+                    var name = Path.GetFileNameWithoutExtension(f);
+                    var currPath = path.Replace("*", name);
+                    yield return new Icon(f, currPath, w, h, margin);
                 }
             }
         }

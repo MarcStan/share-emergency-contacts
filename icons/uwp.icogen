@@ -37,4 +37,4 @@ splashscreen.png -> %uwpAssets%\SplashScreen.scale-150.png (930x450)
 splashscreen.png -> %uwpAssets%\SplashScreen.scale-200.png (1240x600)
 splashscreen.png -> %uwpAssets%\SplashScreen.scale-400.png (2480x1200)
 
-in app icons\*.png -> %uwpPath%\* (48x48)
+in app icons\*.png -> %uwpPath%\*.png (48x48)
