@@ -17,7 +17,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         private bool _weightIsValid;
         private bool _heightIsValid;
 
-        public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete) : base(profile, false, false, null)
+        public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete, Action<EmergencyProfile> rename) : base(profile, false, false, null)
         {
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
 
@@ -37,9 +37,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 })));
 
             DeleteCommand = new Command(() => delete?.Invoke(Actual));
+            RenameCommand = new Command(() => rename?.Invoke(Actual));
         }
 
         public ICommand DeleteCommand { get; }
+
+        public ICommand RenameCommand { get; }
 
         public override bool IsEditable
         {
@@ -88,7 +91,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public bool WeightIsValid
         {
-            get { return _weightIsValid; }
+            get => _weightIsValid;
             set
             {
                 if (value == _weightIsValid) return;
@@ -126,7 +129,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public bool HeightIsValid
         {
-            get { return _heightIsValid; }
+            get => _heightIsValid;
             set
             {
                 if (value == _heightIsValid) return;

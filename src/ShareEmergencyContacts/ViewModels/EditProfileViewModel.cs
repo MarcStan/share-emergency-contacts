@@ -18,7 +18,7 @@ namespace ShareEmergencyContacts.ViewModels
         {
             _save = save;
             toEdit = toEdit ?? new EmergencyProfile();
-            Selected = new ProfileViewModel(toEdit, null);
+            Selected = new ProfileViewModel(toEdit, null, null);
             SaveCommand = new Command(Save);
             AddEmergencyContactCommand = new Command(AddEmergencyContact);
             AddInsuranceContactCommand = new Command(AddInsuranceContact);

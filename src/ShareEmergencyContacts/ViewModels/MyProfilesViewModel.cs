@@ -85,7 +85,7 @@ namespace ShareEmergencyContacts.ViewModels
                 throw new NotSupportedException("Item not found");
 
             ExistingContacts.RemoveAt(idx);
-            var pr = new ProfileViewModel(profile, Delete);
+            var pr = new ProfileViewModel(profile, async p => await ConfirmDelete(p), async p => await ConfirmRename(p));
             ExistingContacts.Insert(idx, pr);
             var dia = IoC.Get<IUserDialogs>();
             Device.BeginInvokeOnMainThread(async () =>

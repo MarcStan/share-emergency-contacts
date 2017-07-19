@@ -51,7 +51,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     contacts = LoadMockContacts();
                 }
 #endif
-                var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await ConfirmDelete(p))).ToList();
+                var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await ConfirmDelete(p), async p => await ConfirmRename(p))).ToList();
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -277,7 +277,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
-                ExistingContacts.Add(new ProfileViewModel(profile, async e => await ConfirmDelete(e)));
+                ExistingContacts.Add(new ProfileViewModel(profile, async e => await ConfirmDelete(e), async p => await ConfirmRename(p)));
                 NotifyOfPropertyChange(nameof(NoContacts));
                 if (_workWithMyProfiles)
                 {
@@ -300,7 +300,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
         /// <param name="forbidden"></param>
         /// <param name="defaultName"></param>
         /// <returns></returns>
-        private async Task<string> AskUserForNameAsync(string[] forbidden, string defaultName = null)
+        private async Task<string> AskUserForNameAsync(string[] forbidden, string defaultName = null, bool discardAlert = true)
         {
             var dia = IoC.Get<IUserDialogs>();
             var name = defaultName ?? "";
@@ -336,13 +336,14 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 }
                 else
                 {
-                    var discardResult = await dia.ConfirmAsync("Do you really want to discard the contact? It won't be saved.", "Discard contact", "Yes", "No");
-                    if (!discardResult)
+                    if (!discardAlert)
+                        return null;
+
+                    var discardResult = await dia.ConfirmAsync("Do you really want to discard the contact? It won't be saved.", "Discard changes", "Yes", "No");
+                    if (discardResult)
                     {
-                        // allow user to set name again
-                        continue;
+                        return null;
                     }
-                    return null;
                 }
             }
         }
@@ -357,6 +358,45 @@ namespace ShareEmergencyContacts.ViewModels.Base
         {
             var allowed = new[] { ' ', '_', '-', '+', '(', ')', '[', ']' };
             return name.ToCharArray().Any(c => !char.IsLetterOrDigit(c) && !allowed.Contains(c));
+        }
+
+        public async Task ConfirmRename(EmergencyProfile profile)
+        {
+            // show overlay asking user for a new name; do not allow existing names except for the name of the profile itself
+            var forbidden = _existingContacts.Select(c => c.ProfileName).Except(new[] { profile.ProfileName }).ToArray();
+            var name = await AskUserForNameAsync(forbidden, profile.ProfileName, false);
+            if (name != null)
+            {
+                // set new name
+                var old = profile.ProfileName;
+                profile.ProfileName = name;
+                var storage = IoC.Get<IStorageContainer>();
+                if (old != name)
+                {
+                    // delete old file as the name was changed
+                    // just need mock object to derive filename from profile name
+                    var mock = new EmergencyProfile { ProfileName = old };
+                    if (_workWithMyProfiles)
+                        await storage.DeleteProfileAsync(mock);
+                    else
+                        await storage.DeleteReceivedContactAsync(mock);
+                }
+                var a = ExistingContacts.First(c => c.Actual == profile);
+                var idx = ExistingContacts.IndexOf(a);
+                ExistingContacts.RemoveAt(idx);
+                ExistingContacts.Insert(idx, a);
+                var dia = IoC.Get<IUserDialogs>();
+                if (_workWithMyProfiles)
+                {
+                    await storage.SaveProfileAsync(profile);
+                    dia.Toast("Updated profile name!");
+                }
+                else
+                {
+                    await storage.SaveReceivedContactAsync(profile);
+                    dia.Toast("Updated contact name!");
+                }
+            }
         }
 
         public async Task<bool> ConfirmDelete(EmergencyProfile profile)
