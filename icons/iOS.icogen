@@ -6,5 +6,6 @@ logo.png -> %iOSPath%\iTunesArtwork@2x (1024x1024)
 
 logo.png -> %iOSRes%\Icon-76.png (76x76)
 logo.png -> %iOSRes%\Icon-76@2x.png (152x152)
+logo.png -> %iOSRes%\Icon-76@3x.png (228x228)
 
 in app icons\*.png -> %iOSRes%\* (48x48)
