@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
              xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             xmlns:xLabs="clr-namespace:ShareEmergencyContacts.Helpers.XLabs;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.ProfileVisualizerView"
              Title="{Binding Selected.ProfileName}">
     <TabbedPage.ToolbarItems>
@@ -35,31 +36,31 @@
                     <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
                         <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                         <Label Text="Emergency contacts:" FontSize="32" />
-                        <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.EmergencyContacts}">
-                            <controls:RepeaterView.ItemTemplate>
+                        <xLabs:ContactViewModelRepeater Margin="20,0,0,0" ItemsSource="{Binding Selected.EmergencyContacts}">
+                            <xLabs:ContactViewModelRepeater.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout>
                                         <userControls:ContactDetails />
                                         <StackLayout HeightRequest="1" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                                     </StackLayout>
                                 </DataTemplate>
-                            </controls:RepeaterView.ItemTemplate>
-                        </controls:RepeaterView>
+                            </xLabs:ContactViewModelRepeater.ItemTemplate>
+                        </xLabs:ContactViewModelRepeater>
                     </StackLayout>
                     <Label Text="No emergency contacts provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                     <StackLayout IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}}">
                         <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                         <Label Text="Insurance details:" FontSize="32" />
-                        <controls:RepeaterView x:TypeArguments="forModels:ContactViewModel" Margin="20,0,0,0" ItemsSource="{Binding Selected.InsuranceContacts}">
-                            <controls:RepeaterView.ItemTemplate>
+                        <xLabs:ContactViewModelRepeater Margin="20,0,0,0" ItemsSource="{Binding Selected.InsuranceContacts}">
+                            <xLabs:ContactViewModelRepeater.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout>
                                         <userControls:ContactDetails />
                                         <StackLayout HeightRequest="1" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />
                                     </StackLayout>
                                 </DataTemplate>
-                            </controls:RepeaterView.ItemTemplate>
-                        </controls:RepeaterView>
+                            </xLabs:ContactViewModelRepeater.ItemTemplate>
+                        </xLabs:ContactViewModelRepeater>
                     </StackLayout>
                     <Label Text="No Insurance details provided!" TextColor="Red" FontSize="20" IsVisible="{Binding Selected.InsuranceContacts, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,25,0,0" IsVisible="{Binding Selected.ExpirationDate, Converter={StaticResource NullToFalseConverter}}">

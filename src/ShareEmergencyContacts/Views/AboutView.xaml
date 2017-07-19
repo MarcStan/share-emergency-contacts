@@ -1,6 +1,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
+             xmlns:xLabs="clr-namespace:ShareEmergencyContacts.Helpers.XLabs;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.AboutView" Title="About">
     <Grid Margin="10,0">
         <ScrollView>
@@ -18,13 +18,13 @@
                 </StackLayout>
                 <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
                 <Label FontAttributes="Bold" FontSize="22" Text="Built using:" />
-                <controls:RepeaterView x:TypeArguments="x:String" ItemsSource="{Binding PoweredBy}">
-                    <controls:RepeaterView.ItemTemplate>
+                <xLabs:StringRepeater ItemsSource="{Binding PoweredBy}">
+                    <xLabs:StringRepeater.ItemTemplate>
                         <DataTemplate>
                             <Label FontAttributes="Bold" FontSize="20" Text="{Binding}" Margin="5" />
                         </DataTemplate>
-                    </controls:RepeaterView.ItemTemplate>
-                </controls:RepeaterView>
+                    </xLabs:StringRepeater.ItemTemplate>
+                </xLabs:StringRepeater>
             </StackLayout>
         </ScrollView>
         </Grid>
