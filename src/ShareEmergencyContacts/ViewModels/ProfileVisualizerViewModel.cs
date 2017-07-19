@@ -54,8 +54,6 @@ namespace ShareEmergencyContacts.ViewModels
                     return;
                 deleteAction(Selected);
             });
-
-            profile.IsEditable = CanEdit;
         }
 
         public ICommand EditCommand { get; }

@@ -8,11 +8,11 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <StackLayout HorizontalOptions="FillAndExpand">
                     <Label Text="First name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                    <Entry Text="{Binding FirstName}" IsVisible="{Binding IsEditable, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <Entry Text="{Binding FirstName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
                 <StackLayout HorizontalOptions="FillAndExpand">
                     <Label Text="Last name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                    <Entry Text="{Binding LastName}" IsVisible="{Binding IsEditable, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <Entry Text="{Binding LastName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
                 <Button HorizontalOptions="End" Command="{Binding DeleteContactCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Start" IsVisible="{Binding CanDelete}" />
             </StackLayout>

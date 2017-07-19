@@ -66,8 +66,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public ICommand DeleteNumber { get; }
 
-        public bool IsEditable { get; set; }
-
         public async void CallAsync()
         {
             var dial = IoC.Get<IPhoneDialProvider>();

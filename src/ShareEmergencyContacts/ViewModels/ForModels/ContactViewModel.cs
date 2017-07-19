@@ -15,8 +15,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class ContactViewModel : PropertyChangedBase
     {
-        private bool _isEditable;
-
         private readonly bool _isChild;
         private BindableCollection<PhoneNumberViewModel> _phoneNumbers;
         private bool _noBirthday;
@@ -111,21 +109,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public bool CanDelete { get; }
 
         public ICommand DeleteContactCommand { get; }
-
-        public virtual bool IsEditable
-        {
-            get => _isEditable;
-            set
-            {
-                if (value == _isEditable) return;
-                _isEditable = value;
-                NotifyOfPropertyChange(nameof(IsEditable));
-                foreach (var n in PhoneNumbers)
-                {
-                    n.IsEditable = IsEditable;
-                }
-            }
-        }
 
         public string FormattedName
         {

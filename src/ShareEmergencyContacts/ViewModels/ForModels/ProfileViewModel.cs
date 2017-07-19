@@ -50,24 +50,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public ICommand SendEmailCommand { get; }
 
-        public override bool IsEditable
-        {
-            get => base.IsEditable;
-            set
-            {
-                if (IsEditable == value) return;
-                base.IsEditable = value;
-                foreach (var i in InsuranceContacts)
-                {
-                    i.IsEditable = IsEditable;
-                }
-                foreach (var e in EmergencyContacts)
-                {
-                    e.IsEditable = IsEditable;
-                }
-            }
-        }
-
         public string Weight
         {
             get
