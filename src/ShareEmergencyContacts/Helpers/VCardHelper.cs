@@ -220,6 +220,7 @@ namespace ShareEmergencyContacts.Helpers
                     contact.ProfileName = "";
                 }
             }
+            contact.Email = GetValue(lines, "EMAIL");
             contact.Address = GetValue(lines, "ADR");
             contact.Note = GetValue(lines, "NOTE");
             contact.InsuranceNumber = GetValue(lines, "X-INSNUM");
@@ -369,6 +370,7 @@ namespace ShareEmergencyContacts.Helpers
             // all other properties may be null and thus may not be set
             var f = FormatNameIfPossible(contact.FirstName, contact.LastName);
             EncodeAndAppendIfSet("N", f, entry, false);
+            EncodeAndAppendIfSet("EMAIL", contact.Email, entry);
             EncodeAndAppendIfSet("NOTE", contact.Note, entry);
             EncodeAndAppendIfSet("X-INSNUM", contact.InsuranceNumber, entry);
             EncodeAndAppendIfSet("ADR", contact.Address, entry);

@@ -29,6 +29,10 @@
                 </StackLayout>
             </StackLayout>
             <StackLayout>
+                <Label Text="Email:" TextColor="Accent" />
+                <Entry Text="{Binding Email}" />
+            </StackLayout>
+            <StackLayout>
                 <Label Text="Address:" TextColor="Accent" />
                 <userControls:ExpandableEditor Text="{Binding Address}" />
             </StackLayout>

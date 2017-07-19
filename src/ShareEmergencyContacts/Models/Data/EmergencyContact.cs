@@ -33,6 +33,8 @@ namespace ShareEmergencyContacts.Models.Data
         /// </summary>
         public string InsuranceNumber { get; set; }
 
+        public string Email { get; set; }
+
         /// <summary>
         /// Other textfiled that can be set by the user.
         /// </summary>
