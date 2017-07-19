@@ -360,7 +360,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             return name.ToCharArray().Any(c => !char.IsLetterOrDigit(c) && !allowed.Contains(c));
         }
 
-        public async Task ConfirmRename(EmergencyProfile profile)
+        public async Task ConfirmRename(ProfileViewModel profile)
         {
             // show overlay asking user for a new name; do not allow existing names except for the name of the profile itself
             var forbidden = _existingContacts.Select(c => c.ProfileName).Except(new[] { profile.ProfileName }).ToArray();
@@ -381,29 +381,28 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     else
                         await storage.DeleteReceivedContactAsync(mock);
                 }
-                var a = ExistingContacts.First(c => c.Actual == profile);
-                a.Refresh();
+                profile.Refresh();
                 var dia = IoC.Get<IUserDialogs>();
                 if (_workWithMyProfiles)
                 {
-                    await storage.SaveProfileAsync(profile);
+                    await storage.SaveProfileAsync(profile.Actual);
                     dia.Toast("Updated profile name!");
                 }
                 else
                 {
-                    await storage.SaveReceivedContactAsync(profile);
+                    await storage.SaveReceivedContactAsync(profile.Actual);
                     dia.Toast("Updated contact name!");
                 }
             }
         }
 
-        public async Task<bool> ConfirmDelete(EmergencyProfile profile)
+        public async Task<bool> ConfirmDelete(ProfileViewModel profile)
         {
             var dia = IoC.Get<IUserDialogs>();
             string expiry;
-            if (profile.ExpirationDate.HasValue)
+            if (profile.Actual.ExpirationDate.HasValue)
             {
-                var days = (profile.ExpirationDate.Value - DateTime.Now).Days;
+                var days = (profile.Actual.ExpirationDate.Value - DateTime.Now).Days;
                 expiry = $"It would expire in {days} day" + (days == 1 ? "" : "s") + ".";
             }
             else expiry = null;
@@ -414,13 +413,11 @@ namespace ShareEmergencyContacts.ViewModels.Base
 
             var storage = IoC.Get<IStorageContainer>();
             if (_workWithMyProfiles)
-                await storage.DeleteProfileAsync(profile);
+                await storage.DeleteProfileAsync(profile.Actual);
             else
-                await storage.DeleteReceivedContactAsync(profile);
+                await storage.DeleteReceivedContactAsync(profile.Actual);
 
-            var match = ExistingContacts.FirstOrDefault(c => c.Actual == profile);
-            if (match != null)
-                ExistingContacts.Remove(match);
+            ExistingContacts.Remove(profile);
             NotifyOfPropertyChange(nameof(NoContacts));
             return true;
         }

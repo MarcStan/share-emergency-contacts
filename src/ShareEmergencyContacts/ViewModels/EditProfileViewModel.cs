@@ -14,11 +14,11 @@ namespace ShareEmergencyContacts.ViewModels
         private readonly Action _save;
         private ProfileViewModel _selected;
 
-        public EditProfileViewModel(EmergencyProfile toEdit, Action save)
+        public EditProfileViewModel(ProfileViewModel toEdit, Action save)
         {
             _save = save;
-            toEdit = toEdit ?? new EmergencyProfile();
-            Selected = new ProfileViewModel(toEdit, null, null);
+            // TODO: this is ugly, we don't provide rename/delete functors because we rely on the fact that the caller will scrap the instance on save (taking only .Actual) and instead creates a new wrapper with the correct functors
+            Selected = toEdit ?? new ProfileViewModel(new EmergencyProfile(), null, null);
             SaveCommand = new Command(Save);
             AddEmergencyContactCommand = new Command(AddEmergencyContact);
             AddInsuranceContactCommand = new Command(AddInsuranceContact);

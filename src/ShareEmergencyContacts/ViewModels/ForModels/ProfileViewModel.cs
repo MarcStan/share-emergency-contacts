@@ -17,7 +17,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         private bool _weightIsValid;
         private bool _heightIsValid;
 
-        public ProfileViewModel(EmergencyProfile profile, Action<EmergencyProfile> delete, Action<EmergencyProfile> rename) : base(profile, false, false, null)
+        public ProfileViewModel(EmergencyProfile profile, Action<ProfileViewModel> delete, Action<ProfileViewModel> rename) : base(profile, false, false, null)
         {
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
 
@@ -36,8 +36,8 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     NotifyOfPropertyChange(nameof(InsuranceContacts));
                 })));
 
-            DeleteCommand = new Command(() => delete?.Invoke(Actual));
-            RenameCommand = new Command(() => rename?.Invoke(Actual));
+            DeleteCommand = new Command(() => delete?.Invoke(this));
+            RenameCommand = new Command(() => rename?.Invoke(this));
             SendEmailCommand = new Command(() =>
             {
                 Device.OpenUri(new Uri($"mailto:{Email}"));

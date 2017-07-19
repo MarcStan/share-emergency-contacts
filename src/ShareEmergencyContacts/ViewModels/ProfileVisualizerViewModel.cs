@@ -24,7 +24,7 @@ namespace ShareEmergencyContacts.ViewModels
         /// <param name="deleteAction"></param>
         /// <param name="editAction"></param>
         /// <param name="showBarcodeFirst">If true, shows the barcode fullscreen first.</param>
-        public ProfileVisualizerViewModel(ProfileViewModel profile, Action<EmergencyProfile> deleteAction, Action<EmergencyProfile> editAction, bool showBarcodeFirst = false)
+        public ProfileVisualizerViewModel(ProfileViewModel profile, Action<ProfileViewModel> deleteAction, Action<ProfileViewModel> editAction, bool showBarcodeFirst = false)
         {
             Selected = profile ?? throw new ArgumentNullException(nameof(profile));
             ShowBarcodeFirst = showBarcodeFirst;
@@ -46,13 +46,13 @@ namespace ShareEmergencyContacts.ViewModels
             {
                 if (!CanEdit)
                     return;
-                editAction(Selected.Actual);
+                editAction(Selected);
             });
             DeleteCommand = new Command(() =>
             {
                 if (!CanDelete)
                     return;
-                deleteAction(Selected.Actual);
+                deleteAction(Selected);
             });
 
             profile.IsEditable = CanEdit;
@@ -70,6 +70,25 @@ namespace ShareEmergencyContacts.ViewModels
                 if (value == _barcodeContent) return;
                 _barcodeContent = value;
                 NotifyOfPropertyChange(nameof(BarcodeContent));
+            }
+        }
+
+        public bool ShowBarcodeFirst { get; }
+
+        public bool CanEdit { get; }
+
+        public bool CanDelete { get; }
+
+        public QrCodeEncodingOptions Options { get; }
+
+        public ProfileViewModel Selected
+        {
+            get => _selected;
+            private set
+            {
+                if (Equals(value, _selected)) return;
+                _selected = value;
+                NotifyOfPropertyChange(nameof(Selected));
             }
         }
 
@@ -103,25 +122,6 @@ namespace ShareEmergencyContacts.ViewModels
             }
             _first = false;
             base.OnActivate();
-        }
-
-        public bool ShowBarcodeFirst { get; }
-
-        public bool CanEdit { get; }
-
-        public bool CanDelete { get; }
-
-        public QrCodeEncodingOptions Options { get; }
-
-        public ProfileViewModel Selected
-        {
-            get => _selected;
-            private set
-            {
-                if (Equals(value, _selected)) return;
-                _selected = value;
-                NotifyOfPropertyChange(nameof(Selected));
-            }
         }
     }
 }

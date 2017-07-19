@@ -5,6 +5,7 @@ using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
+using ShareEmergencyContacts.ViewModels.ForModels;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -47,25 +48,25 @@ namespace ShareEmergencyContacts.ViewModels
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
-        public void Edit(EmergencyProfile profile)
+        public void Edit(ProfileViewModel profile)
         {
             EditProfileViewModel vm = null;
             var originalName = profile.ProfileName;
             vm = new EditProfileViewModel(profile, () =>
             {
-                UpdateEdited(vm.Selected.Actual, originalName);
+                UpdateEdited(vm.Selected, originalName);
             });
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
-        public async void Delete(EmergencyProfile p)
+        public async void Delete(ProfileViewModel p)
         {
             var r = await ConfirmDelete(p);
             if (r)
                 Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
         }
 
-        private async void UpdateEdited(EmergencyProfile profile, string originalName)
+        private async void UpdateEdited(ProfileViewModel profile, string originalName)
         {
             var storage = IoC.Get<IStorageContainer>();
             if (originalName != profile.ProfileName)
@@ -75,7 +76,7 @@ namespace ShareEmergencyContacts.ViewModels
                 var mock = new EmergencyProfile { ProfileName = originalName };
                 await storage.DeleteProfileAsync(mock);
             }
-            await storage.SaveProfileAsync(profile);
+            await storage.SaveProfileAsync(profile.Actual);
 
             var dia = IoC.Get<IUserDialogs>();
             dia.Toast("Profile updated!");
