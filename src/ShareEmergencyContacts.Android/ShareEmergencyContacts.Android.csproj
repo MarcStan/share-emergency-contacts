@@ -202,7 +202,7 @@
     <Compile Include="AndroidAppInfoProvider.cs" />
     <Compile Include="AndroidClipboardProvider.cs" />
     <Compile Include="AndroidPhoneDialProvider.cs" />
-    <Compile Include="AndroidStorageProvider.cs" />
+    <Compile Include="AndroidIOSStorageProvider.cs" />
     <Compile Include="AndroidUnhandledExceptionHandler.cs" />
     <Compile Include="CaliburnApplication.cs" />
     <Compile Include="CustomButtonRenderer.cs" />

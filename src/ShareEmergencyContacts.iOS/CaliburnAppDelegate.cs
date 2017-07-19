@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using ShareEmergencyContacts.Droid;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using System;
@@ -23,7 +24,7 @@ namespace ShareEmergencyContacts.iOS
             _container.Instance(_container);
             _container.Singleton<App>();
             _container.RegisterInstance(typeof(IAppInfoProvider), null, new IOSAppInfoProvider());
-            _container.RegisterInstance(typeof(IStorageProvider), null, new IOSStorageProvider());
+            _container.RegisterInstance(typeof(IStorageProvider), null, new AndroidIOSStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new IOSPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new IOSClipboardProvider());
             _container.RegisterInstance(typeof(IShareProvider), null, new IOSShareProvider());

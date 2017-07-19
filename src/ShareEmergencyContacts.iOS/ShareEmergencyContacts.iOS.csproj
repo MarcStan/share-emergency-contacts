@@ -91,13 +91,15 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\ShareEmergencyContacts.Android\AndroidIOSStorageProvider.cs">
+      <Link>AndroidIOSStorageProvider.cs</Link>
+    </Compile>
     <Compile Include="IOSUnhandledExceptionHandler.cs" />
     <Compile Include="CaliburnAppDelegate.cs" />
     <Compile Include="IOSAppInfoProvider.cs" />
     <Compile Include="IOSClipboardProvider.cs" />
     <Compile Include="IOSPhoneDialProvider.cs" />
     <Compile Include="IOSShareProvider.cs" />
-    <Compile Include="IOSStorageProvider.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="app.config" />
