@@ -1,7 +1,6 @@
 ﻿<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
-             xmlns:forModels="clr-namespace:ShareEmergencyContacts.ViewModels.ForModels;assembly=ShareEmergencyContacts"
+             xmlns:xLabs="clr-namespace:ShareEmergencyContacts.Helpers.XLabs;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.UserControls.ContactDetails">
     <ContentView.Content>
         <StackLayout>
@@ -23,8 +22,8 @@
             </StackLayout>
             <StackLayout IsVisible="{Binding PhoneNumbers, Converter={StaticResource ListCountToBoolConverter}}">
                 <Label Text="Phone numbers:" FontSize="20" />
-                <controls:RepeaterView x:TypeArguments="forModels:PhoneNumberViewModel" Margin="20,0,0,0" ItemsSource="{Binding PhoneNumbers}">
-                    <controls:RepeaterView.ItemTemplate>
+                <xLabs:PhoneNumberRepeater Margin="20,0,0,0" ItemsSource="{Binding PhoneNumbers}">
+                    <xLabs:PhoneNumberRepeater.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -41,8 +40,8 @@
                                 </StackLayout>
                             </Grid>
                         </DataTemplate>
-                    </controls:RepeaterView.ItemTemplate>
-                </controls:RepeaterView>
+                    </xLabs:PhoneNumberRepeater.ItemTemplate>
+                </xLabs:PhoneNumberRepeater>
             </StackLayout>
             <Label Text="No phone numbers provided!" FontSize="20" TextColor="Red" IsVisible="{Binding PhoneNumbers, Converter={StaticResource ListCountToBoolConverter}, ConverterParameter=invert}" />
             <StackLayout IsVisible="{Binding Note, Converter={StaticResource NullToFalseConverter}}">
