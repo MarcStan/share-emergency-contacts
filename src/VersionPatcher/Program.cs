@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace VersionPatcher
@@ -96,7 +97,11 @@ namespace VersionPatcher
         /// <param name="version"></param>
         private static void PatchUwpVersion(string uwpManifest, string version)
         {
-            XDocument doc = XDocument.Load(uwpManifest);
+            XDocument doc;
+            using (var txt = new XmlTextReader(uwpManifest))
+            {
+                doc = XDocument.Load(txt, LoadOptions.PreserveWhitespace);
+            }
 
             const string ns = "http://schemas.microsoft.com/appx/manifest/foundation/windows10";
             var identityElement = XName.Get("Identity", ns);
@@ -123,17 +128,31 @@ namespace VersionPatcher
         /// <param name="version"></param>
         private static void PatchiOSVersion(string iosManifest, string version)
         {
-            var doc = XDocument.Load(iosManifest);
+            XDocument doc;
+            using (var txt = new XmlTextReader(iosManifest))
+            {
+                doc = XDocument.Load(txt, LoadOptions.PreserveWhitespace);
+            }
             var dict = doc.Element("plist").Element("dict");
             var child = dict.FirstNode;
             while (child.NextNode != null)
             {
+                if (!(child is XElement))
+                {
+                    child = child.NextNode;
+                    continue;
+                }
+
                 var name = ((XElement)child).Value;
                 if (name == "CFBundleShortVersionString" ||
                     name == "CFBundleVersion")
                 {
                     // next node has value
                     child = child.NextNode;
+                    while (!(child is XElement))
+                    {
+                        child = child.NextNode;
+                    }
                     var e = ((XElement)child);
                     if (e.Name != "string")
                     {
@@ -144,6 +163,11 @@ namespace VersionPatcher
                 child = child.NextNode;
             }
             doc.SaveAsUtf8(iosManifest);
+            var lines = File.ReadAllLines(iosManifest);
+            // unfuck bullshit to be like xamarin formats it
+            lines[0] = lines[0].Replace("utf-8", "UTF-8");
+            lines[1] = lines[1].Replace("[]", "");
+            File.WriteAllLines(iosManifest, lines);
         }
 
         /// <summary>
@@ -170,7 +194,11 @@ namespace VersionPatcher
             }
             const string ns = "http://schemas.android.com/apk/res/android";
 
-            var doc = XDocument.Load(androidManifest);
+            XDocument doc;
+            using (var txt = new XmlTextReader(androidManifest))
+            {
+                doc = XDocument.Load(txt, LoadOptions.PreserveWhitespace);
+            }
             var versionNameAttribute = XName.Get("versionName", ns);
             doc.Root.SetAttributeValue(versionNameAttribute, version);
             // only patch it if a version was provided

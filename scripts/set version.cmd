@@ -10,10 +10,12 @@ if "%1"=="" (
 if not "%2"=="" (
   set appcode=--appCode=%2
 )
-dotnet restore ..\src\VersionPatcher\VersionPatcher.csproj
-dotnet build ..\src\VersionPatcher\VersionPatcher.csproj -c Release
-dotnet ..\src\VersionPatcher\bin\Release\netcoreapp1.1\VersionPatcher.dll    -v %1 ^
-                                                                        -c ..\src\GlobalAssemblyInfo.cs ^
-                                                                        -i "..\src\ShareEmergencyContacts.iOS\Info.plist" ^
-                                                                        -u "..\src\ShareEmergencyContacts.UWP\Package.appxmanifest" ^
-                                                                        -a "..\src\ShareEmergencyContacts.Android\Properties\AndroidManifest.xml" %appcode%
+
+nuget restore ..\src\VersionPatcher\VersionPatcher.sln
+msbuild ..\src\VersionPatcher\VersionPatcher.sln /t:Build /p:Configuration=Release /nr:false
+
+..\src\VersionPatcher\bin\Release\VersionPatcher.exe -v %1 ^
+                                                            -c ..\src\GlobalAssemblyInfo.cs ^
+                                                            -i "..\src\ShareEmergencyContacts.iOS\Info.plist" ^
+                                                            -u "..\src\ShareEmergencyContacts.UWP\Package.appxmanifest" ^
+                                                            -a "..\src\ShareEmergencyContacts.Android\Properties\AndroidManifest.xml" %appcode%
