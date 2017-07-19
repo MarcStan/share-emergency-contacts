@@ -156,6 +156,7 @@
     <Content Include="copy.png" />
     <Content Include="delete.png" />
     <Content Include="edit.png" />
+    <Content Include="email.png" />
     <Content Include="information.png" />
     <Content Include="phone.png" />
     <Content Include="Properties\Default.rd.xml" />
