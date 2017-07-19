@@ -382,9 +382,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                         await storage.DeleteReceivedContactAsync(mock);
                 }
                 var a = ExistingContacts.First(c => c.Actual == profile);
-                var idx = ExistingContacts.IndexOf(a);
-                ExistingContacts.RemoveAt(idx);
-                ExistingContacts.Insert(idx, a);
+                a.Refresh();
                 var dia = IoC.Get<IUserDialogs>();
                 if (_workWithMyProfiles)
                 {
