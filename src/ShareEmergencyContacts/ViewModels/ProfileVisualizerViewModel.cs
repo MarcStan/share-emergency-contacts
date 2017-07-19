@@ -15,6 +15,7 @@ namespace ShareEmergencyContacts.ViewModels
     {
         private ProfileViewModel _selected;
         private string _barcodeContent;
+        private bool _first = true;
 
         /// <summary>
         /// 
@@ -75,6 +76,32 @@ namespace ShareEmergencyContacts.ViewModels
         protected override void OnActivate()
         {
             BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+            if (!_first)
+            {
+                Selected.Refresh();
+                foreach (var e in Selected.EmergencyContacts)
+                {
+                    e.Refresh();
+                    foreach (var p in e.PhoneNumbers)
+                    {
+                        p.Refresh();
+                    }
+                }
+                foreach (var i in Selected.InsuranceContacts)
+                {
+                    i.Refresh();
+                    foreach (var p in i.PhoneNumbers)
+                    {
+                        p.Refresh();
+                    }
+                }
+                foreach (var p in Selected.PhoneNumbers)
+                {
+                    p.Refresh();
+                }
+                Refresh();
+            }
+            _first = false;
             base.OnActivate();
         }
 

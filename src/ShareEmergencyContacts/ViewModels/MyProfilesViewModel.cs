@@ -5,8 +5,6 @@ using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
-using ShareEmergencyContacts.ViewModels.ForModels;
-using System;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -79,20 +77,7 @@ namespace ShareEmergencyContacts.ViewModels
             }
             await storage.SaveProfileAsync(profile);
 
-            // update UI by just reinserting the item
-            var idx = ExistingContacts.IndexOf(ExistingContacts.FirstOrDefault(c => c.Actual == profile));
-            if (idx == -1)
-                throw new NotSupportedException("Item not found");
-
-            ExistingContacts.RemoveAt(idx);
-            var pr = new ProfileViewModel(profile, async p => await ConfirmDelete(p), async p => await ConfirmRename(p));
-            ExistingContacts.Insert(idx, pr);
             var dia = IoC.Get<IUserDialogs>();
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await _navigationService.GoBackToRootAsync();
-                await _navigationService.NavigateToInstanceAsync(new ProfileVisualizerViewModel(pr, Delete, Edit));
-            });
             dia.Toast("Profile updated!");
         }
     }
