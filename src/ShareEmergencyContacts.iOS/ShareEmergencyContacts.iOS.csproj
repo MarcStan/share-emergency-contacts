@@ -218,37 +218,36 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\share.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\phone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\qr.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\Icon-76.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\Icon-76%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\information.png" />
+    <BundleResource Include="Resources\Icon-76%403x.png" />
+    <BundleResource Include="Resources\delete.png" />
+    <BundleResource Include="Resources\delete%402x.png" />
+    <BundleResource Include="Resources\delete%403x.png" />
+    <BundleResource Include="Resources\edit.png" />
+    <BundleResource Include="Resources\edit%402x.png" />
+    <BundleResource Include="Resources\edit%403x.png" />
+    <BundleResource Include="Resources\information%402x.png" />
+    <BundleResource Include="Resources\information%403x.png" />
+    <BundleResource Include="Resources\phone.png" />
+    <BundleResource Include="Resources\phone%402x.png" />
+    <BundleResource Include="Resources\phone%403x.png" />
+    <BundleResource Include="Resources\qr.png" />
+    <BundleResource Include="Resources\qr%402x.png" />
+    <BundleResource Include="Resources\qr%403x.png" />
+    <BundleResource Include="Resources\save.png" />
+    <BundleResource Include="Resources\save%402x.png" />
+    <BundleResource Include="Resources\save%403x.png" />
+    <BundleResource Include="Resources\share.png" />
+    <BundleResource Include="Resources\share%402x.png" />
+    <BundleResource Include="Resources\share%403x.png" />
+    <BundleResource Include="Resources\copy.png" />
+    <BundleResource Include="Resources\copy%402x.png" />
+    <BundleResource Include="Resources\copy%403x.png" />
+    <BundleResource Include="Resources\add.png" />
+    <BundleResource Include="Resources\add%403x.png" />
+    <BundleResource Include="Resources\add%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
