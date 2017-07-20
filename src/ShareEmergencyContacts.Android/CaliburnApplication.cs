@@ -9,7 +9,11 @@ using System.Reflection;
 
 namespace ShareEmergencyContacts.Droid
 {
-    [Application]
+    #if DEBUG
+    [Application(Debuggable=true)]
+#else
+    [Application(Debuggable=false)]
+#endif
     public class CaliburnApplication : Caliburn.Micro.CaliburnApplication
     {
         private readonly SimpleContainer _container;
