@@ -58,7 +58,10 @@ namespace ShareEmergencyContacts.ViewModels
                         default:
                             throw new NotSupportedException($"Unsupported platform '{Device.RuntimePlatform}'.");
                     }
-                    dia.Alert($"You have permanently denied access to the camera previously. To use this feature, please go to 'Settings -> {navPath}' and manually enable camera access again.", "Camera access denied");
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        dia.Alert($"You have permanently denied access to the camera previously. To use this feature again, please go to 'Settings -> {navPath}' and manually enable camera access.", "Camera access denied");
+                    });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
