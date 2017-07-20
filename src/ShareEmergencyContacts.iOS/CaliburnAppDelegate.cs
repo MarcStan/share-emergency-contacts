@@ -30,6 +30,7 @@ namespace ShareEmergencyContacts.iOS
             _container.RegisterInstance(typeof(IShareProvider), null, new IOSShareProvider());
             _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             _container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new IOSUnhandledExceptionHandler());
+            _container.RegisterInstance(typeof(ICheckPermissions), null, new IOSCheckPermissions());
         }
 
         protected override void BuildUp(object instance)

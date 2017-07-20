@@ -44,8 +44,9 @@ namespace ShareEmergencyContacts
         Denied,
         /// <summary>
         /// Indicates that the permission is globally denied.
-        /// On android this is the case when the user checks the "never ask again" checkbox.
-        /// Every future call will not display a prompt to the user but instead return this instantly.
+        /// On android this is the case when the user checks the "never ask again" checkbox. Every future call will not display a prompt to the user but instead return this instantly.
+        /// On iOS this is never returned, the user is always explicitely prompted.
+        /// On UWP this is never returned as UWP always prentends to grant access to camera (if user has it disabled in settings the camerafeed will be white).
         /// </summary>
         AlwaysDenied
     }

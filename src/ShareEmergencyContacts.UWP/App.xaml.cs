@@ -37,6 +37,7 @@ namespace ShareEmergencyContacts.UWP
             _container.RegisterInstance(typeof(IShareProvider), null, new WindowsShareProvider());
             _container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             _container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new WindowsUnhandledExceptionHandler());
+            _container.RegisterInstance(typeof(ICheckPermissions), null, new WindowsCheckPermissions());
         }
 
         protected override void PrepareViewFirst(Frame rootFrame)
