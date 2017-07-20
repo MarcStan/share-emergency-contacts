@@ -125,6 +125,43 @@ namespace ShareEmergencyContacts.ViewModels.Base
             {
                 new EmergencyProfile
                 {
+                    ProfileName = "Flo",
+                    FirstName = "Flo",
+                    LastName = "Kong",
+                    BloodType = "The fuck do I know",
+                    Address = "Street 1" + Environment.NewLine +
+                              "12345 LegitCity",
+                    BirthDate = new DateTime(1989, 1, 13),
+                    HeightInCm = 200,
+                    WeightInKg = 100,
+                    Note = "This is a note",
+                    PhoneNumbers = new List<PhoneNumber>
+                    {
+                        new PhoneNumber(PhoneType.Home, "555 12345"),
+                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
+                    },
+                    EmergencyContacts = new List<EmergencyContact>
+                    {
+                        new EmergencyContact
+                        {
+                            FirstName = "Dad",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "1234567890")
+                            }
+                        },
+                        new EmergencyContact
+                        {
+                            FirstName = "Mom",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "1234567890 2")
+                            }
+                        }
+                    }
+                },
+                new EmergencyProfile
+                {
                     ProfileName = "Marc",
                     FirstName = "Marc",
                     LastName = "Stan",
@@ -159,43 +196,6 @@ namespace ShareEmergencyContacts.ViewModels.Base
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "+49 110")
-                            }
-                        }
-                    }
-                },
-                new EmergencyProfile
-                {
-                    ProfileName = "Flo",
-                    FirstName = "Flo",
-                    LastName = "Kong",
-                    BloodType = "The fuck do I know",
-                    Address = "Street 1" + Environment.NewLine +
-                              "12345 LegitCity",
-                    BirthDate = new DateTime(1989, 1, 13),
-                    HeightInCm = 200,
-                    WeightInKg = 100,
-                    Note = "This is a note",
-                    PhoneNumbers = new List<PhoneNumber>
-                    {
-                        new PhoneNumber(PhoneType.Home, "555 12345"),
-                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
-                    },
-                    EmergencyContacts = new List<EmergencyContact>
-                    {
-                        new EmergencyContact
-                        {
-                            FirstName = "Dad",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "1234567890")
-                            }
-                        },
-                        new EmergencyContact
-                        {
-                            FirstName = "Mom",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "1234567890 2")
                             }
                         }
                     }
