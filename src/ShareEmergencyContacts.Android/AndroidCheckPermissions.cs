@@ -71,20 +71,10 @@ namespace ShareEmergencyContacts.Droid
             var tcs = new TaskCompletionSource<PermissionResult>();
             _permissionTokens.Add(id, tcs);
 
-            // returns false when the user checked "never ask again", in that case RequestPermission will always return false
-            if (ActivityCompat.ShouldShowRequestPermissionRationale(_context, permission))
-            {
-                // prompt user with dialog
-                ActivityCompat.RequestPermissions(_context, new[] { permission }, id);
-                // await the result proxied to PermissionRequestAnswered
-                await tcs.Task;
-                return tcs.Task.Result;
-            }
-            else
-            {
-                // user has checked "never ask again"
-                tcs.SetResult(PermissionResult.AlwaysDenied);
-            }
+            // run permission request by android (may or may not spawn dialog)
+            ActivityCompat.RequestPermissions(_context, new[] {permission}, id);
+            // await the result proxied to PermissionRequestAnswered
+            await tcs.Task;
             return tcs.Task.Result;
         }
 
@@ -100,8 +90,26 @@ namespace ShareEmergencyContacts.Droid
             if (grantResults.Length != 1)
                 throw new NotSupportedException("Only one permission at a time is supported!");
 
-            // set answer so that GrantPermission can keep executing
-            token.SetResult(grantResults[0] == Permission.Granted ? PermissionResult.Granted : PermissionResult.Denied);
+            var granted = grantResults[0] == Permission.Granted;
+            if (!granted)
+            {
+                // returns false when the user checked "never ask again" as per https://stackoverflow.com/a/34612503
+                if (!ActivityCompat.ShouldShowRequestPermissionRationale(_context, permissions[0]))
+                {
+                    token.SetResult(PermissionResult.AlwaysDenied);
+                }
+                else
+                {
+                    // first time user denied he cannot check "always deny"
+                    token.SetResult(PermissionResult.Denied);
+                }
+
+            }
+            else
+            {
+                // set answer so that GrantPermission can keep executing
+                token.SetResult(PermissionResult.Granted);
+            }
         }
     }
 }
