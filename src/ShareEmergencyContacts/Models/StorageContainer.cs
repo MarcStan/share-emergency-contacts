@@ -72,7 +72,7 @@ namespace ShareEmergencyContacts.Models
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
-        public async Task SaveReceivedContactAsync(EmergencyProfile profile)
+        public Task SaveReceivedContactAsync(EmergencyProfile profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
@@ -80,30 +80,30 @@ namespace ShareEmergencyContacts.Models
             var formatted = ConvertToRawText(profile);
             var path = GetUniquePath(profile, ContactsDir);
 
-            await _storageProvider.WriteAllTextAsync(path, formatted);
+            return _storageProvider.WriteAllTextAsync(path, formatted);
         }
 
-        public async Task DeleteReceivedContactAsync(EmergencyProfile profile)
+        public Task DeleteReceivedContactAsync(EmergencyProfile profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
 
             var path = GetUniquePath(profile, ContactsDir);
 
-            await _storageProvider.DeleteFileAsync(path);
+            return _storageProvider.DeleteFileAsync(path);
         }
 
-        public async Task DeleteProfileAsync(EmergencyProfile profile)
+        public Task DeleteProfileAsync(EmergencyProfile profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
 
             var path = GetUniquePath(profile, MyProfileDir);
 
-            await _storageProvider.DeleteFileAsync(path);
+            return _storageProvider.DeleteFileAsync(path);
         }
 
-        public async Task SaveProfileAsync(EmergencyProfile profile)
+        public Task SaveProfileAsync(EmergencyProfile profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
@@ -111,7 +111,7 @@ namespace ShareEmergencyContacts.Models
             var formatted = ConvertToRawText(profile);
             var path = GetUniquePath(profile, MyProfileDir);
 
-            await _storageProvider.WriteAllTextAsync(path, formatted);
+            return _storageProvider.WriteAllTextAsync(path, formatted);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace ShareEmergencyContacts.Models
         private static string GetUniquePath(EmergencyProfile profile, string directory)
         {
             var name = profile.ProfileName;
-            return $"/{directory}/{name}{Extension}";
+            return $"{directory}/{name}{Extension}";
         }
 
         private string ConvertToRawText(EmergencyProfile profile)

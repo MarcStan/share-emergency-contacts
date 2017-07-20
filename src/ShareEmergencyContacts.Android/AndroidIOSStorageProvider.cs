@@ -8,48 +8,48 @@ namespace ShareEmergencyContacts.Droid
 {
     public class AndroidIOSStorageProvider : IStorageProvider
     {
-        public async Task WriteAllTextAsync(string filePath, string text)
+        public Task WriteAllTextAsync(string filePath, string text)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var path = GetFullPath(filePath, true);
                 File.WriteAllText(path, text);
             });
         }
 
-        public async Task<string> ReadAllTextAsync(string filePath)
+        public Task<string> ReadAllTextAsync(string filePath)
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 filePath = GetFullPath(filePath);
                 return File.ReadAllText(filePath);
             });
         }
 
-        public async Task<IReadOnlyList<string>> GetFilesAsync(string directory, string pattern = null)
+        public Task<IReadOnlyList<string>> GetFilesAsync(string directory, string pattern = null)
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 directory = GetFullPath(directory);
                 if (!Directory.Exists(directory))
                     return new string[0];
                 var files = Directory.GetFiles(directory, pattern);
-                return files;
+                return (IReadOnlyList<string>)files;
             });
         }
 
-        public async Task<IReadOnlyList<string>> ReadAllLinesAsync(string filePath)
+        public Task<IReadOnlyList<string>> ReadAllLinesAsync(string filePath)
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var path = GetFullPath(filePath);
-                return File.ReadAllLines(path);
+                return (IReadOnlyList<string>)File.ReadAllLines(path);
             });
         }
 
-        public async Task DeleteFileAsync(string filePath)
+        public Task DeleteFileAsync(string filePath)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var path = GetFullPath(filePath);
                 if (File.Exists(path))
