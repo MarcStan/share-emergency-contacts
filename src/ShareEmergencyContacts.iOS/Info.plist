@@ -12,9 +12,9 @@
 	<string>0.9.0</string>
 	<key>CFBundleVersion</key>
 	<string>0.9.0</string>
-	<key>UIDeviceFamily</key>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to the camera to scan QR codes.</string>
+	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
 		<integer>2</integer>
