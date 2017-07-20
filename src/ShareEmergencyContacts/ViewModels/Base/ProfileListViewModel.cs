@@ -277,7 +277,10 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 var dia = IoC.Get<IUserDialogs>();
-                ExistingContacts.Add(new ProfileViewModel(profile, async e => await ConfirmDelete(e), async p => await ConfirmRename(p)));
+                // insert at correct position, sorted by (file)name
+                // otherwise the order will be different the next time the user starts the app
+                var idx = GetInsertIndexFor(profile.ProfileName);
+                ExistingContacts.Insert(idx, new ProfileViewModel(profile, async e => await ConfirmDelete(e), async p => await ConfirmRename(p)));
                 NotifyOfPropertyChange(nameof(NoContacts));
                 if (_workWithMyProfiles)
                 {
@@ -290,6 +293,22 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     dia.Toast("Added new contact!");
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the correct index to use InsertAt on for the new name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private int GetInsertIndexFor(string name)
+        {
+            for (int i = 0; i < ExistingContacts.Count; i++)
+            {
+                if (ExistingContacts[i].ProfileName.CompareTo(name) < 0)
+                    continue;
+                return i;
+            }
+            return ExistingContacts.Count;
         }
 
         /// <summary>
@@ -369,6 +388,8 @@ namespace ShareEmergencyContacts.ViewModels.Base
             {
                 // set new name
                 var old = profile.ProfileName;
+                var oldIndex = GetInsertIndexFor(old);
+                var newIndex = GetInsertIndexFor(name);
                 profile.ProfileName = name;
                 var storage = IoC.Get<IStorageContainer>();
                 if (old != name)
@@ -381,7 +402,18 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     else
                         await storage.DeleteReceivedContactAsync(mock);
                 }
-                profile.Refresh();
+                if (oldIndex != newIndex)
+                {
+                    // name different enough that we need to reorder list
+                    ExistingContacts.Remove(profile);
+                    // after removing it, recalc new index again (could be shifted by one if old name was sorted before new name)
+                    newIndex = GetInsertIndexFor(name);
+                    ExistingContacts.Insert(newIndex, profile);
+                }
+                else
+                {
+                    profile.Refresh();
+                }
                 var dia = IoC.Get<IUserDialogs>();
                 if (_workWithMyProfiles)
                 {
