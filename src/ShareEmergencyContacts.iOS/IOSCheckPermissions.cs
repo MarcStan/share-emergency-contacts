@@ -22,13 +22,7 @@ namespace ShareEmergencyContacts.iOS
 
         public bool AppHasPermissionGranted(PermissionType perm)
         {
-            // technically we could skip this check if we compiled for iOS < 10
-            if (!PermissionIsInManifest(perm))
-                throw new NotSupportedException("As of iOS 10 permissions must be added to the info.plist");
-
-            var permission = ResolveRuntimeName(perm);
-            var authStatus = AVCaptureDevice.GetAuthorizationStatus(permission);
-            return authStatus == AVAuthorizationStatus.Authorized;
+            return GetAuthStatus(perm) == AVAuthorizationStatus.Authorized;
         }
 
         private NSString ResolveRuntimeName(PermissionType perm)
@@ -44,14 +38,23 @@ namespace ShareEmergencyContacts.iOS
 
         public async Task<PermissionResult> GrantPermissionAsync(PermissionType perm)
         {
-            if (AppHasPermissionGranted(perm))
+            var auth = GetAuthStatus(perm);
+            if (auth == AVAuthorizationStatus.Authorized)
                 return PermissionResult.Granted;
 
             var permission = ResolveRuntimeName(perm);
             var completionTask = new TaskCompletionSource<PermissionResult>();
             AVCaptureDevice.RequestAccessForMediaType(permission, granted =>
             {
-                completionTask.SetResult(granted ? PermissionResult.Granted : PermissionResult.Denied);
+                var result = PermissionResult.Granted;
+                if (!granted)
+                {
+                    // first time access for any permission returns "not determined"
+                    result = auth == AVAuthorizationStatus.NotDetermined
+                        ? PermissionResult.Denied
+                        : PermissionResult.AlwaysDenied;
+                }
+                completionTask.SetResult(result);
             });
             await completionTask.Task;
             return completionTask.Task.Result;
@@ -66,6 +69,17 @@ namespace ShareEmergencyContacts.iOS
                 default:
                     throw new ArgumentOutOfRangeException(nameof(perm), perm, null);
             }
+        }
+
+        private AVAuthorizationStatus GetAuthStatus(PermissionType perm)
+        {
+            // technically we could skip this check if we compiled for iOS < 10
+            if (!PermissionIsInManifest(perm))
+                throw new NotSupportedException("As of iOS 10 permissions must be added to the info.plist");
+
+            var permission = ResolveRuntimeName(perm);
+            var authStatus = AVCaptureDevice.GetAuthorizationStatus(permission);
+            return authStatus;
         }
     }
 }

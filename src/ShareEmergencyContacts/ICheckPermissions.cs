@@ -35,18 +35,21 @@ namespace ShareEmergencyContacts
     {
         /// <summary>
         /// Indicates that the permission was granted.
+        /// Used on all platforms.
         /// </summary>
         Granted,
         /// <summary>
         /// Indicates that the permission was denied by the user.
-        /// On android this is the case when the user presses "denied" on the grant permission prompt.
+        /// On android this is the case when the user presses "denied" on the grant permission prompt. The prompt may be displayed to the user again.
+        /// For iOS this is returned the first time (as the dialog is only prompting the user once).
+        /// On UWP this is never returned as UWP always prentends to grant access (if user has it disabled in settings e.g. the camerafeed will be white).
         /// </summary>
         Denied,
         /// <summary>
         /// Indicates that the permission is globally denied.
         /// On android this is the case when the user checks the "never ask again" checkbox. Every future call will not display a prompt to the user but instead return this instantly.
-        /// On iOS this is never returned, the user is always explicitely prompted.
-        /// On UWP this is never returned as UWP always prentends to grant access to camera (if user has it disabled in settings the camerafeed will be white).
+        /// On iOS this is the case when the user selected "deny" the first time and is always returned for any future check (first check returned Denied).
+        /// On UWP this is never returned as UWP always prentends to grant access (if user has it disabled in settings e.g. the camerafeed will be white).
         /// </summary>
         AlwaysDenied
     }
