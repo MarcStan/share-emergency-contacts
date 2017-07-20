@@ -5,7 +5,6 @@ using Android.OS;
 using Caliburn.Micro;
 using Xamarin.Forms;
 using ZXing.Mobile;
-using ZXing.Net.Mobile.Android;
 
 namespace ShareEmergencyContacts.Droid
 {
@@ -27,14 +26,22 @@ namespace ShareEmergencyContacts.Droid
             var container = IoC.Get<SimpleContainer>();
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources));
-            container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new AndroidUnhandledExceptionHandler());
+
+            var perm = new AndroidCheckPermissions((Activity)Forms.Context);
+            OnPermissionSet += perm.PermissionRequestAnswered;
+
+            container.RegisterInstance(typeof(ICheckPermissions), null, perm);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(IoC.Get<App>());
         }
 
+        public delegate void PermissionResponse(int requestCode, string[] permissions, Permission[] grantResults);
+
+        public event PermissionResponse OnPermissionSet;
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            OnPermissionSet?.Invoke(requestCode, permissions, grantResults);
         }
     }
 }

@@ -64,6 +64,7 @@ namespace ShareEmergencyContacts
             EnsureExists<IShareProvider>();
             EnsureExists<IUserDialogs>();
             EnsureExists<IUnhandledExceptionHandler>();
+            EnsureExists<ICheckPermissions>();
         }
 
         private static void EnsureExists<T>()

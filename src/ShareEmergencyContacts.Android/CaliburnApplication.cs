@@ -35,6 +35,7 @@ namespace ShareEmergencyContacts.Droid
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());
             _container.RegisterInstance(typeof(IShareProvider), null, new AndroidShareProvider());
+            _container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new AndroidUnhandledExceptionHandler());
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

@@ -53,6 +53,7 @@
     <Compile Include="Helpers\XLabs\PhoneNumberRepeater.cs" />
     <Compile Include="Helpers\XLabs\StringRepeater.cs" />
     <Compile Include="IAppInfoProvider.cs" />
+    <Compile Include="ICheckPermissions.cs" />
     <Compile Include="IClipboardProvider.cs" />
     <Compile Include="IPhoneDialProvider.cs" />
     <Compile Include="IShareProvider.cs" />
