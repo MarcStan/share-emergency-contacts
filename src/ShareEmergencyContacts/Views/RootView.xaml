@@ -1,7 +1,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:ShareEmergencyContacts.Views"
-                x:Class="ShareEmergencyContacts.Views.RootView">
+                x:Class="ShareEmergencyContacts.Views.RootView" Title="Share emergency contacts">
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="About" Icon="information.png" Command="{Binding AboutCommand}" />
     </TabbedPage.ToolbarItems>

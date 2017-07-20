@@ -6,7 +6,7 @@
         <ScrollView>
             <StackLayout HorizontalOptions="Center">
                 <Label FontAttributes="Bold" FontSize="32" Text="Share emergency contacts" HorizontalOptions="Center" />
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" Margin="0,50">
                     <Label FontAttributes="Bold" FontSize="22" Text="Version: " />
                     <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" />
                     <Label FontAttributes="Bold" FontSize="22" Text="BETA" TextColor="Red" IsVisible="{x:StaticResource IsInBeta}" />

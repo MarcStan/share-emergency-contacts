@@ -35,7 +35,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
             {
                 var c = o as ProfileViewModel;
                 if (c != null)
-                    ProfileSelected(c.Actual);
+                    ProfileSelected(c);
             });
 
             Task.Run(async () =>
@@ -85,7 +85,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 _selectedItem = value;
                 if (SelectedItem != null)
                 {
-                    ProfileSelected(SelectedItem.Actual);
+                    ProfileSelected(SelectedItem);
                 }
                 NotifyOfPropertyChange(nameof(SelectedItem));
             }
@@ -422,6 +422,6 @@ namespace ShareEmergencyContacts.ViewModels.Base
             return true;
         }
 
-        protected abstract void ProfileSelected(EmergencyProfile profile);
+        protected abstract void ProfileSelected(ProfileViewModel profile);
     }
 }

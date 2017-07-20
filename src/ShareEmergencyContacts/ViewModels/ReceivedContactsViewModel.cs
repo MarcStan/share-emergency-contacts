@@ -1,8 +1,7 @@
 ﻿using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.Extensions;
-using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
-using System.Linq;
+using ShareEmergencyContacts.ViewModels.ForModels;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -29,16 +28,12 @@ namespace ShareEmergencyContacts.ViewModels
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
-        protected override void ProfileSelected(EmergencyProfile profile)
+        protected override void ProfileSelected(ProfileViewModel profile)
         {
             if (profile == null)
                 return;
 
-            var match = ExistingContacts.FirstOrDefault(c => c.Actual == profile);
-            if (match == null)
-                return;
-
-            var vm = new ProfileVisualizerViewModel(match, async p =>
+            var vm = new ProfileVisualizerViewModel(profile, async p =>
             {
                 var r = await ConfirmDelete(p);
                 if (r)

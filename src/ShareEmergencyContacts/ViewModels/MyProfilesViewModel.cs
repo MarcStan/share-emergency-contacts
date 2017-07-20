@@ -6,7 +6,6 @@ using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
 using ShareEmergencyContacts.ViewModels.ForModels;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -34,17 +33,13 @@ namespace ShareEmergencyContacts.ViewModels
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
-        protected override void ProfileSelected(EmergencyProfile profile)
+        protected override void ProfileSelected(ProfileViewModel profile)
         {
             if (profile == null)
                 return;
 
-            var match = ExistingContacts.FirstOrDefault(c => c.Actual == profile);
-            if (match == null)
-                return;
-
             // display barcode directly on my own profiles as user most likely wants to share
-            var vm = new ProfileVisualizerViewModel(match, Delete, Edit, true);
+            var vm = new ProfileVisualizerViewModel(profile, Delete, Edit, true);
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
