@@ -233,6 +233,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                             NotifyOfPropertyChange(nameof(PhoneNumbers));
                         }
                     }));
+                NotifyOfPropertyChange(nameof(PhoneNumbers));
             });
             var nav = IoC.Get<INavigationService>();
             Device.BeginInvokeOnMainThread(() => nav.NavigateToInstanceAsync(vm));
