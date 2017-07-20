@@ -1,12 +1,12 @@
 iOSRes=..\src\ShareEmergencyContacts.iOS\Resources
 iOSPath=..\src\ShareEmergencyContacts.iOS
 ---
-logo.png -> %iOSPath%\iTunesArtwork (512x512)
-logo.png -> %iOSPath%\iTunesArtwork@2x (1024x1024)
+color_logo.png -> %iOSPath%\iTunesArtwork (512x512)
+color_logo.png -> %iOSPath%\iTunesArtwork@2x (1024x1024)
 
-logo.png -> %iOSRes%\Icon-76.png (76x76)
-logo.png -> %iOSRes%\Icon-76@2x.png (152x152)
-logo.png -> %iOSRes%\Icon-76@3x.png (228x228)
+color_logo.png -> %iOSRes%\Icon-76.png (76x76)
+color_logo.png -> %iOSRes%\Icon-76@2x.png (152x152)
+color_logo.png -> %iOSRes%\Icon-76@3x.png (228x228)
 
 in app icons\*.png -> %iOSRes%\*.png (30x30)
 in app icons\*.png -> %iOSRes%\*@2x.png (60x60)

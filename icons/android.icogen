@@ -1,9 +1,9 @@
 androidRes=..\src\ShareEmergencyContacts.Android\Resources\drawable
 ---
-logo.png -> %androidRes%\logo.png (48x48)
-logo.png -> %androidRes%-hdpi\logo.png (72x72)
-logo.png -> %androidRes%-xhdpi\logo.png (96x96)
-logo.png -> %androidRes%-xxhdpi\logo.png (144x144)
+color_logo.png -> %androidRes%\logo.png (48x48)
+color_logo.png -> %androidRes%-hdpi\logo.png (72x72)
+color_logo.png -> %androidRes%-xhdpi\logo.png (96x96)
+color_logo.png -> %androidRes%-xxhdpi\logo.png (144x144)
 
 splashscreen.png -> %androidRes%\splashscreen.png (310x150)
 splashscreen.png -> %androidRes%-xhdpi\splashscreen.png (620x300)
