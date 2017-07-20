@@ -9,7 +9,7 @@
             <Label Text="Phone type:" TextColor="Accent" FontSize="22" />
             <Picker ItemsSource="{Binding PhoneTypes}" SelectedItem="{Binding SelectedPhoneType}" />
             <Label Text="Phone number:" TextColor="Accent" FontSize="22" />
-            <Entry Text="{Binding Number}" />
+            <Entry Keyboard="Telephone" Text="{Binding Number}" />
         </StackLayout>
     </Grid>
 </ContentPage>
