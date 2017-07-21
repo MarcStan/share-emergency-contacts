@@ -13,6 +13,12 @@ logo.png -> %uwpAssets%\Square44x44Logo.scale-150.png (66x66, 10%)
 logo.png -> %uwpAssets%\Square44x44Logo.scale-200.png (88x88, 10%)
 logo.png -> %uwpAssets%\Square44x44Logo.scale-400.png (176x176, 10%)
 
+logo.png -> %uwpAssets%\SmallTile.scale-100.png (71x71, 25%)
+logo.png -> %uwpAssets%\SmallTile.scale-125.png (89x89, 25%)
+logo.png -> %uwpAssets%\SmallTile.scale-150.png (107x107, 25%)
+logo.png -> %uwpAssets%\SmallTile.scale-200.png (142x142, 25%)
+logo.png -> %uwpAssets%\SmallTile.scale-400.png (284x284, 25%)
+
 logo.png -> %uwpAssets%\Square150x150Logo.scale-100.png (150x150, 25%)
 logo.png -> %uwpAssets%\Square150x150Logo.scale-125.png (188x188, 25%)
 logo.png -> %uwpAssets%\Square150x150Logo.scale-150.png (225x225, 25%)
