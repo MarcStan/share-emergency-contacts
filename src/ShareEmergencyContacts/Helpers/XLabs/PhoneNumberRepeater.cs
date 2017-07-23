@@ -1,5 +1,5 @@
-﻿using ShareEmergencyContacts.ViewModels.ForModels;
-using XLabs.Forms.Controls;
+﻿using ShareEmergencyContacts.UserControls;
+using ShareEmergencyContacts.ViewModels.ForModels;
 
 namespace ShareEmergencyContacts.Helpers.XLabs
 {

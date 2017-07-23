@@ -28,7 +28,6 @@ namespace ShareEmergencyContacts.ViewModels
             PoweredBy = new BindableCollection<string>
             {
                 "Xamarin.Forms",
-                "XLabs",
                 "Caliburn.Micro",
                 "Acr UserDialogs",
                 "ZXing .Net Mobile Forms"
