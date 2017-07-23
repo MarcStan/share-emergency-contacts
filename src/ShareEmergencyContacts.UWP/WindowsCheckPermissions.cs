@@ -16,9 +16,8 @@ namespace ShareEmergencyContacts.UWP
 
         public Task<PermissionResult> GrantPermissionAsync(PermissionType perm)
         {
-            // TODO: I can't seem to find a way to check for capabilities at runtime
-            // seems as from the app perspective e.g. "camera" is always accessible but when user manually denied it in Privacy settings
-            // the app will receive a camerafeed that is just a white image
+            // seems as from the app perspective e.g. "camera" is always accessible even when user manually denied it in Privacy settings
+            // the app will receive e.g. a camerafeed that is just a white image instead of actually acessing the camera
             return Task.Run(() => PermissionResult.Granted);
         }
     }
