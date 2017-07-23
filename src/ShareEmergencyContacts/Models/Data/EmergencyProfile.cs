@@ -80,5 +80,34 @@ namespace ShareEmergencyContacts.Models.Data
         {
             return _vCardHelper.ToVCard(profile);
         }
+
+        public EmergencyProfile CloneFull()
+        {
+            var n = CloneList(PhoneNumbers, p => p.Clone());
+            var ice = CloneList(EmergencyContacts, e => e.Clone());
+            var ins = CloneList(InsuranceContacts, i => i.Clone());
+            return new EmergencyProfile
+            {
+                Allergies = Allergies,
+                BloodType = BloodType,
+                Citizenship = Citizenship,
+                EmergencyContacts = ice,
+                ExpirationDate = ExpirationDate,
+                HeightInCm = HeightInCm,
+                InsuranceContacts = ins,
+                Passport = Passport,
+                WeightInKg = WeightInKg,
+                Relationship = Relationship,
+                Email = Email,
+                ProfileName = ProfileName,
+                Note = Note,
+                Address = Address,
+                InsuranceNumber = InsuranceNumber,
+                BirthDate = BirthDate,
+                FirstName = FirstName,
+                LastName = LastName,
+                PhoneNumbers = n
+            };
+        }
     }
 }

@@ -32,11 +32,11 @@
                 <Label Text="Allergies:" TextColor="Accent" />
                 <userControls:ExpandableEditor Text="{Binding Allergies}" />
             </StackLayout>
-            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}" Orientation="Horizontal">
+            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="Citizenship:" TextColor="Accent" />
                 <Entry Keyboard="Text" Text="{Binding Citizenship}" />
             </StackLayout>
-            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}" Orientation="Horizontal">
+            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="Passport:" TextColor="Accent" />
                 <Entry Keyboard="Text" Text="{Binding Passport}" />
             </StackLayout>

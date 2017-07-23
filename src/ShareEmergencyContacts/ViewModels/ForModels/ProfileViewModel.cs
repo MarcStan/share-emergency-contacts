@@ -12,13 +12,18 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     /// </summary>
     public class ProfileViewModel : ContactViewModel
     {
+        private readonly Action<ProfileViewModel> _delete;
+        private readonly Action<ProfileViewModel> _rename;
         private BindableCollection<ContactViewModel> _insuranceContacts;
         private BindableCollection<ContactViewModel> _emergencyContacts;
         private bool _weightIsValid;
         private bool _heightIsValid;
+        private EmergencyProfile _actual;
 
         public ProfileViewModel(EmergencyProfile profile, Action<ProfileViewModel> delete, Action<ProfileViewModel> rename) : base(profile, false, false, null)
         {
+            _delete = delete;
+            _rename = rename;
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
             EmergencyContacts = new BindableCollection<ContactViewModel>(profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true,
                 p =>
@@ -41,6 +46,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             {
                 Device.OpenUri(new Uri($"mailto:{Email}"));
             });
+        }
+
+        public ProfileViewModel Clone()
+        {
+            var clone = Actual.CloneFull();
+            return new ProfileViewModel(clone, _delete, _rename);
         }
 
         public ICommand DeleteCommand { get; }
@@ -205,6 +216,16 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             }
         }
 
-        public EmergencyProfile Actual { get; }
+        public EmergencyProfile Actual
+        {
+            get => _actual;
+            set
+            {
+                if (Equals(value, _actual)) return;
+                _actual = value;
+                Profile = value;
+                NotifyOfPropertyChange(nameof(Actual));
+            }
+        }
     }
 }

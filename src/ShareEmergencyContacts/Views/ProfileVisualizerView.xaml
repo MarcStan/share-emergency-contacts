@@ -27,11 +27,11 @@
                         <Label Text="Allergies:" TextColor="Accent" />
                         <Label Text="{Binding Selected.Allergies}" />
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding Selected.Citizenship, Converter={StaticResource NullToFalseConverter}}">
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.Citizenship, Converter={StaticResource NullToFalseConverter}}">
                         <Label Text="Citizenship:" TextColor="Accent" />
                         <Label Text="{Binding Selected.Citizenship}" />
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding Selected.Passport, Converter={StaticResource NullToFalseConverter}}">
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.Passport, Converter={StaticResource NullToFalseConverter}}">
                         <Label Text="Passport:" TextColor="Accent" />
                         <Label Text="{Binding Selected.Passport}" />
                     </StackLayout>

@@ -24,5 +24,10 @@ namespace ShareEmergencyContacts.Models.Data
         {
             return $"{Type}: {Number}";
         }
+
+        public PhoneNumber Clone()
+        {
+            return new PhoneNumber(Type, Number);
+        }
     }
 }

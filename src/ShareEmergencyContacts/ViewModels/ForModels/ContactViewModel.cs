@@ -18,6 +18,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         private readonly bool _isChild;
         private BindableCollection<PhoneNumberViewModel> _phoneNumbers;
         private bool _noBirthday;
+        private EmergencyContact _profile;
 
         public ContactViewModel(EmergencyContact profile, bool displayInsuranceNumber, bool isChild, Action<ContactViewModel> delete)
         {
@@ -63,7 +64,16 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public bool IsEmergencyContact { get; }
 
-        public EmergencyContact Profile { get; }
+        public EmergencyContact Profile
+        {
+            get => _profile;
+            set
+            {
+                if (Equals(value, _profile)) return;
+                _profile = value;
+                NotifyOfPropertyChange(nameof(Profile));
+            }
+        }
 
         public ICommand AddNumberCommand { get; }
 

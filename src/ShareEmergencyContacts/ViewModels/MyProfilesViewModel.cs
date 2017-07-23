@@ -47,8 +47,10 @@ namespace ShareEmergencyContacts.ViewModels
         {
             EditProfileViewModel vm = null;
             var originalName = profile.ProfileName;
-            vm = new EditProfileViewModel(profile, () =>
+            var clone = profile.Clone();
+            vm = new EditProfileViewModel(clone, () =>
             {
+                profile.Actual = vm.Selected.Actual;
                 UpdateEdited(vm.Selected, originalName);
             });
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
