@@ -64,7 +64,7 @@
     <Compile Include="Models\Data\PhoneNumber.cs" />
     <Compile Include="Models\Data\PhoneType.cs" />
     <Compile Include="Models\IStorageContainer.cs" />
-    <Compile Include="Models\IRawStorageProvider.cs" />
+    <Compile Include="Models\IStorageProvider.cs" />
     <Compile Include="Models\StorageContainer.cs" />
     <Compile Include="UserControls\ContactDetails.xaml.cs">
       <DependentUpon>ContactDetails.xaml</DependentUpon>

@@ -36,6 +36,11 @@ namespace ShareEmergencyContacts.Models.Data
         public string Email { get; set; }
 
         /// <summary>
+        /// The relationship of the child contact with the parent.
+        /// </summary>
+        public string Relationship { get; set; }
+
+        /// <summary>
         /// Other textfiled that can be set by the user.
         /// </summary>
         public string Note { get; set; }

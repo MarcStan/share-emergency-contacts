@@ -28,6 +28,12 @@ namespace ShareEmergencyContacts.Models.Data
         /// </summary>
         public string BloodType { get; set; }
 
+        public string Citizenship { get; set; }
+
+        public string Passport { get; set; }
+
+        public string Allergies { get; set; }
+
         /// <summary>
         /// The datetime of expiration.
         /// Only used on received profiles and allows auto. delete.

@@ -20,7 +20,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public ProfileViewModel(EmergencyProfile profile, Action<ProfileViewModel> delete, Action<ProfileViewModel> rename) : base(profile, false, false, null)
         {
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
-
             EmergencyContacts = new BindableCollection<ContactViewModel>(profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true,
                 p =>
                 {
@@ -58,6 +57,39 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     return null;
 
                 return $"{Actual.WeightInKg} kg";
+            }
+        }
+
+        public string Allergies
+        {
+            get => Actual.Allergies;
+            set
+            {
+                if (value == Allergies) return;
+                Actual.Allergies = value;
+                NotifyOfPropertyChange(nameof(Allergies));
+            }
+        }
+
+        public string Citizenship
+        {
+            get => Actual.Citizenship;
+            set
+            {
+                if (value == Citizenship) return;
+                Actual.Citizenship = value;
+                NotifyOfPropertyChange(nameof(Citizenship));
+            }
+        }
+
+        public string Passport
+        {
+            get => Actual.Passport;
+            set
+            {
+                if (value == Passport) return;
+                Actual.Passport = value;
+                NotifyOfPropertyChange(nameof(Passport));
             }
         }
 

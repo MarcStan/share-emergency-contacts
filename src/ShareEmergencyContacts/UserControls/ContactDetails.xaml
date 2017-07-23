@@ -16,6 +16,10 @@
                 <Label Text="Birthday:" TextColor="Accent" />
                 <Label Text="{Binding BirthDate}" />
             </StackLayout>
+            <StackLayout IsVisible="{Binding HasRelationship}">
+                <Label Text="Relationship with contact:" TextColor="Accent" />
+                <Label Text="{Binding Relationship}" />
+            </StackLayout>
             <StackLayout IsVisible="{Binding Email, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Email:" TextColor="Accent" />
                 <StackLayout Orientation="Horizontal">

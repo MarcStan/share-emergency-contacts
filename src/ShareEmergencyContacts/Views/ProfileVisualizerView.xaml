@@ -23,6 +23,18 @@
                         <Label Text="Blood group: " TextColor="Accent" />
                         <Label Text="{Binding Selected.BloodType}" />
                     </StackLayout>
+                    <StackLayout IsVisible="{Binding Selected.Allergies, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Allergies:" TextColor="Accent" />
+                        <Label Text="{Binding Selected.Allergies}" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding Selected.Citizenship, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Citizenship:" TextColor="Accent" />
+                        <Label Text="{Binding Selected.Citizenship}" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding Selected.Passport, Converter={StaticResource NullToFalseConverter}}">
+                        <Label Text="Passport:" TextColor="Accent" />
+                        <Label Text="{Binding Selected.Passport}" />
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.Weight, Converter={StaticResource NullToFalseConverter}}">
                         <Label Text="Weight: " TextColor="Accent" />
                         <Label Text="{Binding Selected.Weight}" />

@@ -111,6 +111,9 @@ namespace ShareEmergencyContacts.Helpers
             p.ExpirationDate = GetDateValue(lines, "X-EXPIRES");
             p.HeightInCm = GetIntValue(lines, "X-HEIGHT");
             p.WeightInKg = GetIntValue(lines, "X-WEIGHT");
+            p.Allergies = GetValue(lines, "X-ALLERGIES");
+            p.Citizenship = GetValue(lines, "X-CITIZENSHIP");
+            p.Passport = GetValue(lines, "X-PASSPORT");
 
             // read emergency and insurance contacts
             var iceLines = lines.Where(l => l.StartsWith("X-ICE-")).ToList();
@@ -224,6 +227,7 @@ namespace ShareEmergencyContacts.Helpers
             contact.Address = GetValue(lines, "ADR");
             contact.Note = GetValue(lines, "NOTE");
             contact.InsuranceNumber = GetValue(lines, "X-INSNUM");
+            contact.Relationship = GetValue(lines, "X-RELATIONSHIP");
             string tel;
             do
             {
@@ -348,6 +352,9 @@ namespace ShareEmergencyContacts.Helpers
                 EncodeAndAppendIfSet("X-HEIGHT", profile.HeightInCm.ToString(), writeDirect);
             if (profile.WeightInKg > 0)
                 EncodeAndAppendIfSet("X-WEIGHT", profile.WeightInKg.ToString(), writeDirect);
+            EncodeAndAppendIfSet("X-ALLERGIES", profile.Allergies, writeDirect);
+            EncodeAndAppendIfSet("X-CITIZENSHIP", profile.Citizenship, writeDirect);
+            EncodeAndAppendIfSet("X-PASSPORT", profile.Passport, writeDirect);
             sb.AppendLine("END:VCARD");
         }
 
@@ -373,6 +380,7 @@ namespace ShareEmergencyContacts.Helpers
             EncodeAndAppendIfSet("EMAIL", contact.Email, entry);
             EncodeAndAppendIfSet("NOTE", contact.Note, entry);
             EncodeAndAppendIfSet("X-INSNUM", contact.InsuranceNumber, entry);
+            EncodeAndAppendIfSet("X-RELATIONSHIP", contact.Relationship, entry);
             EncodeAndAppendIfSet("ADR", contact.Address, entry);
             foreach (var num in contact.PhoneNumbers)
             {

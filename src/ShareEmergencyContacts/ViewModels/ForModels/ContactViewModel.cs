@@ -24,6 +24,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             CanHaveInsuranceNumber = displayInsuranceNumber;
             CanDelete = delete != null;
             _isChild = isChild;
+            IsEmergencyContact = IsSubContact && !CanHaveInsuranceNumber;
             Profile = profile ?? throw new ArgumentNullException(nameof(profile));
             PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, FormattedName, async phone =>
             {
@@ -56,6 +57,12 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             AddNumberCommand = new Command(AddNumber);
         }
 
+        public bool IsSubContact => _isChild;
+
+        public bool HasRelationship => IsEmergencyContact && !string.IsNullOrEmpty(Relationship);
+
+        public bool IsEmergencyContact { get; }
+
         public EmergencyContact Profile { get; }
 
         public ICommand AddNumberCommand { get; }
@@ -79,6 +86,18 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 if (value == Email) return;
                 Profile.Email = value;
                 NotifyOfPropertyChange(nameof(Email));
+            }
+        }
+
+        public string Relationship
+        {
+            get => Profile.Relationship;
+            set
+            {
+                if (value == Relationship) return;
+                Profile.Relationship = value;
+                NotifyOfPropertyChange(nameof(Relationship));
+                NotifyOfPropertyChange(nameof(HasRelationship));
             }
         }
 

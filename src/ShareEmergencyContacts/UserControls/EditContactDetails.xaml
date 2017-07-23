@@ -28,6 +28,22 @@
                     <Button Command="{Binding DeleteBirthdayCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="End" IsVisible="{Binding NoBirthday, Converter={StaticResource InvertBoolConverter}}"/>
                 </StackLayout>
             </StackLayout>
+            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
+                <Label Text="Allergies:" TextColor="Accent" />
+                <userControls:ExpandableEditor Text="{Binding Allergies}" />
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}" Orientation="Horizontal">
+                <Label Text="Citizenship:" TextColor="Accent" />
+                <Entry Keyboard="Text" Text="{Binding Citizenship}" />
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}" Orientation="Horizontal">
+                <Label Text="Passport:" TextColor="Accent" />
+                <Entry Keyboard="Text" Text="{Binding Passport}" />
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsEmergencyContact}" Orientation="Horizontal">
+                <Label Text="Relationship with contact:" TextColor="Accent" />
+                <Entry Keyboard="Text" Text="{Binding Relationship}" />
+            </StackLayout>
             <StackLayout>
                 <Label Text="Email:" TextColor="Accent" />
                 <Entry Keyboard="Email" Text="{Binding Email}" />
