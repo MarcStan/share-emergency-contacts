@@ -3,13 +3,12 @@ using Caliburn.Micro.Xamarin.Forms;
 using System.Windows.Input;
 using Xamarin.Forms;
 #if BETA
-using Acr.UserDialogs;
-using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
 #endif
+
 namespace ShareEmergencyContacts.ViewModels
 {
     public class RootViewModel : Screen
@@ -49,16 +48,16 @@ namespace ShareEmergencyContacts.ViewModels
                     return; // silent fail
 
                 var json = await response.Content.ReadAsStringAsync();
-                var update = JsonConvert.DeserializeObject<UpdateCheck>(json);
-                if (update.UpdateAvailable)
-                {
-                    var dia = IoC.Get<IUserDialogs>();
-                    var r = await dia.ConfirmAsync("A new update is available. Do you want to download it now?", "Update available", "Yes", "No");
-                    if (r)
-                    {
-                        Device.OpenUri(new Uri(update.UpdateUrl, UriKind.Absolute));
-                    }
-                }
+                //var update = JsonConvert.DeserializeObject<UpdateCheck>(json);
+                //if (update.UpdateAvailable)
+                //{
+                //    var dia = IoC.Get<IUserDialogs>();
+                //    var r = await dia.ConfirmAsync("A new update is available. Do you want to download it now?", "Update available", "Yes", "No");
+                //    if (r)
+                //    {
+                //        Device.OpenUri(new Uri(update.UpdateUrl, UriKind.Absolute));
+                //    }
+                //}
             }
             catch (Exception e)
             {
