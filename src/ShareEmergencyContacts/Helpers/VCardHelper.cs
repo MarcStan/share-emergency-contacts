@@ -21,6 +21,34 @@ namespace ShareEmergencyContacts.Helpers
     {
         private static readonly char[] _escapedCharacters = { ',', '\\', ';', '\n' };
 
+        public static class VDataKey
+        {
+            public static class Required
+            {
+                public const string FullName = "FN";
+            }
+
+            public const string Name = "N";
+            public const string Email = "EMAIL";
+            public const string Note = "NOTE";
+            public const string Address = "ADR";
+            public const string PhoneNumber = "TEL";
+            public const string Birthday = "BDAY";
+
+            public static class Ext
+            {
+                public const string InsuranceNumber = "X-INSNUM";
+                public const string Relationship = "X-RELATIONSHIP";
+                public const string BloodType = "X-BLOODTYPE";
+                public const string Expires = "X-EXPIRES";
+                public const string Height = "X-HEIGHT";
+                public const string Weight = "X-WEIGHT";
+                public const string Allergies = "X-ALLERGIES";
+                public const string Citizenship = "X-CITIZENSHIP";
+                public const string Passport = "X-PASSPORT";
+            }
+        }
+
         /// <summary>
         /// Converts the provided profile to its string representation in the VCard format.
         /// Currently using the VCard version 4.
@@ -106,13 +134,13 @@ namespace ShareEmergencyContacts.Helpers
             ReadEmergencyContact(p, lines);
 
             // read "X-" data
-            p.BloodType = GetValue(lines, "X-BLOODTYPE");
-            p.ExpirationDate = GetDateValue(lines, "X-EXPIRES");
-            p.HeightInCm = GetIntValue(lines, "X-HEIGHT");
-            p.WeightInKg = GetIntValue(lines, "X-WEIGHT");
-            p.Allergies = GetValue(lines, "X-ALLERGIES");
-            p.Citizenship = GetValue(lines, "X-CITIZENSHIP");
-            p.Passport = GetValue(lines, "X-PASSPORT");
+            p.BloodType = GetValue(lines, VDataKey.Ext.BloodType);
+            p.ExpirationDate = GetDateValue(lines, VDataKey.Ext.Expires);
+            p.HeightInCm = GetIntValue(lines, VDataKey.Ext.Height);
+            p.WeightInKg = GetIntValue(lines, VDataKey.Ext.Weight);
+            p.Allergies = GetValue(lines, VDataKey.Ext.Allergies);
+            p.Citizenship = GetValue(lines, VDataKey.Ext.Citizenship);
+            p.Passport = GetValue(lines, VDataKey.Ext.Passport);
 
             // read emergency and insurance contacts
             var iceLines = lines.Where(l => l.StartsWith("X-ICE-")).ToList();
@@ -202,13 +230,13 @@ namespace ShareEmergencyContacts.Helpers
         private void ReadEmergencyContact(EmergencyContact contact, List<string> lines)
         {
             // only required value, ensure it exists
-            var name = GetValue(lines, "FN");
+            var name = GetValue(lines, VDataKey.Required.FullName);
             if (string.IsNullOrWhiteSpace(name))
                 throw new FormatException("VCARD missing required property FN.");
             contact.ProfileName = name;
 
             // all other values are optional; set to null if not found
-            var format = GetValue(lines, "N");
+            var format = GetValue(lines, VDataKey.Name);
 
             if (format != null && format.Contains(";"))
             {
@@ -222,15 +250,15 @@ namespace ShareEmergencyContacts.Helpers
                     contact.ProfileName = "";
                 }
             }
-            contact.Email = GetValue(lines, "EMAIL");
-            contact.Address = GetValue(lines, "ADR");
-            contact.Note = GetValue(lines, "NOTE");
-            contact.InsuranceNumber = GetValue(lines, "X-INSNUM");
-            contact.Relationship = GetValue(lines, "X-RELATIONSHIP");
+            contact.Email = GetValue(lines, VDataKey.Email);
+            contact.Address = GetValue(lines, VDataKey.Address);
+            contact.Note = GetValue(lines, VDataKey.Note);
+            contact.InsuranceNumber = GetValue(lines, VDataKey.Ext.InsuranceNumber);
+            contact.Relationship = GetValue(lines, VDataKey.Ext.Relationship);
             string tel;
             do
             {
-                tel = GetValue(lines, "TEL");
+                tel = GetValue(lines, VDataKey.PhoneNumber);
                 if (tel != null && tel.Contains(":"))
                 {
                     // we get TYPE=Foo:value back
@@ -313,6 +341,7 @@ namespace ShareEmergencyContacts.Helpers
             return line.Substring(usedIdentifier.Length);
         }
 
+
         /// <summary>
         /// Writes the vcard v4 format to the stringbuilder.
         /// That way contacts can also be imported by others without the app.
@@ -345,15 +374,15 @@ namespace ShareEmergencyContacts.Helpers
                 int id = iceId;
                 WriteEmergencyContact(ice, s => sb.Append($"X-ICE-{id}-{s}\n"));
             }
-            EncodeAndAppendIfSet("X-BLOODTYPE", profile.BloodType, writeDirect);
-            EncodeAndAppendIfSet("X-EXPIRES", DateToString(profile.ExpirationDate), writeDirect);
+            EncodeAndAppendIfSet(VDataKey.Ext.BloodType, profile.BloodType, writeDirect);
+            EncodeAndAppendIfSet(VDataKey.Ext.Expires, DateToString(profile.ExpirationDate), writeDirect);
             if (profile.HeightInCm > 0)
-                EncodeAndAppendIfSet("X-HEIGHT", profile.HeightInCm.ToString(), writeDirect);
+                EncodeAndAppendIfSet(VDataKey.Ext.Height, profile.HeightInCm.ToString(), writeDirect);
             if (profile.WeightInKg > 0)
-                EncodeAndAppendIfSet("X-WEIGHT", profile.WeightInKg.ToString(), writeDirect);
-            EncodeAndAppendIfSet("X-ALLERGIES", profile.Allergies, writeDirect);
-            EncodeAndAppendIfSet("X-CITIZENSHIP", profile.Citizenship, writeDirect);
-            EncodeAndAppendIfSet("X-PASSPORT", profile.Passport, writeDirect);
+                EncodeAndAppendIfSet(VDataKey.Ext.Weight, profile.WeightInKg.ToString(), writeDirect);
+            EncodeAndAppendIfSet(VDataKey.Ext.Allergies, profile.Allergies, writeDirect);
+            EncodeAndAppendIfSet(VDataKey.Ext.Citizenship, profile.Citizenship, writeDirect);
+            EncodeAndAppendIfSet(VDataKey.Ext.Passport, profile.Passport, writeDirect);
             sb.Append("END:VCARD");
         }
 
@@ -371,24 +400,23 @@ namespace ShareEmergencyContacts.Helpers
             if (fn == null || fn == " ")
                 throw new NotSupportedException("Profile name must be set");
 
-            EncodeAndAppendIfSet("FN", fn, entry);
+            EncodeAndAppendIfSet(VDataKey.Required.FullName, fn, entry);
 
             // all other properties may be null and thus may not be set
-            var f = FormatNameIfPossible(contact.FirstName, contact.LastName);
-            EncodeAndAppendIfSet("N", f, entry, false);
-            EncodeAndAppendIfSet("EMAIL", contact.Email, entry);
-            EncodeAndAppendIfSet("NOTE", contact.Note, entry);
-            EncodeAndAppendIfSet("X-INSNUM", contact.InsuranceNumber, entry);
-            EncodeAndAppendIfSet("X-RELATIONSHIP", contact.Relationship, entry);
-            EncodeAndAppendIfSet("ADR", contact.Address, entry);
+            EncodeAndAppendIfSet(VDataKey.Name, FormatNameIfPossible(contact.FirstName, contact.LastName), entry, false);
+            EncodeAndAppendIfSet(VDataKey.Email, contact.Email, entry);
+            EncodeAndAppendIfSet(VDataKey.Note, contact.Note, entry);
+            EncodeAndAppendIfSet(VDataKey.Ext.InsuranceNumber, contact.InsuranceNumber, entry);
+            EncodeAndAppendIfSet(VDataKey.Ext.Relationship, contact.Relationship, entry);
+            EncodeAndAppendIfSet(VDataKey.Address, contact.Address, entry);
             foreach (var num in contact.PhoneNumbers)
             {
                 // doesn't seem to have predefines types ("mobile", "cell", etc. are used)
                 // so just format our enum
                 var t = num.Type.ToString().ToUpper();
-                EncodeAndAppendIfSet($"TEL;TYPE={t}", $"{num.Number}", entry);
+                EncodeAndAppendIfSet($"{VDataKey.PhoneNumber};TYPE={t}", $"{num.Number}", entry);
             }
-            EncodeAndAppendIfSet("BDAY", DateToString(contact.BirthDate), entry);
+            EncodeAndAppendIfSet(VDataKey.Birthday, DateToString(contact.BirthDate), entry);
         }
 
         private static string FormatNameIfPossible(string first, string last)
