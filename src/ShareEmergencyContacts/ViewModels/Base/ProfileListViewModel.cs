@@ -1,5 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
@@ -285,11 +287,13 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 if (_workWithMyProfiles)
                 {
                     await storage.SaveProfileAsync(profile);
+                    Analytics.TrackEvent(AnalyticsEvents.AddContact);
                     dia.Toast("Added new profile!");
                 }
                 else
                 {
                     await storage.SaveReceivedContactAsync(profile);
+                    Analytics.TrackEvent(AnalyticsEvents.AddProfile);
                     dia.Toast("Added new contact!");
                 }
             }
@@ -418,11 +422,13 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 if (_workWithMyProfiles)
                 {
                     await storage.SaveProfileAsync(profile.Actual);
+                    Analytics.TrackEvent(AnalyticsEvents.RenameProfile);
                     dia.Toast("Updated profile name!");
                 }
                 else
                 {
                     await storage.SaveReceivedContactAsync(profile.Actual);
+                    Analytics.TrackEvent(AnalyticsEvents.RenameContact);
                     dia.Toast("Updated contact name!");
                 }
             }
@@ -445,9 +451,15 @@ namespace ShareEmergencyContacts.ViewModels.Base
 
             var storage = IoC.Get<IStorageContainer>();
             if (_workWithMyProfiles)
+            {
                 await storage.DeleteProfileAsync(profile.Actual);
+                Analytics.TrackEvent(AnalyticsEvents.DeleteProfile);
+            }
             else
+            {
                 await storage.DeleteReceivedContactAsync(profile.Actual);
+                Analytics.TrackEvent(AnalyticsEvents.DeleteContact);
+            }
 
             ExistingContacts.Remove(profile);
             NotifyOfPropertyChange(nameof(NoContacts));

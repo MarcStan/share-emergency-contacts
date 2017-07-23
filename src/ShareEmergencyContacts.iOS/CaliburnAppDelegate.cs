@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using Foundation;
 using ShareEmergencyContacts.Droid;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
@@ -23,7 +24,10 @@ namespace ShareEmergencyContacts.iOS
         {
             _container.Instance(_container);
             _container.Singleton<App>();
-            _container.RegisterInstance(typeof(IAppInfoProvider), null, new IOSAppInfoProvider());
+
+            var v = NSBundle.MainBundle.InfoDictionary.ValueForKey(new NSString("CFBundleURLSchemes"));
+            var key = v.ToString().Substring("mobilecenter-".Length);
+            _container.RegisterInstance(typeof(IAppInfoProvider), null, new IOSAppInfoProvider(key));
             _container.RegisterInstance(typeof(IStorageProvider), null, new AndroidIOSStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new IOSPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new IOSClipboardProvider());

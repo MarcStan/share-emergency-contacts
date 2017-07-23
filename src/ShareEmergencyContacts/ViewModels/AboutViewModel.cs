@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using System;
 using System.Reflection;
 using System.Windows.Input;
@@ -16,12 +18,14 @@ namespace ShareEmergencyContacts.ViewModels
             Version = $"{GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
             WebsiteCommand = new Command(() =>
             {
+                Analytics.TrackEvent(AnalyticsEvents.OpenWebsite);
                 Device.OpenUri(new Uri(Url));
             });
 
             ShareBetaCommand = new Command(() =>
             {
                 var share = IoC.Get<IShareProvider>();
+                Analytics.TrackEvent(AnalyticsEvents.ShareApp);
                 share.ShareUrl(Url, "Download \"Share emergency contacts\"", "Check out the app \"Share emergency contacts\" (currently in beta)");
             });
 

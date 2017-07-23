@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
@@ -16,6 +18,7 @@ namespace ShareEmergencyContacts.ViewModels
         private ProfileViewModel _selected;
         private string _barcodeContent;
         private bool _first = true;
+        private ContentPage _page;
 
         /// <summary>
         /// 
@@ -120,6 +123,25 @@ namespace ShareEmergencyContacts.ViewModels
             }
             _first = false;
             base.OnActivate();
+        }
+
+        public void PageChanged(bool share)
+        {
+            // showbarcodefirst is true for profile view as its more likely that user wants to share his profiles vs looking contacts
+            if (share)
+            {
+                if (ShowBarcodeFirst)
+                    Analytics.TrackEvent(AnalyticsEvents.ShareProfile);
+                else
+                    Analytics.TrackEvent(AnalyticsEvents.ShareContact);
+            }
+            else
+            {
+                if (ShowBarcodeFirst)
+                    Analytics.TrackEvent(AnalyticsEvents.ShowEditProfile);
+                else
+                    Analytics.TrackEvent(AnalyticsEvents.ShowEditContact);
+            }
         }
     }
 }

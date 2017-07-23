@@ -46,6 +46,13 @@ namespace ShareEmergencyContacts.iOS
                 return height;
             }
         }
+
+        public string MobileCenterKey { get; }
+
+        public IOSAppInfoProvider(string mobileCenterKey)
+        {
+            MobileCenterKey = mobileCenterKey;
+        }
     }
 
 }

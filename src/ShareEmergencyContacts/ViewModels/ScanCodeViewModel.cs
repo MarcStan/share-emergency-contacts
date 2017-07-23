@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ScanCodeViewModel(INavigationService navigationService, Action<EmergencyProfile> add)
         {
+            Analytics.TrackEvent(AnalyticsEvents.OpenScanView);
             _add = add ?? throw new ArgumentNullException(nameof(add));
 
             _navigationService = navigationService;
@@ -90,12 +93,14 @@ namespace ShareEmergencyContacts.ViewModels
                         return;
                     _finished = true;
                     IsScanning = false;
+                    Analytics.TrackEvent(AnalyticsEvents.CodeScanned);
                     // on match, exit but not before registering the new file
                     _add(p);
                     _navigationService.GoBackAsync();
                 }
                 else
                 {
+                    Analytics.TrackEvent(AnalyticsEvents.WrongCodeScanned);
                     IoC.Get<IUserDialogs>().Alert("Not a valid contact format. Please try again!", "Invalid format");
                     // continue anlyzing
                     IsAnalyzing = true;

@@ -30,7 +30,7 @@ namespace ShareEmergencyContacts.UWP
             _container.RegisterWinRTServices();
 
             _container.Singleton<ShareEmergencyContacts.App>();
-            _container.RegisterInstance(typeof(IAppInfoProvider), null, new WindowsAppInfoProvider());
+            _container.RegisterInstance(typeof(IAppInfoProvider), null, new WindowsAppInfoProvider("a5db724f-2ea9-4421-ade8-612e5dccb2aa"));
             _container.RegisterInstance(typeof(IStorageProvider), null, new WindowsStorageProvider());
             _container.RegisterInstance(typeof(IPhoneDialProvider), null, new WindowsPhoneDialProvider());
             _container.RegisterInstance(typeof(IClipboardProvider), null, new WindowsClipboardProvider());

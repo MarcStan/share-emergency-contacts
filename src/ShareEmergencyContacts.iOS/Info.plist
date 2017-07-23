@@ -14,6 +14,8 @@
 	<string>0.9.0</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to the camera to scan QR codes.</string>
+	<key>CFBundleURLSchemes</key>
+	<string>mobilecenter-4bc7da4c-5508-436a-91fd-08ced75df7f7</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

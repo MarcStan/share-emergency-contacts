@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System.Windows.Input;
@@ -101,6 +103,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void AddEmergencyContact()
         {
+            Analytics.TrackEvent(AnalyticsEvents.AddEmergencyContact);
             var contact = new EmergencyContact();
             Selected.Actual.EmergencyContacts.Add(contact);
             Selected.EmergencyContacts.Add(new ContactViewModel(contact, false, true, p =>
@@ -114,6 +117,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void AddInsuranceContact()
         {
+            Analytics.TrackEvent(AnalyticsEvents.AddInsuranceContact);
             var contact = new EmergencyContact();
             Selected.Actual.InsuranceContacts.Add(contact);
             Selected.InsuranceContacts.Add(new ContactViewModel(contact, true, true, p =>

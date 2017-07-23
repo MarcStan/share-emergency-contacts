@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Extensions;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
@@ -51,6 +53,8 @@ namespace ShareEmergencyContacts.ViewModels
             vm = new EditProfileViewModel(clone, () =>
             {
                 profile.Actual = vm.Selected.Actual;
+
+                Analytics.TrackEvent(AnalyticsEvents.EditProfile);
                 UpdateEdited(vm.Selected, originalName);
             });
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));

@@ -24,6 +24,13 @@ namespace ShareEmergencyContacts.UWP
                 return (int)bounds.Height;
             }
         }
+
+        public string MobileCenterKey { get; }
+
+        public WindowsAppInfoProvider(string mobileCenterKey)
+        {
+            MobileCenterKey = mobileCenterKey;
+        }
     }
 
 }

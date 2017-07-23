@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public EditPhoneNumberViewModel(PhoneNumber phone, Action<PhoneNumber> onSave)
         {
+            Analytics.TrackEvent(AnalyticsEvents.EditPhoneNumber);
             _onSave = onSave;
             var values = Enum.GetValues(typeof(PhoneType)).Cast<PhoneType>();
             PhoneTypes = new BindableCollection<PhoneType>(values);
@@ -69,6 +72,7 @@ namespace ShareEmergencyContacts.ViewModels
                 IoC.Get<IUserDialogs>().Alert("No phone number provided.");
                 return;
             }
+            Analytics.TrackEvent(AnalyticsEvents.SavePhoneNumber);
             _onSave(new PhoneNumber(SelectedPhoneType, Number));
             Device.BeginInvokeOnMainThread(() => IoC.Get<INavigationService>().GoBackAsync());
         }

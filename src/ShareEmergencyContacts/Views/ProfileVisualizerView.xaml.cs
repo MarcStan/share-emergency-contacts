@@ -1,5 +1,6 @@
 ﻿using ShareEmergencyContacts.ViewModels;
 using System;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.Views
 {
@@ -28,6 +29,14 @@ namespace ShareEmergencyContacts.Views
                 if (vm.ShowBarcodeFirst)
                     CurrentPage = Children[1];
             }
+        }
+
+        private void OnPageChanged(object sender, EventArgs e)
+        {
+            var vm = BindingContext as ProfileVisualizerViewModel;
+            var page = (ContentPage)sender;
+
+            vm?.PageChanged(page.Title == "Share");
         }
     }
 }

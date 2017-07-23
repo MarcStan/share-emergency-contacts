@@ -1,15 +1,9 @@
 ﻿using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using System.Windows.Input;
+using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
+using System.Windows.Input;
 using Xamarin.Forms;
-#if BETA
-using Acr.UserDialogs;
-using System;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Reflection;
-#endif
 
 namespace ShareEmergencyContacts.ViewModels
 {
@@ -19,70 +13,14 @@ namespace ShareEmergencyContacts.ViewModels
 
         public RootViewModel()
         {
+            Analytics.TrackEvent(AnalyticsEvents.AppLaunch);
+
             _navigationService = IoC.Get<INavigationService>();
             MyProfilesViewModel = new MyProfilesViewModel(_navigationService);
             ReceivedContactsViewModel = new ReceivedContactsViewModel(_navigationService);
 
             AboutCommand = new Command(About);
-#if BETA
-            PerformBetaUpdateCheck();
-#endif
         }
-#if BETA
-        /// <summary>
-        /// Checks in with the server to determine whether the current version is outdated.
-        /// Will silently fail on any error and just prompt the user on success if a new version is available.
-        /// </summary>
-        private async void PerformBetaUpdateCheck()
-        {
-            var p = Device.RuntimePlatform.ToLower();
-            var v = GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3);
-            var client = new HttpClient
-            {
-                BaseAddress = new Uri("https://marcstan.net/")
-            };
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-
-            try
-            {
-                var response = await client.GetAsync($"api/sec/update/{p}/{v}");
-                if (!response.IsSuccessStatusCode)
-                    return; // silent fail
-
-                var json = await response.Content.ReadAsStringAsync();
-                var update = JsonParser.FromJson<UpdateCheck>(json);
-                if (update.UpdateAvailable)
-                {
-                    var dia = IoC.Get<IUserDialogs>();
-                    var r = await dia.ConfirmAsync("A new update is available. Do you want to download it now?", "Update available", "Yes", "No");
-                    if (r)
-                    {
-                        Device.OpenUri(new Uri(update.UpdateUrl, UriKind.Absolute));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                // silently ignore all
-                Debug.WriteLine(e);
-                if (Debugger.IsAttached)
-                    Debugger.Break();
-            }
-        }
-
-        private class UpdateCheck
-        {
-            /// <summary>
-            /// Gets whether a new update is available relative to the currently installed one.
-            /// </summary>
-            public bool UpdateAvailable { get; set; }
-
-            /// <summary>
-            /// The link where the new update can be loaded from
-            /// </summary>
-            public string UpdateUrl { get; set; }
-        }
-#endif
 
         public MyProfilesViewModel MyProfilesViewModel { get; set; }
 
@@ -92,6 +30,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public void About()
         {
+            Analytics.TrackEvent(AnalyticsEvents.OpenAbout);
             _navigationService.NavigateToViewModelAsync<AboutViewModel>();
         }
     }

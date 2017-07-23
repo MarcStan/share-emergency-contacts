@@ -25,7 +25,7 @@ namespace ShareEmergencyContacts.Droid
             // stupid dependency order; can't add this interface from Application because Application executes before this
             var container = IoC.Get<SimpleContainer>();
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
-            container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources));
+            container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources, "4bc7da4c-5508-436a-91fd-08ced75df7f7"));
 
             var perm = new AndroidCheckPermissions((Activity)Forms.Context);
             OnPermissionSet += perm.PermissionRequestAnswered;

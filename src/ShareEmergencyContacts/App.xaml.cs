@@ -1,6 +1,9 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
+using Microsoft.Azure.Mobile.Distribute;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
@@ -9,6 +12,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 
 namespace ShareEmergencyContacts
 {
@@ -29,20 +33,28 @@ namespace ShareEmergencyContacts
 #else
             Resources.Add("IsInBeta", false);
 #endif
-
             var ns = typeof(RootViewModel).Namespace;
             // auto register all view models
             RegisterAllViewModels(ns);
-
             EnsurePlatformProvidersExist();
 
             var handler = IoC.Get<IUnhandledExceptionHandler>();
             handler.OnException += UnhandledException;
 
+            MobileCenter();
+
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 
             DisplayRootView<RootView>();
+        }
+
+        private static void MobileCenter()
+        {
+            var platform = Device.RuntimePlatform.ToLower();
+            var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
+
+            Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes), typeof(Distribute));
         }
 
         private void UnhandledException(object sender, Exception exception)

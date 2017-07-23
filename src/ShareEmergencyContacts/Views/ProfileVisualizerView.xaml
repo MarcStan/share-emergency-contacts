@@ -4,7 +4,7 @@
              xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              xmlns:xLabs="clr-namespace:ShareEmergencyContacts.Helpers.XLabs;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.ProfileVisualizerView"
-             Title="{Binding Selected.ProfileName}">
+             Title="{Binding Selected.ProfileName}" CurrentPageChanged="OnPageChanged">
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="Edit" Icon="edit.png" Command="{Binding EditCommand}" x:Name="Edit" />
         <ToolbarItem Text="Delete" Icon="delete.png" Command="{Binding DeleteCommand}" x:Name="Delete" />
