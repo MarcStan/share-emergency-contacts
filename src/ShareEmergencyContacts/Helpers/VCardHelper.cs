@@ -19,7 +19,7 @@ namespace ShareEmergencyContacts.Helpers
     /// </summary>
     public class VCardHelper
     {
-        private static readonly char[] _escapedCharacters = { ',', '\\', ';', '\r', '\n' };
+        private static readonly char[] _escapedCharacters = { ',', '\\', ';', '\n' };
 
         /// <summary>
         /// Converts the provided profile to its string representation in the VCard format.
@@ -47,12 +47,11 @@ namespace ShareEmergencyContacts.Helpers
             if (string.IsNullOrWhiteSpace(text))
                 throw new VCardException("Input string is null.", null);
 
-            // valid VCARD must also be multiline (at least BEGIN, VERSION, END)
-            if (!text.Contains("\r") && !text.Contains("\n"))
-                throw new VCardException($"Input string is not a valid VCARD format. Missing linebreaks. Value was: {text}", null);
+            // sender should always use \n only. to be save just remove all \r as well
+            text = text.Replace("\r", "");
 
             // multiplatform, so split all linebreaks
-            return FromVCard(text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries));
+            return FromVCard(text.Split(new[] { "\n" }, StringSplitOptions.None));
         }
 
         /// <summary>
@@ -322,11 +321,11 @@ namespace ShareEmergencyContacts.Helpers
         /// <param name="sb"></param>
         private static void WriteVCardV4(EmergencyProfile profile, StringBuilder sb)
         {
-            sb.AppendLine("BEGIN:VCARD");
-            sb.AppendLine("VERSION:4.0");
+            sb.Append("BEGIN:VCARD\n");
+            sb.Append("VERSION:4.0\n");
             // along with begin, version and end "FN" is the only required property in V4
             // luckily it is also the profile name 
-            var writeDirect = new Action<string>(s => sb.AppendLine(s));
+            var writeDirect = new Action<string>(s => sb.Append(s + "\n"));
             WriteEmergencyContact(profile, writeDirect);
 
             // everything else is custom format, so use "X-" prefix
@@ -336,7 +335,7 @@ namespace ShareEmergencyContacts.Helpers
             {
                 insuranceId++;
                 var id = insuranceId;
-                WriteEmergencyContact(insurance, s => sb.AppendLine($"X-INS-{id}-{s}"));
+                WriteEmergencyContact(insurance, s => sb.Append($"X-INS-{id}-{s}\n"));
             }
             int iceId = 0;
             // emergency contacts get X-ICE-{id}-
@@ -344,7 +343,7 @@ namespace ShareEmergencyContacts.Helpers
             {
                 iceId++;
                 int id = iceId;
-                WriteEmergencyContact(ice, s => sb.AppendLine($"X-ICE-{id}-{s}"));
+                WriteEmergencyContact(ice, s => sb.Append($"X-ICE-{id}-{s}\n"));
             }
             EncodeAndAppendIfSet("X-BLOODTYPE", profile.BloodType, writeDirect);
             EncodeAndAppendIfSet("X-EXPIRES", DateToString(profile.ExpirationDate), writeDirect);
@@ -355,7 +354,7 @@ namespace ShareEmergencyContacts.Helpers
             EncodeAndAppendIfSet("X-ALLERGIES", profile.Allergies, writeDirect);
             EncodeAndAppendIfSet("X-CITIZENSHIP", profile.Citizenship, writeDirect);
             EncodeAndAppendIfSet("X-PASSPORT", profile.Passport, writeDirect);
-            sb.AppendLine("END:VCARD");
+            sb.Append("END:VCARD");
         }
 
         /// <summary>
@@ -444,6 +443,9 @@ namespace ShareEmergencyContacts.Helpers
             for (int i = 0; i < text.Length; i++)
             {
                 var c = text[i];
+                if (c == '\r')
+                    continue;
+
                 if (_escapedCharacters.Contains(c))
                 {
                     // prepend \ for escape chars
@@ -451,9 +453,6 @@ namespace ShareEmergencyContacts.Helpers
                     // special cases
                     switch (c)
                     {
-                        case '\r':
-                            c = 'r';
-                            break;
                         case '\n':
                             c = 'n';
                             break;
@@ -461,7 +460,7 @@ namespace ShareEmergencyContacts.Helpers
                 }
                 sb.Append(c);
             }
-
+            // remove \r, \n and \r\n and force it to be only \n inline
             return sb.ToString();
         }
 
@@ -480,13 +479,13 @@ namespace ShareEmergencyContacts.Helpers
                 if (c == '\\' && i < text.Length - 1)
                 {
                     var next = text[i + 1];
-                    if (_escapedCharacters.Contains(next) ||
-                        next == 'r' ||
-                        next == 'n')
+                    if (_escapedCharacters.Contains(next) || next == 'n' || next == 'r')
+                    {
                         // current char is \, next char is one of the escaped
                         // -> skip current
                         insertEscaped = true;
-                    continue;
+                        continue;
+                    }
                 }
                 if (insertEscaped)
                 {
@@ -504,8 +503,7 @@ namespace ShareEmergencyContacts.Helpers
                 }
                 sb.Append(c);
             }
-
-            return sb.ToString();
+            return sb.Replace("\r", "").Replace("\n", Environment.NewLine).ToString();
         }
     }
 }

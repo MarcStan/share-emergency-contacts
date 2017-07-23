@@ -110,7 +110,7 @@ namespace ShareEmergencyContacts.Tests
             lines[index++].Should().Be("FN:Marc");
             lines[index++].Should().Be("N:Marc;Stan;;;");
             lines[index++].Should().Be("NOTE:This is a note");
-            lines[index++].Should().Be("ADR:Street 1\\r\\n12345 LegitCity");
+            lines[index++].Should().Be("ADR:Street 1\\n12345 LegitCity");
             lines[index++].Should().Be("TEL;TYPE=HOME:555 12345");
             lines[index++].Should().Be("TEL;TYPE=MOBILE:+1 555 12345");
             lines[index++].Should().Be("BDAY:19890113");
@@ -171,7 +171,7 @@ namespace ShareEmergencyContacts.Tests
             lines[index++].Should().Be("FN:Marc");
             lines[index++].Should().Be("N:Marc;Stan;;;");
             lines[index++].Should().Be("NOTE:This is a note");
-            lines[index++].Should().Be("ADR:Street 1\\r\\n12345 LegitCity");
+            lines[index++].Should().Be("ADR:Street 1\\n12345 LegitCity");
             lines[index++].Should().Be("TEL;TYPE=HOME:555 12345");
             lines[index++].Should().Be("TEL;TYPE=MOBILE:+1 555 12345");
             lines[index++].Should().Be("BDAY:19890113");
