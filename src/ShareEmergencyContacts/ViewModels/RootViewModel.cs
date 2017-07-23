@@ -1,8 +1,10 @@
 ﻿using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using System.Windows.Input;
+using ShareEmergencyContacts.Helpers;
 using Xamarin.Forms;
 #if BETA
+using Acr.UserDialogs;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -48,16 +50,16 @@ namespace ShareEmergencyContacts.ViewModels
                     return; // silent fail
 
                 var json = await response.Content.ReadAsStringAsync();
-                //var update = JsonConvert.DeserializeObject<UpdateCheck>(json);
-                //if (update.UpdateAvailable)
-                //{
-                //    var dia = IoC.Get<IUserDialogs>();
-                //    var r = await dia.ConfirmAsync("A new update is available. Do you want to download it now?", "Update available", "Yes", "No");
-                //    if (r)
-                //    {
-                //        Device.OpenUri(new Uri(update.UpdateUrl, UriKind.Absolute));
-                //    }
-                //}
+                var update = JsonParser.FromJson<UpdateCheck>(json);
+                if (update.UpdateAvailable)
+                {
+                    var dia = IoC.Get<IUserDialogs>();
+                    var r = await dia.ConfirmAsync("A new update is available. Do you want to download it now?", "Update available", "Yes", "No");
+                    if (r)
+                    {
+                        Device.OpenUri(new Uri(update.UpdateUrl, UriKind.Absolute));
+                    }
+                }
             }
             catch (Exception e)
             {

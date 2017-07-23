@@ -47,6 +47,7 @@
     <Compile Include="Converters\NullToFalseConverter.cs" />
     <Compile Include="Extensions\CaliburnNavServiceExtensions.cs" />
     <Compile Include="Extensions\ExtendedNavPageAdapter.cs" />
+    <Compile Include="Helpers\JsonParser.cs" />
     <Compile Include="Helpers\VCardHelper.cs" />
     <Compile Include="Helpers\VCardException.cs" />
     <Compile Include="Helpers\XLabs\ContactViewModelRepeater.cs" />
