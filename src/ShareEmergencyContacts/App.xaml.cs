@@ -1,8 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Crashes;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
@@ -53,7 +51,9 @@ namespace ShareEmergencyContacts
             var platform = Device.RuntimePlatform.ToLower();
             var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
 
+#if !DEBUG
             Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         private void UnhandledException(object sender, Exception exception)
