@@ -52,7 +52,7 @@ namespace ShareEmergencyContacts
             var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
 
 #if !DEBUG
-            Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes));
+            Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Microsoft.Azure.Mobile.Analytics.Analytics), typeof(Microsoft.Azure.Mobile.Crashes.Crashes));
 #endif
         }
 
