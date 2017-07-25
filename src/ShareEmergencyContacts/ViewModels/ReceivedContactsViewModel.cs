@@ -32,7 +32,7 @@ namespace ShareEmergencyContacts.ViewModels
             switch (grantResult)
             {
                 case PermissionResult.Granted:
-                    var vm = new ScanCodeViewModel(_navigationService, async p => await Add(p));
+                    var vm = new ScanCodeViewModel(async p => await Add(p));
                     Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
                     break;
                 case PermissionResult.Denied:

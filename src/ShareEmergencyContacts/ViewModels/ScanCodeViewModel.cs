@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
-using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
@@ -19,18 +18,16 @@ namespace ShareEmergencyContacts.ViewModels
     /// </summary>
     public class ScanCodeViewModel : Screen
     {
-        private readonly INavigationService _navigationService;
         private readonly Action<EmergencyProfile> _add;
         private bool _finished;
         private bool _isAnalyzing;
         private bool _isScanning;
 
-        public ScanCodeViewModel(INavigationService navigationService, Action<EmergencyProfile> add)
+        public ScanCodeViewModel(Action<EmergencyProfile> add)
         {
             Analytics.TrackEvent(AnalyticsEvents.OpenScanView);
             _add = add ?? throw new ArgumentNullException(nameof(add));
 
-            _navigationService = navigationService;
             ScanCommand = new Command(o =>
             {
                 if (o != null)
@@ -96,7 +93,6 @@ namespace ShareEmergencyContacts.ViewModels
                     Analytics.TrackEvent(AnalyticsEvents.CodeScanned);
                     // on match, exit but not before registering the new file
                     _add(p);
-                    _navigationService.GoBackAsync();
                 }
                 else
                 {

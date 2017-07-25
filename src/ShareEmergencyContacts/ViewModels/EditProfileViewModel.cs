@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
-using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
@@ -51,8 +50,6 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
             }
             _save();
-
-            Device.BeginInvokeOnMainThread(() => IoC.Get<INavigationService>().GoBackAsync());
         }
 
         private bool CanSave(out string message)

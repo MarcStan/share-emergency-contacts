@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
@@ -296,6 +297,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     Analytics.TrackEvent(AnalyticsEvents.AddProfile);
                     dia.Toast("Added new contact!");
                 }
+                await IoC.Get<INavigationService>().GoBackAsync();
             }
         }
 
