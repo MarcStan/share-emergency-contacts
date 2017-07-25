@@ -1,6 +1,5 @@
 ﻿using ShareEmergencyContacts.ViewModels;
 using System;
-using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.Views
 {
@@ -10,6 +9,7 @@ namespace ShareEmergencyContacts.Views
         {
             InitializeComponent();
             BindingContextChanged += OnBindingContextChanged;
+            CurrentPageChanged += OnPageChanged;
         }
 
         private void OnBindingContextChanged(object sender, EventArgs e)
@@ -34,9 +34,8 @@ namespace ShareEmergencyContacts.Views
         private void OnPageChanged(object sender, EventArgs e)
         {
             var vm = BindingContext as ProfileVisualizerViewModel;
-            var page = (ContentPage)sender;
 
-            vm?.PageChanged(page.Title == "Share");
+            vm?.PageChanged(CurrentPage.Title == "Share");
         }
     }
 }

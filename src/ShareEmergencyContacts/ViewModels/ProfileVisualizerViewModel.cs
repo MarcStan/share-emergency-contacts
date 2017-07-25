@@ -18,7 +18,6 @@ namespace ShareEmergencyContacts.ViewModels
         private ProfileViewModel _selected;
         private string _barcodeContent;
         private bool _first = true;
-        private ContentPage _page;
 
         /// <summary>
         /// 
