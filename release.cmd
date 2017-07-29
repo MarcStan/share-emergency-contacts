@@ -1,12 +1,29 @@
 @echo OFF
-REM requires msbuild (Vs2017+) and dotnet core 1.1 (msbuild.exe and dotnet.exe must both be in PATH)
+REM requires msbuild (Vs2017+) to be in path
+REM requires icogen and vpatch in path
 
 set /p version="Enter SemVer: "
 set /p appCode="Enter new android appCode: "
 cd scripts
-call "generate icons.cmd"
-call "set version.cmd" %version% %appCode%
+if "%1"=="" (
+  echo "Missing parameter semVer"
+  goto :eof
+)
+if not "%2"=="" (
+  set appcode=--appCode=%2
+)
+
+
+vpatch.exe -v %1 ^
+            -c ..\src\GlobalAssemblyInfo.cs ^
+            -i "..\src\ShareEmergencyContacts.iOS\Info.plist" ^
+            -u "..\src\ShareEmergencyContacts.UWP\Package.appxmanifest" ^
+            -a "..\src\ShareEmergencyContacts.Android\Properties\AndroidManifest.xml" %appcode%
 cd ..
+
+icogen.exe -i ..\icons\android.icogen
+icogen.exe -i ..\icons\uwp.icogen
+icogen.exe -i ..\icons\iOS.icogen
 
 REM Android
 echo
