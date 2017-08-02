@@ -4,6 +4,7 @@ using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
+using ShareEmergencyContacts.Views;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Action = System.Action;
@@ -23,6 +24,21 @@ namespace ShareEmergencyContacts.ViewModels
             SaveCommand = new Command(Save);
             AddEmergencyContactCommand = new Command(AddEmergencyContact);
             AddInsuranceContactCommand = new Command(AddInsuranceContact);
+        }
+
+        public void CancelBackButton(EditProfileView.BackButtonHelper h)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                if (await dia.ConfirmAsync("Do you really want to discard your changes?", "Discard changes?", "Yes", "No"))
+                {
+                    // stay on the page
+                    h.SetResult(true);
+                    return;
+                }
+                h.SetResult(false);
+            });
         }
 
         public ICommand AddEmergencyContactCommand { get; }

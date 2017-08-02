@@ -81,6 +81,7 @@ namespace ShareEmergencyContacts.ViewModels
 
             var dia = IoC.Get<IUserDialogs>();
             dia.Toast("Profile updated!");
+            await IoC.Get<INavigationService>().GoBackAsync();
         }
     }
 }

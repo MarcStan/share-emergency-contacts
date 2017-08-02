@@ -245,7 +245,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 NotifyOfPropertyChange(nameof(PhoneNumbers));
             }
         }
-
         public void AddNumber()
         {
             var vm = new EditPhoneNumberViewModel(null, num =>
