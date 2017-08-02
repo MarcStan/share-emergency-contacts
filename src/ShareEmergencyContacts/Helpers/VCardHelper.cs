@@ -246,6 +246,13 @@ namespace ShareEmergencyContacts.Helpers
                 var splits = format.Split(new[] { ';' }, StringSplitOptions.None);
                 contact.FirstName = splits[0];
                 contact.LastName = splits[1];
+                if ((!string.IsNullOrWhiteSpace(contact.FirstName) || !string.IsNullOrWhiteSpace(contact.LastName)) &&
+                    !(contact is EmergencyProfile))
+                {
+                    // profile name is not writeable for INS/ICE contacts
+                    // always update the profile name based on the existing names
+                    contact.ProfileName = (contact.FirstName + " " + contact.LastName).Trim();
+                }
             }
             if (throwOnMissingName)
             {
