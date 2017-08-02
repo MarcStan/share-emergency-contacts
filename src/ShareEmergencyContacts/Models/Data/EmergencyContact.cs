@@ -61,6 +61,7 @@ namespace ShareEmergencyContacts.Models.Data
                 Relationship = Relationship,
                 Note = Note,
                 PhoneNumbers = n
+                //ProfileName = ProfileName ?? "" don't copy profile name, it will be auto. infered from first/last name whcih has to be set anyway
             };
         }
 

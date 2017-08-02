@@ -54,6 +54,11 @@ namespace ShareEmergencyContacts.ViewModels
 
         private bool CanSave(out string message)
         {
+            if (Selected.Actual.IsBlank())
+            {
+                message = "Please add at least one detail on the profile!";
+                return false;
+            }
             foreach (var e in Selected.EmergencyContacts)
             {
                 if (string.IsNullOrWhiteSpace(e.FirstName) && string.IsNullOrWhiteSpace(e.LastName))

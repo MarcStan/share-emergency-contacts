@@ -1,6 +1,7 @@
 ﻿using ShareEmergencyContacts.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShareEmergencyContacts.Models.Data
 {
@@ -108,6 +109,39 @@ namespace ShareEmergencyContacts.Models.Data
                 LastName = LastName,
                 PhoneNumbers = n
             };
+        }
+
+        /// <summary>
+        /// Returns if the current profile is blank (no entries whatsoever).
+        /// </summary>
+        /// <returns></returns>
+        public bool IsBlank()
+        {
+            var isContactBlank = new Func<EmergencyContact, bool>(c =>
+            {
+                if (c.PhoneNumbers.Any())
+                    return false;
+                // ProfileName is set by system; it is usually empty now so skip it
+                if (BirthDate.HasValue)
+                    return false;
+                return string.IsNullOrWhiteSpace(c.Address) &&
+                       string.IsNullOrWhiteSpace(c.Email) &&
+                       string.IsNullOrWhiteSpace(c.FirstName) &&
+                       string.IsNullOrWhiteSpace(c.LastName) &&
+                       string.IsNullOrWhiteSpace(c.Note) &&
+                       string.IsNullOrWhiteSpace(c.Relationship) &&
+                       string.IsNullOrWhiteSpace(c.InsuranceNumber);
+            });
+            // contact is blank if itself is blank or any of its (if any) ICE/INS contacts
+            // also check for the extra fields on the profile itself (allergies, etc.)
+            return isContactBlank(this) && InsuranceContacts.All(i => isContactBlank(i)) &&
+                EmergencyContacts.All(e => isContactBlank(e)) &&
+                    string.IsNullOrWhiteSpace(Allergies) &&
+                   string.IsNullOrWhiteSpace(BloodType) &&
+                   string.IsNullOrWhiteSpace(Citizenship) &&
+                   string.IsNullOrWhiteSpace(Passport) &&
+                   WeightInKg <= 0 &&
+                   HeightInCm <= 0;
         }
     }
 }
