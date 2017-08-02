@@ -2,6 +2,7 @@
 using Caliburn.Micro.Xamarin.Forms;
 using ShareEmergencyContacts.ViewModels;
 using System;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.Views
 {
@@ -10,6 +11,8 @@ namespace ShareEmergencyContacts.Views
         public EditProfileView()
         {
             InitializeComponent();
+            // disable back button because we display cancel
+            NavigationPage.SetHasBackButton(this, false);
         }
 
         protected override bool OnBackButtonPressed()
@@ -45,6 +48,11 @@ namespace ShareEmergencyContacts.Views
             {
                 OnResult?.Invoke(this, p0);
             }
+        }
+
+        private void MenuItem_OnClicked(object sender, EventArgs e)
+        {
+            OnBackButtonPressed();
         }
     }
 }
