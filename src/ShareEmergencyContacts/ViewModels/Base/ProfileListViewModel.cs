@@ -273,7 +273,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
 
             // show overlay asking user for a new name; do not allow existing names
             var forbidden = _existingContacts.Select(c => c.ProfileName).ToArray();
-            var name = await AskUserForNameAsync(forbidden, profile.ProfileName);
+            var name = await AskUserForNameAsync(forbidden, profile.ProfileName, false);
             // if name is null, user doesn't want to save contact
             if (name != null)
             {
