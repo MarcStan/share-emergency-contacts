@@ -231,24 +231,29 @@ namespace ShareEmergencyContacts.Helpers
         {
             // only required value, ensure it exists
             var name = GetValue(lines, VDataKey.Required.FullName);
-            if (string.IsNullOrWhiteSpace(name))
-                throw new FormatException("VCARD missing required property FN.");
+
+            // technically this is required and we always write it (even for ICE/INS contacts)
+            // BUT there was already one case where the FN line was missing...
+            // so if it isn't there, let's see if the name exists and only throw if it is missing too
+            bool throwOnMissingName = string.IsNullOrWhiteSpace(name);
+
             contact.ProfileName = name;
 
             // all other values are optional; set to null if not found
             var format = GetValue(lines, VDataKey.Name);
-
             if (format != null && format.Contains(";"))
             {
                 var splits = format.Split(new[] { ';' }, StringSplitOptions.None);
                 contact.FirstName = splits[0];
                 contact.LastName = splits[1];
-                if ((!string.IsNullOrWhiteSpace(contact.FirstName) || !string.IsNullOrWhiteSpace(contact.LastName)) &&
-                    !(contact is EmergencyProfile))
-                {
-                    // insurance and emergency contacts don't need the name if their first/last is set
-                    contact.ProfileName = "";
-                }
+            }
+            if (throwOnMissingName)
+            {
+                var formatted = contact.FirstName + " " + contact.LastName;
+                formatted = formatted.Trim();
+                // since neither N nor FN are set we cannot manually create FN, so we have to throw
+                if (string.IsNullOrWhiteSpace(formatted))
+                    throw new FormatException("VCARD missing required property FN.");
             }
             contact.Email = GetValue(lines, VDataKey.Email);
             contact.Address = GetValue(lines, VDataKey.Address);
@@ -395,9 +400,9 @@ namespace ShareEmergencyContacts.Helpers
         private static void WriteEmergencyContact(EmergencyContact contact, Action<string> entry)
         {
             var fn = contact.ProfileName;
-            if (contact.ProfileName == null)
+            if (string.IsNullOrWhiteSpace(contact.ProfileName))
                 fn = contact.FirstName + " " + contact.LastName;
-            if (fn == null || fn == " ")
+            if (string.IsNullOrWhiteSpace(fn))
                 throw new NotSupportedException("Profile name must be set");
 
             EncodeAndAppendIfSet(VDataKey.Required.FullName, fn, entry);
