@@ -4,26 +4,17 @@ REM requires icogen and vpatch in path
 
 set /p version="Enter SemVer: "
 set /p appCode="Enter new android appCode: "
-cd scripts
-if "%1"=="" (
-  echo "Missing parameter semVer"
-  goto :eof
-)
-if not "%2"=="" (
-  set appcode=--appCode=%2
-)
 
+vpatch.exe -v %version% ^
+            -c "src\GlobalAssemblyInfo.cs" ^
+            -i "src\ShareEmergencyContacts.iOS\Info.plist" ^
+            -u "src\ShareEmergencyContacts.UWP\Package.appxmanifest" ^
+            -a "src\ShareEmergencyContacts.Android\Properties\AndroidManifest.xml" ^
+            -appCode %appcode%
 
-vpatch.exe -v %1 ^
-            -c ..\src\GlobalAssemblyInfo.cs ^
-            -i "..\src\ShareEmergencyContacts.iOS\Info.plist" ^
-            -u "..\src\ShareEmergencyContacts.UWP\Package.appxmanifest" ^
-            -a "..\src\ShareEmergencyContacts.Android\Properties\AndroidManifest.xml" %appcode%
-cd ..
-
-icogen.exe -i ..\icons\android.icogen
-icogen.exe -i ..\icons\uwp.icogen
-icogen.exe -i ..\icons\iOS.icogen
+icogen.exe -i icons\android.icogen
+icogen.exe -i icons\uwp.icogen
+icogen.exe -i icons\iOS.icogen
 
 REM Android
 echo
