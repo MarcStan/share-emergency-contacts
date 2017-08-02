@@ -40,7 +40,7 @@
                 <Label Text="Passport:" TextColor="Accent" />
                 <Entry Keyboard="Text" Text="{Binding Passport}" />
             </StackLayout>
-            <StackLayout IsVisible="{Binding IsEmergencyContact}" Orientation="Horizontal">
+            <StackLayout IsVisible="{Binding IsEmergencyContact}">
                 <Label Text="Relationship with contact:" TextColor="Accent" />
                 <Entry Keyboard="Text" Text="{Binding Relationship}" />
             </StackLayout>
