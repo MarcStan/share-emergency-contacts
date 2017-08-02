@@ -75,11 +75,14 @@ namespace ShareEmergencyContacts.Helpers
             if (string.IsNullOrWhiteSpace(text))
                 throw new VCardException("Input string is null.", null);
 
-            // sender should always use \n only. to be save just remove all \r as well
-            text = text.Replace("\r", "");
+            // official spec requires use of \r\n
+            // https://tools.ietf.org/html/rfc6350#section-3.2
+            // since the beta version was lax (used \n only) I now allow all three options
+            // user entered text with newline uses "\\n"  (literal \ in the vcard) anyway so we don't risk removing empty lines if the user did:
+            // "hello\n\nworld" anyway because it is saved as "hello\\n\\nworld"
 
             // multiplatform, so split all linebreaks
-            return FromVCard(text.Split(new[] { "\n" }, StringSplitOptions.None));
+            return FromVCard(text.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
@@ -335,12 +338,13 @@ namespace ShareEmergencyContacts.Helpers
         private static string GetValue(List<string> processedLines, string identifier)
         {
             var usedIdentifier = identifier + ":";
-            string line = processedLines.FirstOrDefault(l => l.StartsWith(usedIdentifier));
+            // case of identifier is irrelvent (https://tools.ietf.org/html/rfc6350#section-3.3 page 8, second section)
+            string line = processedLines.FirstOrDefault(l => l.StartsWith(usedIdentifier, StringComparison.OrdinalIgnoreCase));
             if (line == null)
             {
                 // possible that it is something with a prefix, e.g. "TEL;TYPE=FOO:<actual>"
                 usedIdentifier = identifier + ";";
-                line = processedLines.FirstOrDefault(l => l.StartsWith(usedIdentifier));
+                line = processedLines.FirstOrDefault(l => l.StartsWith(usedIdentifier, StringComparison.OrdinalIgnoreCase));
                 if (line == null)
                 {
                     // nope, not found
@@ -362,11 +366,11 @@ namespace ShareEmergencyContacts.Helpers
         /// <param name="sb"></param>
         private static void WriteVCardV4(EmergencyProfile profile, StringBuilder sb)
         {
-            sb.Append("BEGIN:VCARD\n");
-            sb.Append("VERSION:4.0\n");
+            sb.Append("BEGIN:VCARD\r\n");
+            sb.Append("VERSION:4.0\r\n");
             // along with begin, version and end "FN" is the only required property in V4
             // luckily it is also the profile name 
-            var writeDirect = new Action<string>(s => sb.Append(s + "\n"));
+            var writeDirect = new Action<string>(s => sb.Append(s + "\r\n"));
             WriteEmergencyContact(profile, writeDirect);
 
             // everything else is custom format, so use "X-" prefix
@@ -376,7 +380,7 @@ namespace ShareEmergencyContacts.Helpers
             {
                 insuranceId++;
                 var id = insuranceId;
-                WriteEmergencyContact(insurance, s => sb.Append($"X-INS-{id}-{s}\n"));
+                WriteEmergencyContact(insurance, s => sb.Append($"X-INS-{id}-{s}\r\n"));
             }
             int iceId = 0;
             // emergency contacts get X-ICE-{id}-
@@ -384,7 +388,7 @@ namespace ShareEmergencyContacts.Helpers
             {
                 iceId++;
                 int id = iceId;
-                WriteEmergencyContact(ice, s => sb.Append($"X-ICE-{id}-{s}\n"));
+                WriteEmergencyContact(ice, s => sb.Append($"X-ICE-{id}-{s}\r\n"));
             }
             EncodeAndAppendIfSet(VDataKey.Ext.BloodType, profile.BloodType, writeDirect);
             EncodeAndAppendIfSet(VDataKey.Ext.Expires, DateToString(profile.ExpirationDate), writeDirect);
@@ -483,6 +487,7 @@ namespace ShareEmergencyContacts.Helpers
             for (int i = 0; i < text.Length; i++)
             {
                 var c = text[i];
+                // remove \r and only save \n as per spec: https://tools.ietf.org/html/rfc6350#section-3.4
                 if (c == '\r')
                     continue;
 
@@ -500,7 +505,6 @@ namespace ShareEmergencyContacts.Helpers
                 }
                 sb.Append(c);
             }
-            // remove \r, \n and \r\n and force it to be only \n inline
             return sb.ToString();
         }
 
