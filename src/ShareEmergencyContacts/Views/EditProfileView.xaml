@@ -13,15 +13,15 @@
                 <userControls:EditContactDetails BindingContext="{Binding Selected}" />
                 <StackLayout>
                     <Label Text="Blood group: " TextColor="Accent" />
-                    <Entry Keyboard="Text" Text="{Binding Selected.BloodType}" />
+                    <Entry Keyboard="Text" Text="{Binding Selected.BloodType}" Completed="TextEntryCompleted" />
                 </StackLayout>
                 <StackLayout>
                     <Label Text="Weight (in kg): " TextColor="Accent" />
-                    <Entry Keyboard="Numeric" Text="{Binding Selected.ActualWeightInKg}" />
+                    <Entry Keyboard="Numeric" Text="{Binding Selected.ActualWeightInKg}" Completed="TextEntryCompleted" />
                 </StackLayout>
                 <StackLayout>
                     <Label Text="Height (in cm): " TextColor="Accent" />
-                    <Entry Keyboard="Numeric" Text="{Binding Selected.ActualHeightInCm}" />
+                    <Entry Keyboard="Numeric" Text="{Binding Selected.ActualHeightInCm}" Completed="TextEntryCompleted" />
                 </StackLayout>
                 <StackLayout IsVisible="{Binding Selected.EmergencyContacts, Converter={StaticResource ListCountToBoolConverter}}">
                     <StackLayout HeightRequest="3" BackgroundColor="Black" Margin="10,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" />

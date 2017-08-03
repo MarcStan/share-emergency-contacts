@@ -31,6 +31,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     EmergencyContacts.Remove(p);
                     profile.EmergencyContacts.Remove(p.Profile);
                     NotifyOfPropertyChange(nameof(EmergencyContacts));
+                    TextEntryCompleted();
                 })));
             InsuranceContacts = new BindableCollection<ContactViewModel>(profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true,
                 p =>
@@ -38,6 +39,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     InsuranceContacts.Remove(p);
                     profile.InsuranceContacts.Remove(p.Profile);
                     NotifyOfPropertyChange(nameof(InsuranceContacts));
+                    TextEntryCompleted();
                 })));
 
             DeleteCommand = new Command(() => delete?.Invoke(this));

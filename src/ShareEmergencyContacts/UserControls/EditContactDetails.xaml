@@ -8,17 +8,17 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <StackLayout HorizontalOptions="FillAndExpand">
                     <Label Text="First name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                    <Entry Keyboard="Text" Text="{Binding FirstName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <Entry Keyboard="Text" Text="{Binding FirstName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="TextEntryCompleted" />
                 </StackLayout>
                 <StackLayout HorizontalOptions="FillAndExpand">
                     <Label Text="Last name:" TextColor="Accent" FontSize="{Binding NameSize}" />
-                    <Entry Keyboard="Text" Text="{Binding LastName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <Entry Keyboard="Text" Text="{Binding LastName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="TextEntryCompleted" />
                 </StackLayout>
                 <Button HorizontalOptions="End" Command="{Binding DeleteContactCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Start" IsVisible="{Binding CanDelete}" />
             </StackLayout>
             <StackLayout IsVisible="{Binding CanHaveInsuranceNumber}">
                 <Label Text="Insurance number:" TextColor="Accent" />
-                <Entry Keyboard="Text" Text="{Binding InsuranceNumber}" />
+                <Entry Keyboard="Text" Text="{Binding InsuranceNumber}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout IsVisible="{Binding HasBirthday}">
                 <Label Text="Birthday:" TextColor="Accent" />
@@ -30,27 +30,27 @@
             </StackLayout>
             <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="Allergies:" TextColor="Accent" />
-                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Allergies}" />
+                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Allergies}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
-                <Label Text="Citizenship:" TextColor="Accent" />
-                <Entry Keyboard="Text" Text="{Binding Citizenship}" />
+                <Label Text="Citizenship:" TextColor="Accent"  />
+                <Entry Keyboard="Text" Text="{Binding Citizenship}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="Passport:" TextColor="Accent" />
-                <Entry Keyboard="Text" Text="{Binding Passport}" />
+                <Entry Keyboard="Text" Text="{Binding Passport}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout IsVisible="{Binding IsEmergencyContact}">
                 <Label Text="Relationship with contact:" TextColor="Accent" />
-                <Entry Keyboard="Text" Text="{Binding Relationship}" />
+                <Entry Keyboard="Text" Text="{Binding Relationship}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout>
                 <Label Text="Email:" TextColor="Accent" />
-                <Entry Keyboard="Email" Text="{Binding Email}" />
+                <Entry Keyboard="Email" Text="{Binding Email}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout>
                 <Label Text="Address:" TextColor="Accent" />
-                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Address}" />
+                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Address}" Completed="TextEntryCompleted" />
             </StackLayout>
             <StackLayout>
                 <Label Text="Phone numbers:" FontSize="20" />
@@ -79,7 +79,7 @@
             <Button Text="Add phone number" Command="{Binding AddNumberCommand}" HorizontalOptions="Center" WidthRequest="250" />
             <StackLayout>
                 <Label Text="Note:" TextColor="Accent" />
-                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Note}" />
+                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Note}" Completed="TextEntryCompleted" />
             </StackLayout>
         </StackLayout>
     </ContentView.Content>

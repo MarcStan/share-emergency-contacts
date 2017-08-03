@@ -6,6 +6,7 @@ using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using ShareEmergencyContacts.Views;
 using System;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -22,9 +23,32 @@ namespace ShareEmergencyContacts.ViewModels
             _save = save;
             // TODO: this is ugly, we don't provide rename/delete functors because we rely on the fact that the caller will scrap the instance on save (taking only .Actual) and instead creates a new wrapper with the correct functors
             Selected = toEdit ?? new ProfileViewModel(new EmergencyProfile(), null, null);
+
+            Selected.TextChanged += TextEntryCompleted;
+            Selected.EmergencyContacts.CollectionChanged += CollectionChanged;
+            Selected.InsuranceContacts.CollectionChanged += CollectionChanged;
+
             SaveCommand = new Command(Save);
             AddEmergencyContactCommand = new Command(AddEmergencyContact);
             AddInsuranceContactCommand = new Command(AddInsuranceContact);
+        }
+
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (ContactViewModel c in e.NewItems)
+                {
+                    c.TextChanged += TextEntryCompleted;
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (ContactViewModel c in e.NewItems)
+                {
+                    c.TextChanged -= TextEntryCompleted;
+                }
+            }
         }
 
         public void CancelBackButton(EditProfileView.BackButtonHelper h)
@@ -61,7 +85,8 @@ namespace ShareEmergencyContacts.ViewModels
 
         public async void Save()
         {
-            if (!CanSave(out string message))
+            int total = TotalCharacters;
+            if (!CanSave(total, out string message))
             {
                 IoC.Get<IUserDialogs>().Alert(message);
                 return;
@@ -69,8 +94,14 @@ namespace ShareEmergencyContacts.ViewModels
             await _save();
         }
 
-        private bool CanSave(out string message)
+        private bool CanSave(int totalChars, out string message)
         {
+            if (totalChars > DataLimits.MaxCharacterCount)
+            {
+                int chars = totalChars - DataLimits.MaxCharacterCount;
+                message = $"Too much content. The QR code won't be able to display it all, please remove at least {chars} characters!";
+                return false;
+            }
             if (Selected.Actual.IsBlank())
             {
                 message = "Please add at least one detail on the profile!";
@@ -120,6 +151,42 @@ namespace ShareEmergencyContacts.ViewModels
             return true;
         }
 
+        /// <summary>
+        /// Gets the total number of characters used by this profile.
+        /// </summary>
+        public int TotalCharacters
+        {
+            get
+            {
+                // only call ToText if we can save, if we can't save it means profile is still invalid (e.g. contact doens't have profile name, etc.
+                if (!CanSave(-1, out _))
+                    return -1;
+                return EmergencyProfile.ToRawText(Selected.Actual).Length;
+            }
+        }
+
+        public void TextEntryCompleted(object sender, EventArgs e) => TextEntryCompleted();
+
+        public void TextEntryCompleted()
+        {
+            int curr = TotalCharacters;
+            if (curr == -1)
+                return;
+
+            int max = DataLimits.MaxCharacterCount;
+            const int charsLeftBeforNotify = 256;
+            if (curr > max)
+            {
+                IoC.Get<IUserDialogs>().Toast($"{max} characters exceeded! Cannot save.");
+            }
+            else if (curr >= max - charsLeftBeforNotify)
+            {
+                // only notify user when he gets close to the upper limit
+                // otherwise we would spam him with "10/1000 chars used" messages
+                IoC.Get<IUserDialogs>().Toast($"{curr}/{max} characters");
+            }
+        }
+
         private void AddEmergencyContact()
         {
             if (Selected.EmergencyContacts.Count + Selected.InsuranceContacts.Count >= DataLimits.MaxSubContacts)
@@ -136,8 +203,10 @@ namespace ShareEmergencyContacts.ViewModels
                 Selected.EmergencyContacts.Remove(p);
                 Selected.Actual.EmergencyContacts.Remove(p.Profile);
                 NotifyOfPropertyChange(nameof(Selected));
+                TextEntryCompleted();
             }));
             NotifyOfPropertyChange(nameof(Selected));
+            TextEntryCompleted();
         }
 
         private void AddInsuranceContact()
@@ -156,8 +225,10 @@ namespace ShareEmergencyContacts.ViewModels
                 Selected.InsuranceContacts.Remove(p);
                 Selected.Actual.InsuranceContacts.Remove(p.Profile);
                 NotifyOfPropertyChange(nameof(Selected));
+                TextEntryCompleted();
             }));
             NotifyOfPropertyChange(nameof(Selected));
+            TextEntryCompleted();
         }
     }
 }

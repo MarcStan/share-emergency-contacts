@@ -37,6 +37,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     PhoneNumbers.Remove(phone);
                     profile.PhoneNumbers.Remove(phone.Phone);
                     NotifyOfPropertyChange(nameof(PhoneNumbers));
+                    TextEntryCompleted();
                 }
             })));
 
@@ -59,6 +60,8 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             });
             AddNumberCommand = new Command(AddNumber);
         }
+
+        public event EventHandler TextChanged;
 
         public bool IsSubContact => _isChild;
 
@@ -124,6 +127,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                     Profile.BirthDate = null;
                 NotifyOfPropertyChange(nameof(NoBirthday));
                 NotifyOfPropertyChange(nameof(ActualBirthDate));
+                TextEntryCompleted();
             }
         }
 
@@ -201,6 +205,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 if (ActualBirthDate == value) return;
                 Profile.BirthDate = value;
                 NotifyOfPropertyChange(nameof(ActualBirthDate));
+                TextEntryCompleted();
             }
         }
 
@@ -258,6 +263,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             var vm = new EditPhoneNumberViewModel(null, num =>
             {
                 Profile.PhoneNumbers.Add(num);
+                TextEntryCompleted();
                 PhoneNumbers.Add(new PhoneNumberViewModel(num,
                     FormattedName, async phone =>
                     {
@@ -267,12 +273,18 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                             PhoneNumbers.Remove(phone);
                             Profile.PhoneNumbers.Remove(phone.Phone);
                             NotifyOfPropertyChange(nameof(PhoneNumbers));
+                            TextEntryCompleted();
                         }
                     }));
                 NotifyOfPropertyChange(nameof(PhoneNumbers));
             });
             var nav = IoC.Get<INavigationService>();
             Device.BeginInvokeOnMainThread(() => nav.NavigateToInstanceAsync(vm));
+        }
+
+        public void TextEntryCompleted()
+        {
+            TextChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -11,6 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+#if DEBUG
+using System.Collections.Generic;
+#endif
 
 namespace ShareEmergencyContacts.ViewModels.Base
 {
