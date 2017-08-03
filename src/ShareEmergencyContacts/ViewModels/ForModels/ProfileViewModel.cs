@@ -138,7 +138,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 if (Actual.HeightInCm <= 0)
                     return null;
 
-                return $"{Actual.HeightInCm / 100:0.00} m";
+                return $"{Actual.HeightInCm / 100.0:0.00} m";
             }
         }
 
