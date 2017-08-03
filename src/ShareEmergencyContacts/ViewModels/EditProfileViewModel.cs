@@ -122,6 +122,12 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void AddEmergencyContact()
         {
+            if (Selected.EmergencyContacts.Count + Selected.InsuranceContacts.Count >= DataLimits.MaxSubContacts)
+            {
+                Analytics.TrackEvent(AnalyticsEvents.AddEmergencyContactLimitReached);
+                Device.BeginInvokeOnMainThread(async () => await IoC.Get<IUserDialogs>().AlertAsync($"Each contact may only have a maximum of {DataLimits.MaxSubContacts} contacts!", "Limit reached", "Ok"));
+                return;
+            }
             Analytics.TrackEvent(AnalyticsEvents.AddEmergencyContact);
             var contact = new EmergencyContact();
             Selected.Actual.EmergencyContacts.Add(contact);
@@ -136,6 +142,12 @@ namespace ShareEmergencyContacts.ViewModels
 
         private void AddInsuranceContact()
         {
+            if (Selected.EmergencyContacts.Count + Selected.InsuranceContacts.Count >= DataLimits.MaxSubContacts)
+            {
+                Analytics.TrackEvent(AnalyticsEvents.AddInsuranceContactLimitReached);
+                Device.BeginInvokeOnMainThread(async () => await IoC.Get<IUserDialogs>().AlertAsync($"Each contact may only have a maximum of {DataLimits.MaxSubContacts} contacts!", "Limit reached", "Ok"));
+                return;
+            }
             Analytics.TrackEvent(AnalyticsEvents.AddInsuranceContact);
             var contact = new EmergencyContact();
             Selected.Actual.InsuranceContacts.Add(contact);

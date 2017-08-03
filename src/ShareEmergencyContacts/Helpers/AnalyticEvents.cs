@@ -24,5 +24,7 @@
         public const string ShowEditProfile = "Show edit profile view";
         public const string ShowEditContact = "Show edit contact view";
         public const string EditProfile = "Edit profile";
+        public const string AddEmergencyContactLimitReached = "Add emergency contact limit reached";
+        public const string AddInsuranceContactLimitReached = "Add insurance contact limit reached";
     }
 }
