@@ -30,7 +30,7 @@
             </StackLayout>
             <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="Allergies:" TextColor="Accent" />
-                <userControls:ExpandableEditor Text="{Binding Allergies}" />
+                <userControls:ExpandableEditor Keyboard="Text" Text="{Binding Allergies}" />
             </StackLayout>
             <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="Citizenship:" TextColor="Accent" />
