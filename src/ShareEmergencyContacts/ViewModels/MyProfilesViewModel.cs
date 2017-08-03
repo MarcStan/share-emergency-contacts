@@ -8,6 +8,7 @@ using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.Base;
 using ShareEmergencyContacts.ViewModels.ForModels;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -31,7 +32,7 @@ namespace ShareEmergencyContacts.ViewModels
         public void AddNewProfile()
         {
             EditProfileViewModel vm = null;
-            vm = new EditProfileViewModel(null, async () => await Add(vm.Selected.Actual));
+            vm = new EditProfileViewModel(null, async () => await AddAsync(vm.Selected.Actual));
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }
 
@@ -52,10 +53,13 @@ namespace ShareEmergencyContacts.ViewModels
             var clone = profile.Clone();
             vm = new EditProfileViewModel(clone, () =>
             {
-                profile.Actual = vm.Selected.Actual;
+                return Task.Run(() =>
+                {
+                    profile.Actual = vm.Selected.Actual;
 
-                Analytics.TrackEvent(AnalyticsEvents.EditProfile);
-                UpdateEdited(vm.Selected, originalName);
+                    Analytics.TrackEvent(AnalyticsEvents.EditProfile);
+                    UpdateEdited(vm.Selected, originalName);
+                });
             });
             Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
         }

@@ -7,7 +7,6 @@ using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -266,10 +265,10 @@ namespace ShareEmergencyContacts.ViewModels.Base
         /// Adds the specific profile to the current collection by validating that its name is unique.
         /// </summary>
         /// <param name="profile"></param>
-        public async Task Add(EmergencyProfile profile)
+        public async Task<bool> AddAsync(EmergencyProfile profile)
         {
             if (profile == null)
-                return;
+                return false;
 
             // show overlay asking user for a new name; do not allow existing names
             var forbidden = _existingContacts.Select(c => c.ProfileName).ToArray();
@@ -298,7 +297,9 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     dia.Toast("Added new contact!");
                 }
                 await IoC.Get<INavigationService>().GoBackAsync();
+                return true;
             }
+            return false;
         }
 
         /// <summary>

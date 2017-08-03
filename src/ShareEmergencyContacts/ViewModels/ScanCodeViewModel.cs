@@ -5,6 +5,7 @@ using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ZXing;
@@ -18,12 +19,12 @@ namespace ShareEmergencyContacts.ViewModels
     /// </summary>
     public class ScanCodeViewModel : Screen
     {
-        private readonly Action<EmergencyProfile> _add;
+        private readonly Func<EmergencyProfile, Task<bool>> _add;
         private bool _finished;
         private bool _isAnalyzing;
         private bool _isScanning;
 
-        public ScanCodeViewModel(Action<EmergencyProfile> add)
+        public ScanCodeViewModel(Func<EmergencyProfile, Task<bool>> add)
         {
             Analytics.TrackEvent(AnalyticsEvents.OpenScanView);
             _add = add ?? throw new ArgumentNullException(nameof(add));
@@ -81,7 +82,7 @@ namespace ShareEmergencyContacts.ViewModels
             if (_finished)
                 return;
 
-            Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
                 var p = EmergencyProfile.ParseFromText(qrCode);
                 if (p != null)
@@ -89,10 +90,15 @@ namespace ShareEmergencyContacts.ViewModels
                     if (_finished)
                         return;
                     _finished = true;
-                    IsScanning = false;
                     Analytics.TrackEvent(AnalyticsEvents.CodeScanned);
                     // on match, exit but not before registering the new file
-                    _add(p);
+                    if (!await _add(p))
+                    {
+                        // user canceled and discarded the file
+                        // keep scanning
+                        _finished = false;
+                        IsAnalyzing = true;
+                    }
                 }
                 else
                 {

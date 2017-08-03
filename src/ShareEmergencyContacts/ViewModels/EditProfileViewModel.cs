@@ -5,18 +5,19 @@ using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using ShareEmergencyContacts.Views;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Action = System.Action;
 
 namespace ShareEmergencyContacts.ViewModels
 {
     public class EditProfileViewModel : Screen
     {
-        private readonly Action _save;
+        private readonly Func<Task> _save;
         private ProfileViewModel _selected;
 
-        public EditProfileViewModel(ProfileViewModel toEdit, Action save)
+        public EditProfileViewModel(ProfileViewModel toEdit, Func<Task> save)
         {
             _save = save;
             // TODO: this is ugly, we don't provide rename/delete functors because we rely on the fact that the caller will scrap the instance on save (taking only .Actual) and instead creates a new wrapper with the correct functors
@@ -58,14 +59,14 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand SaveCommand { get; }
 
-        public void Save()
+        public async void Save()
         {
             if (!CanSave(out string message))
             {
                 IoC.Get<IUserDialogs>().Alert(message);
                 return;
             }
-            _save();
+            await _save();
         }
 
         private bool CanSave(out string message)
