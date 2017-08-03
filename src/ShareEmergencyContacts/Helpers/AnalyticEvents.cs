@@ -26,5 +26,6 @@
         public const string EditProfile = "Edit profile";
         public const string AddEmergencyContactLimitReached = "Add emergency contact limit reached";
         public const string AddInsuranceContactLimitReached = "Add insurance contact limit reached";
+        public const string AddPhoneNumberLimitReached = "Add phonenumber limit reached";
     }
 }
