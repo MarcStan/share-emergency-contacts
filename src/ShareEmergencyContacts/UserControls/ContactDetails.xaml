@@ -20,13 +20,17 @@
                 <Label Text="Relationship with contact:" TextColor="Accent" />
                 <Label Text="{Binding Relationship}" />
             </StackLayout>
-            <StackLayout IsVisible="{Binding Email, Converter={StaticResource NullToFalseConverter}}">
-                <Label Text="Email:" TextColor="Accent" />
-                <StackLayout Orientation="Horizontal">
+            <Grid IsVisible="{Binding Email, Converter={StaticResource NullToFalseConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Email:" TextColor="Accent" />
                     <Label Text="{Binding Email}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
-                    <Button Command="{Binding SendEmailCommand}" Image="email.png" Style="{StaticResource IconButton}" Margin="5" HorizontalOptions="End" />
                 </StackLayout>
-            </StackLayout>
+                <Button Grid.Column="1" Command="{Binding SendEmailCommand}" Image="email.png" Style="{StaticResource IconButton}" Margin="5" />
+            </Grid>
             <StackLayout IsVisible="{Binding Address, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Address:" TextColor="Accent" />
                 <Label Text="{Binding Address}" />
