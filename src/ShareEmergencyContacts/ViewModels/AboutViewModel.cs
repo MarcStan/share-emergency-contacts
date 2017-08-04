@@ -12,7 +12,7 @@ namespace ShareEmergencyContacts.ViewModels
     public class AboutViewModel : Screen
     {
         private BindableCollection<string> _poweredBy;
-        private const string Url = "https://marcstan.net/betas/SEC";
+        private const string Url = "https://marcstan.net/betas/SEC/";
         private const string PrivacyUrl = "https://marcstan.net/privacy/betas/SEC";
 
         public AboutViewModel()
