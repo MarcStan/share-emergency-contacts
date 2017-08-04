@@ -44,11 +44,12 @@ namespace ShareEmergencyContacts
 
             Task.Run(async () =>
             {
-                await AppSettings.LoadAsync();
 #if !DEBUG
                 // don't report stuff from my debug sessions or there will be lots of crash reports to ignore
                 MobileCenter();
 #endif
+                // call after mobile center start because start seems to set all variables to true
+                await AppSettings.LoadAsync();
             });
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
