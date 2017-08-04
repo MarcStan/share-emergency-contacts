@@ -8,6 +8,10 @@ color_logo.png -> %iOSRes%\Icon-76.png (76x76)
 color_logo.png -> %iOSRes%\Icon-76@2x.png (152x152)
 color_logo.png -> %iOSRes%\Icon-76@3x.png (228x228)
 
+logo.png -> %iOSRes%\TransparentIcon-76.png (76x76)
+logo.png -> %iOSRes%\TransparentIcon-76@2x.png (152x152)
+logo.png -> %iOSRes%\TransparentIcon-76@3x.png (228x228)
+
 in app icons\*.png -> %iOSRes%\*.png (30x30)
 in app icons\*.png -> %iOSRes%\*@2x.png (60x60)
 in app icons\*.png -> %iOSRes%\*@3x.png (90x90)

@@ -217,8 +217,11 @@
   <ItemGroup>
     <BundleResource Include="Resources\Icon-76.png" />
     <BundleResource Include="Resources\Icon-76%402x.png" />
-    <BundleResource Include="Resources\information.png" />
     <BundleResource Include="Resources\Icon-76%403x.png" />
+    <BundleResource Include="Resources\TransparentIcon-76.png" />
+    <BundleResource Include="Resources\TransparentIcon-76%402x.png" />
+    <BundleResource Include="Resources\TransparentIcon-76%403x.png" />
+    <BundleResource Include="Resources\information.png" />
     <BundleResource Include="Resources\delete.png" />
     <BundleResource Include="Resources\delete%402x.png" />
     <BundleResource Include="Resources\delete%403x.png" />
