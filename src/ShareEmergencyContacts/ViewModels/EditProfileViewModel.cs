@@ -44,7 +44,7 @@ namespace ShareEmergencyContacts.ViewModels
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                foreach (ContactViewModel c in e.NewItems)
+                foreach (ContactViewModel c in e.OldItems)
                 {
                     c.TextChanged -= TextEntryCompleted;
                 }

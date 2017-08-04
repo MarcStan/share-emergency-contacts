@@ -97,6 +97,7 @@ namespace ShareEmergencyContacts.ViewModels
             BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
             if (!_first)
             {
+                Selected.UpdateLists();
                 Selected.Refresh();
                 foreach (var e in Selected.EmergencyContacts)
                 {

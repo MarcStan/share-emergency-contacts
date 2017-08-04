@@ -18,37 +18,21 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
     public class ContactViewModel : PropertyChangedBase
     {
         private readonly bool _isChild;
+        private readonly Action<ContactViewModel> _delete;
         private BindableCollection<PhoneNumberViewModel> _phoneNumbers;
         private bool _noBirthday;
         private EmergencyContact _profile;
+        private ICommand _deleteContactCommand;
 
         public ContactViewModel(EmergencyContact profile, bool displayInsuranceNumber, bool isChild, Action<ContactViewModel> delete)
         {
             CanHaveInsuranceNumber = displayInsuranceNumber;
             CanDelete = delete != null;
             _isChild = isChild;
+            _delete = delete;
             IsEmergencyContact = IsSubContact && !CanHaveInsuranceNumber;
             Profile = profile ?? throw new ArgumentNullException(nameof(profile));
-            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, FormattedName, async phone =>
-            {
-                var dia = IoC.Get<IUserDialogs>();
-                if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
-                {
-                    PhoneNumbers.Remove(phone);
-                    profile.PhoneNumbers.Remove(phone.Phone);
-                    NotifyOfPropertyChange(nameof(PhoneNumbers));
-                    TextEntryCompleted();
-                }
-            })));
 
-            DeleteContactCommand = new Command(async () =>
-            {
-                var dia = IoC.Get<IUserDialogs>();
-                if (await dia.ConfirmAsync($"Really delete '{FormattedName}'?", "Confirm delete", "Yes", "No"))
-                {
-                    delete?.Invoke(this);
-                }
-            });
             NoBirthday = !profile.BirthDate.HasValue;
             AddBirthdayCommand = new Command(() =>
             {
@@ -59,6 +43,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 NoBirthday = true;
             });
             AddNumberCommand = new Command(AddNumber);
+            UpdateLists();
         }
 
         public event EventHandler TextChanged;
@@ -143,7 +128,16 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public bool CanDelete { get; }
 
-        public ICommand DeleteContactCommand { get; }
+        public ICommand DeleteContactCommand
+        {
+            get => _deleteContactCommand;
+            set
+            {
+                if (Equals(value, _deleteContactCommand)) return;
+                _deleteContactCommand = value;
+                NotifyOfPropertyChange(nameof(DeleteContactCommand));
+            }
+        }
 
         public string FormattedName
         {
@@ -285,6 +279,29 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         public void TextEntryCompleted()
         {
             TextChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void UpdateLists()
+        {
+            DeleteContactCommand = new Command(async () =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                if (await dia.ConfirmAsync($"Really delete '{FormattedName}'?", "Confirm delete", "Yes", "No"))
+                {
+                    _delete?.Invoke(this);
+                }
+            });
+            PhoneNumbers = new BindableCollection<PhoneNumberViewModel>(Profile.PhoneNumbers.Select(p => new PhoneNumberViewModel(p, FormattedName, async phone =>
+            {
+                var dia = IoC.Get<IUserDialogs>();
+                if (await dia.ConfirmAsync($"Really remove '{phone.Number}'?", "Confirm delete", "Yes", "No"))
+                {
+                    PhoneNumbers.Remove(phone);
+                    Profile.PhoneNumbers.Remove(phone.Phone);
+                    NotifyOfPropertyChange(nameof(PhoneNumbers));
+                    TextEntryCompleted();
+                }
+            })));
         }
     }
 }

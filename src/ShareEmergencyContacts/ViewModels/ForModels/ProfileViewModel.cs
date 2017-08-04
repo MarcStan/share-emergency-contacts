@@ -25,22 +25,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             _delete = delete;
             _rename = rename;
             Actual = profile ?? throw new ArgumentNullException(nameof(profile));
-            EmergencyContacts = new BindableCollection<ContactViewModel>(profile.EmergencyContacts.Select(c => new ContactViewModel(c, false, true,
-                p =>
-                {
-                    EmergencyContacts.Remove(p);
-                    profile.EmergencyContacts.Remove(p.Profile);
-                    NotifyOfPropertyChange(nameof(EmergencyContacts));
-                    TextEntryCompleted();
-                })));
-            InsuranceContacts = new BindableCollection<ContactViewModel>(profile.InsuranceContacts.Select(c => new ContactViewModel(c, true, true,
-                p =>
-                {
-                    InsuranceContacts.Remove(p);
-                    profile.InsuranceContacts.Remove(p.Profile);
-                    NotifyOfPropertyChange(nameof(InsuranceContacts));
-                    TextEntryCompleted();
-                })));
 
             DeleteCommand = new Command(() => delete?.Invoke(this));
             RenameCommand = new Command(() => rename?.Invoke(this));
@@ -48,6 +32,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             {
                 Device.OpenUri(new Uri($"mailto:{Email}"));
             });
+            UpdateLists();
         }
 
         public ProfileViewModel Clone()
@@ -228,6 +213,27 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 Profile = value;
                 NotifyOfPropertyChange(nameof(Actual));
             }
+        }
+
+        public new void UpdateLists()
+        {
+            EmergencyContacts = new BindableCollection<ContactViewModel>(Actual.EmergencyContacts.Select(c => new ContactViewModel(c, false, true,
+                p =>
+                {
+                    EmergencyContacts.Remove(p);
+                    Actual.EmergencyContacts.Remove(p.Profile);
+                    NotifyOfPropertyChange(nameof(EmergencyContacts));
+                    TextEntryCompleted();
+                })));
+            InsuranceContacts = new BindableCollection<ContactViewModel>(Actual.InsuranceContacts.Select(c => new ContactViewModel(c, true, true,
+                p =>
+                {
+                    InsuranceContacts.Remove(p);
+                    Actual.InsuranceContacts.Remove(p.Profile);
+                    NotifyOfPropertyChange(nameof(InsuranceContacts));
+                    TextEntryCompleted();
+                })));
+            base.UpdateLists();
         }
     }
 }
