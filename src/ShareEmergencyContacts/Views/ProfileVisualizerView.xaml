@@ -81,8 +81,5 @@
             </ScrollView>
         </Grid>
     </ContentPage>
-    <ContentPage Title="Share">
-        <forms:ZXingBarcodeImageView BarcodeFormat="QR_CODE" BarcodeValue="{Binding BarcodeContent}"
-                                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BarcodeOptions="{Binding Options}" />
-    </ContentPage>
+    <ContentPage Title="Share" x:Name="Share" />
 </TabbedPage>

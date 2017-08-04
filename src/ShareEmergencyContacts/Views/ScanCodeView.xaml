@@ -1,9 +1,9 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-             x:Class="ShareEmergencyContacts.Views.ScanCodeView" Title="Scan qr code profile">
+             x:Class="ShareEmergencyContacts.Views.ScanCodeView" Title="Scan QR code profile">
     <Grid>
         <forms:ZXingScannerView Options="{Binding Options}" ScanResultCommand="{Binding ScanCommand}" IsScanning="{Binding IsScanning}" IsAnalyzing="{Binding IsAnalyzing}" x:Name="Scanner" />
-        <forms:ZXingDefaultOverlay TopText="Scan the qr code from the other app using your camera" BottomText="Press back to cancel" ShowFlashButton="False" />
+        <forms:ZXingDefaultOverlay TopText="Scan the QR code from the other app using your camera" BottomText="Press back to cancel" ShowFlashButton="False" />
     </Grid>
 </ContentPage>
