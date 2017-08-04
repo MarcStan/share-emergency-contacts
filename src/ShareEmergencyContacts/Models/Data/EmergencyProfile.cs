@@ -100,7 +100,7 @@ namespace ShareEmergencyContacts.Models.Data
                 WeightInKg = WeightInKg,
                 Relationship = Relationship,
                 Email = Email,
-                ProfileName = ProfileName,
+                ProfileName = ProfileName ?? "", // cannot be null
                 Note = Note,
                 Address = Address,
                 InsuranceNumber = InsuranceNumber,

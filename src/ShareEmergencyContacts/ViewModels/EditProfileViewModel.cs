@@ -161,7 +161,12 @@ namespace ShareEmergencyContacts.ViewModels
                 // only call ToText if we can save, if we can't save it means profile is still invalid (e.g. contact doens't have profile name, etc.
                 if (!CanSave(-1, out _))
                     return -1;
-                return EmergencyProfile.ToRawText(Selected.Actual).Length;
+                var clone = Selected.Actual.CloneFull();
+                // profile names must be set and 1 char is the minimum required
+                // on a new contact this will however be null until user saves
+                if (string.IsNullOrWhiteSpace(clone.ProfileName))
+                    clone.ProfileName = "A";
+                return EmergencyProfile.ToRawText(clone).Length;
             }
         }
 
