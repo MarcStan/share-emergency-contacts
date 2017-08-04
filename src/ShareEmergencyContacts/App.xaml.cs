@@ -4,12 +4,14 @@ using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
 using ShareEmergencyContacts.Extensions;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using ShareEmergencyContacts.Views;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Device = Xamarin.Forms.Device;
 
@@ -21,6 +23,10 @@ namespace ShareEmergencyContacts
 
         public App(SimpleContainer container)
         {
+            EnsurePlatformProvidersExist();
+
+            var handler = IoC.Get<IUnhandledExceptionHandler>();
+            handler.OnException += UnhandledException;
             _container = container;
 
             InitializeComponent();
@@ -35,15 +41,15 @@ namespace ShareEmergencyContacts
             var ns = typeof(RootViewModel).Namespace;
             // auto register all view models
             RegisterAllViewModels(ns);
-            EnsurePlatformProvidersExist();
 
-            var handler = IoC.Get<IUnhandledExceptionHandler>();
-            handler.OnException += UnhandledException;
-
+            Task.Run(async () =>
+            {
+                await AppSettings.LoadAsync();
 #if !DEBUG
-            // don't report stuff from my debug sessions or there will be lots of crash reports to ignore
-            MobileCenter();
+                // don't report stuff from my debug sessions or there will be lots of crash reports to ignore
+                MobileCenter();
 #endif
+            });
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 

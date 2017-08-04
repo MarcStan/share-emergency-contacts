@@ -48,6 +48,7 @@
     <Compile Include="Extensions\CaliburnNavServiceExtensions.cs" />
     <Compile Include="Extensions\ExtendedNavPageAdapter.cs" />
     <Compile Include="Helpers\AnalyticEvents.cs" />
+    <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\DataLimits.cs" />
     <Compile Include="Helpers\JsonParser.cs" />
     <Compile Include="Helpers\VCardHelper.cs" />

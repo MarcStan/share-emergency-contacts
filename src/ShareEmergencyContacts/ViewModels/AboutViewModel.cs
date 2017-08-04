@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using Acr.UserDialogs;
+using Caliburn.Micro;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using System;
@@ -11,8 +12,6 @@ namespace ShareEmergencyContacts.ViewModels
     public class AboutViewModel : Screen
     {
         private BindableCollection<string> _poweredBy;
-        private bool _allowAnalytics;
-        private bool _useDarkTheme;
         private const string Url = "https://marcstan.net/betas/SEC";
         private const string PrivacyUrl = "https://marcstan.net/privacy/betas/SEC";
 
@@ -59,38 +58,40 @@ namespace ShareEmergencyContacts.ViewModels
 
         public bool UseDarkTheme
         {
-            get => Application.Current.Properties.ContainsKey("theme") ? (Application.Current.Properties["theme"] == "dark") : IsSystemDefaultThemeDark();
+            get => AppSettings.IsDarkTheme;
             set
             {
-                if (value == _useDarkTheme) return;
-                _useDarkTheme = value;
-                Application.Current.Properties["theme"] = UseDarkTheme ? "dark" : "light";
+                if (value == UseDarkTheme) return;
+                if (true)
+                {
+                    IoC.Get<IUserDialogs>().Toast("Changing theme will be available soon.");
+                }
+                else
+                {
+                    AppSettings.IsDarkTheme = value;
+                }
                 NotifyOfPropertyChange(nameof(UseDarkTheme));
             }
         }
 
-        private bool IsSystemDefaultThemeDark()
-        {
-            throw new NotSupportedException();
-        }
-
         public bool AllowAnalytics
         {
-            get => _allowAnalytics;
+            get => AppSettings.AllowAnalytics;
             set
             {
-                if (value == _allowAnalytics) return;
-                _allowAnalytics = value;
+                if (value == AllowAnalytics) return;
+                AppSettings.AllowAnalytics = value;
                 NotifyOfPropertyChange(nameof(AllowAnalytics));
                 NotifyOfPropertyChange(nameof(AnalyticsMessage));
             }
         }
 
         public string AnalyticsMessage => AllowAnalytics
-            ? "These reports help me improve the app by spotting crashes early on and fixing them asap. " + Environment.NewLine +
-              "All data uploaded is totally anonymous and only consists of simple events such as 'Edit profile clicked' or 'open barcode scanner' (NONE OF YOUR ENTERED DATA IS EVER UPLOADED)."
+            ? "These reports help me improve the app by spotting crashes early on. " + Environment.NewLine +
+              "Only anonymous data is collected, e.g. events 'Edit profile clicked' or 'Open barcode scanner'." + Environment.NewLine +
+              "None of the text you enter is ever uploaded."
             : "I respect your privacy." + Environment.NewLine +
-              "No usage or crash reports are being uploaded. Only update checks will be made whenever the app is opened.";
+              "No usage or crash reports will be uploaded. Only update checks will be made whenever the app is opened.";
 
         /// <summary>
         /// Returns the current version

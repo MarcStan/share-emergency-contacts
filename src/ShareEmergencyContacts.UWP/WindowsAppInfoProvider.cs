@@ -27,6 +27,14 @@ namespace ShareEmergencyContacts.UWP
 
         public string MobileCenterKey { get; }
 
+        /// <summary>
+        /// Or not. Fucking Microsoft provides no way to check whether the system is running in light or dark mode.
+        /// Really.
+        /// It's not like the feature was availablr in the previous versions of Windowsphone, way to fuck your own shit up again microsoft..
+        /// Just return false because fuck userexperience, right?
+        /// </summary>
+        public bool SystemThemeIsDark => false;
+
         public WindowsAppInfoProvider(string mobileCenterKey)
         {
             MobileCenterKey = mobileCenterKey;
