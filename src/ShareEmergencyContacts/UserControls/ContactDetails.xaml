@@ -29,7 +29,7 @@
                     <Label Text="Email:" TextColor="Accent" />
                     <Label Text="{Binding Email}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
                 </StackLayout>
-                <Button Grid.Column="1" Command="{Binding SendEmailCommand}" Image="email.png" Style="{StaticResource IconButton}" Margin="5" />
+                <Button Grid.Column="1" Command="{Binding SendEmailCommand}" Image="email.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
             </Grid>
             <StackLayout IsVisible="{Binding Address, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Address:" TextColor="Accent" />
@@ -46,12 +46,12 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Orientation="Horizontal" Margin="10,5" VerticalOptions="Center">
-                                    <Label Text="{Binding Type}" />
+                                    <Label Text="{Binding Type}" MinimumWidthRequest="50" VerticalOptions="Center" />
                                     <Label Text="{Binding Number}" />
                                 </StackLayout>
                                 <StackLayout Grid.Column="1" Orientation="Horizontal">
                                     <Button Command="{Binding CopyNumber}" Image="copy.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
-                                    <Button Command="{Binding DialNumber}" Image="phone.png" Style="{StaticResource IconButton}" Margin="5" />
+                                    <Button Command="{Binding DialNumber}" Image="phone.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
                                 </StackLayout>
                             </Grid>
                         </DataTemplate>
