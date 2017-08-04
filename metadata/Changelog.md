@@ -1,4 +1,23 @@
-**v0.9.1 (latest)**
+**v0.9.3**
+
+Another bugfix release.
+
+* introduced upper limit for phone numbers per contact (4)
+* introduced upper limit for emergency + insurance contacts per profile (6)
+* introduced upper limit for text entered (required due to QR code being limited in size)
+* when adding/removing sub contacts from a profile it would not immediately visualize in the saved profile (even though the change was effective)
+* fixed layouting for long email and phone numbers
+* fixes for iOS/UWP styling
+
+**v0.9.2**
+
+* fixed relationship field being too small
+* edit dialog now has cancel button with "discard data?" prompt (user can no longer accidently go back and discard data without confirming)
+* empty profile can no longer be saved
+* made barcode parsing more lax so that more formats are recognized
+* generated barcodes more closely follow the spec (better readability for other barcode readers)
+
+**v0.9.1**
 
 * Added additional fields:
   * Allergies
@@ -8,7 +27,7 @@
 * fixed crash on edit profile view
 * consistent newlines across platforms
 
-**v.0.9.0 (initial)**
+**v0.9.0 (initial)**
 
 * Can add/edit/share own profiles
 * Can receive contacts from other people via QR code and share them again

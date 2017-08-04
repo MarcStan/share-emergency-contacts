@@ -38,3 +38,9 @@ launchSettings.json
 # Auto. generated resources
 
 src/ShareEmergencyContacts.Android/Resources/Resource.Designer.cs
+
+# UWP generated packages
+
+BundleArtifacts/
+*.appx
+src/ShareEmergencyContacts.UWP/_pkginfo.txt
