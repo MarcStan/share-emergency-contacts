@@ -484,12 +484,31 @@ namespace ShareEmergencyContacts.Helpers
 
             var sb = new StringBuilder();
 
+            bool multiLine = false;
             for (int i = 0; i < text.Length; i++)
             {
                 var c = text[i];
                 // remove \r and only save \n as per spec: https://tools.ietf.org/html/rfc6350#section-3.4
+
+                if (multiLine)
+                {
+                    if (c == '\n')
+                    {
+                        // last char was a \r, so it's ok to discard the \r and only write the \n    
+                    }
+                    else
+                    {
+                        // a singluar \r was found and we ignored it before.. fix that by inserting a newline now
+                        sb.Append("\\n");
+                        multiLine = false;
+                        continue;
+                    }
+                }
                 if (c == '\r')
+                {
+                    multiLine = true;
                     continue;
+                }
 
                 if (_escapedCharacters.Contains(c))
                 {
