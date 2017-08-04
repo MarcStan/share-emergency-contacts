@@ -6,6 +6,7 @@
         public const string OpenAbout = "Open About";
         public const string ShareApp = "Share app";
         public const string OpenWebsite = "Open website";
+        public const string OpenPrivacy = "Open privacy";
         public const string OpenScanView = "Open scan view";
         public const string CodeScanned = "Code scanned";
         public const string WrongCodeScanned = "Wrong code scanned";

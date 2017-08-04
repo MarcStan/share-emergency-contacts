@@ -6,18 +6,38 @@
         <ScrollView>
             <StackLayout HorizontalOptions="Center">
                 <Label FontAttributes="Bold" FontSize="32" Text="Share emergency contacts" HorizontalOptions="Center" />
-                <StackLayout Orientation="Horizontal" Margin="0,50">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
                     <Label FontAttributes="Bold" FontSize="22" Text="Version: " />
                     <Label FontAttributes="Bold" FontSize="22" Text="{Binding Version}" />
                     <Label FontAttributes="Bold" FontSize="22" Text="BETA" TextColor="Red" IsVisible="{x:StaticResource IsInBeta}" />
                 </StackLayout>
-                <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" />
+                <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center" />
+                <Grid x:Name="SettingsGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Text="Dark theme:" VerticalOptions="Center" />
+                    <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding UseDarkTheme}" VerticalOptions="Center" />
+                    <Label Grid.Row="1" Grid.Column="0"  Text="Crash and usage reports:" VerticalOptions="Center" />
+                    <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding AllowAnalytics}" VerticalOptions="Center" />
+                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AnalyticsMessage}" />
+                </Grid>
                 <StackLayout Orientation="Horizontal">
+                    <Label FontAttributes="Bold" FontSize="22" Text="User privacy is important:" Margin="0,8,0,5" />
+                    <Button FontAttributes="Bold" FontSize="22" Text="Privacy policy" Margin="0" TextColor="DodgerBlue" Command="{Binding PrivacyCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Start" />
+                </StackLayout>
+                <Label FontAttributes="Bold" FontSize="22" Text="Created by MarcStan" Margin="0,20,0,20" HorizontalTextAlignment="Center" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label FontAttributes="Bold" FontSize="22" Text="More info:" Margin="0,8,0,5" />
                     <Button FontAttributes="Bold" FontSize="22" Text="marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Start" />
                 </StackLayout>
-                <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center"/>
-                <Label FontAttributes="Bold" FontSize="22" Text="Built using:" />
+                <Label FontAttributes="Bold" FontSize="22" Text="Built using:" Margin="0,20,0,0" />
                 <xLabs:StringRepeater ItemsSource="{Binding PoweredBy}">
                     <xLabs:StringRepeater.ItemTemplate>
                         <DataTemplate>
