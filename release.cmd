@@ -10,7 +10,7 @@ vpatch.exe -v %version% ^
             -i "src\ShareEmergencyContacts.iOS\Info.plist" ^
             -u "src\ShareEmergencyContacts.UWP\Package.appxmanifest" ^
             -a "src\ShareEmergencyContacts.Android\Properties\AndroidManifest.xml" ^
-            -appCode %appcode%
+            --appCode %appcode%
 
 icogen.exe -i icons\android.icogen
 icogen.exe -i icons\uwp.icogen
