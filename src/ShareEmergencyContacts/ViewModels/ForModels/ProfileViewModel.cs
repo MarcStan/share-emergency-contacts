@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using Microsoft.Azure.Mobile.Analytics;
+using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Linq;
@@ -30,6 +32,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
             RenameCommand = new Command(() => rename?.Invoke(this));
             SendEmailCommand = new Command(() =>
             {
+                Analytics.TrackEvent(AnalyticsEvents.SendEmail);
                 Device.OpenUri(new Uri($"mailto:{Email}"));
             });
             UpdateLists();

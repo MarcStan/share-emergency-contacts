@@ -20,7 +20,6 @@ namespace ShareEmergencyContacts.ViewModels
 
         public EditPhoneNumberViewModel(PhoneNumber phone, Action<PhoneNumber> onSave)
         {
-            Analytics.TrackEvent(AnalyticsEvents.EditPhoneNumber);
             _onSave = onSave;
             var values = Enum.GetValues(typeof(PhoneType)).Cast<PhoneType>();
             PhoneTypes = new BindableCollection<PhoneType>(values);

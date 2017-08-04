@@ -254,6 +254,7 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
                 Device.BeginInvokeOnMainThread(async () => await IoC.Get<IUserDialogs>().AlertAsync($"Each contact may only have a maximum of {DataLimits.MaxPhoneNumbers} phone numbers!", "Limit reached", "Ok"));
                 return;
             }
+            Analytics.TrackEvent(AnalyticsEvents.AddPhoneNumber);
             var vm = new EditPhoneNumberViewModel(null, num =>
             {
                 Profile.PhoneNumbers.Add(num);

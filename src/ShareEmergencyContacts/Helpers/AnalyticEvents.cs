@@ -10,8 +10,11 @@
         public const string OpenScanView = "Open scan view";
         public const string CodeScanned = "Code scanned";
         public const string WrongCodeScanned = "Wrong code scanned";
+        public const string AddPhoneNumber = "Add phonenumber";
         public const string EditPhoneNumber = "Edit phonenumber";
         public const string SavePhoneNumber = "Save phonenumber";
+        public const string CallPhoneNumber = "Call phonenumber";
+        public const string CopyPhoneNumber = "Copy phonenumber";
         public const string AddContact = "Add contact";
         public const string AddProfile = "Add profile";
         public const string RenameProfile = "Rename profile";
@@ -28,5 +31,6 @@
         public const string AddEmergencyContactLimitReached = "Add emergency contact limit reached";
         public const string AddInsuranceContactLimitReached = "Add insurance contact limit reached";
         public const string AddPhoneNumberLimitReached = "Add phonenumber limit reached";
+        public const string SendEmail = "Send email";
     }
 }
