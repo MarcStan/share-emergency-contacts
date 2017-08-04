@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
@@ -38,8 +40,10 @@ namespace ShareEmergencyContacts
             var handler = IoC.Get<IUnhandledExceptionHandler>();
             handler.OnException += UnhandledException;
 
+#if !DEBUG
+            // don't report stuff from my debug sessions or there will be lots of crash reports to ignore
             MobileCenter();
-
+#endif
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 
@@ -50,10 +54,7 @@ namespace ShareEmergencyContacts
         {
             var platform = Device.RuntimePlatform.ToLower();
             var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
-
-#if !DEBUG
-            Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Microsoft.Azure.Mobile.Analytics.Analytics), typeof(Microsoft.Azure.Mobile.Crashes.Crashes));
-#endif
+            Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes));
         }
 
         private void UnhandledException(object sender, Exception exception)
