@@ -73,13 +73,16 @@ namespace ShareEmergencyContacts.ViewModels
             if (profile == null)
                 return;
 
-            var vm = new ProfileVisualizerViewModel(profile, async p =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                var r = await ConfirmDelete(p);
-                if (r)
-                    Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
-            }, null);
-            Device.BeginInvokeOnMainThread(() => _navigationService.NavigateToInstanceAsync(vm));
+                var vm = new ProfileVisualizerViewModel(profile, async p =>
+                {
+                    var r = await ConfirmDelete(p);
+                    if (r)
+                        Device.BeginInvokeOnMainThread(() => _navigationService.GoBackToRootAsync());
+                }, null);
+                await _navigationService.NavigateToInstanceAsync(vm);
+            });
         }
     }
 }

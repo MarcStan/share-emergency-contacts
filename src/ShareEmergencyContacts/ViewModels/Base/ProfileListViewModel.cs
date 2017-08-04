@@ -87,10 +87,11 @@ namespace ShareEmergencyContacts.ViewModels.Base
             set
             {
                 if (value == _selectedItem) return;
-                _selectedItem = value;
-                if (SelectedItem != null)
+                if (value != null)
                 {
-                    ProfileSelected(SelectedItem);
+                    var item = value;
+                    _selectedItem = null;
+                    ProfileSelected(item);
                 }
                 NotifyOfPropertyChange(nameof(SelectedItem));
             }

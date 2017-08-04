@@ -11,7 +11,8 @@ namespace ShareEmergencyContacts.Views
 
         private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            ((ListView)sender).SelectedItem = null;
+            if (e.SelectedItem != null)
+                ((ListView)sender).SelectedItem = null;
         }
     }
 }
