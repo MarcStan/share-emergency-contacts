@@ -60,8 +60,15 @@ namespace ShareEmergencyContacts
         private static void MobileCenter()
         {
             var platform = Device.RuntimePlatform.ToLower();
+            if (Device.RuntimePlatform == Device.Windows)
+                platform = "uwp"; // Xamarin used to call it windows, will call it UWP as of 2.3-pre6 but I'm still on 2.3-stable
+
             var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
-            Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes));
+            // mobile center doesn't support UWP crashes yet
+            if (platform == "uwp")
+                Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics));
+            else
+                Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes));
         }
 
         private void UnhandledException(object sender, Exception exception)
