@@ -47,7 +47,8 @@ namespace ShareEmergencyContacts.UWP
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            if (args.PreviousExecutionState == ApplicationExecutionState.Running)
+            if (args.PreviousExecutionState == ApplicationExecutionState.Running ||
+                args.PreviousExecutionState == ApplicationExecutionState.Suspended)
                 return;
 
             ZXingScannerViewRenderer.Init();
