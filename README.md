@@ -1,3 +1,14 @@
+#First time setup
+
+Unless you already have vpatch.exe and icogen.exe in your path, download them from:
+
+* https://marcstan.net/binaries/live/vpatch.exe
+* https://marcstan.net/binaries/live/icogen.exe
+
+and put them in your path (or directly into the root of this project).
+
+Or run "first setup.ps1" to do so automatically.
+
 # Share Emergeny Contacts
 
 Share Emergeny Contacts is a cross-platform application that allows two or more people to instantly exchange their emergency contact information from phone to phone without transmitting the data over the internet.

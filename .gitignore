@@ -44,3 +44,5 @@ src/ShareEmergencyContacts.Android/Resources/Resource.Designer.cs
 BundleArtifacts/
 *.appx
 src/ShareEmergencyContacts.UWP/_pkginfo.txt
+icogen.exe
+vpatch.exe
