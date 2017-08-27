@@ -15,18 +15,19 @@ namespace ShareEmergencyContacts.Views
             BindingContextChanged += OnBindingContextChanged;
             CurrentPageChanged += OnPageChanged;
 
-            Share.Content = new ActivityIndicator
+            Share.Children.Add(new ActivityIndicator
             {
                 IsEnabled = true,
                 IsRunning = true,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 VerticalOptions = LayoutOptions.CenterAndExpand
-            };
+            });
             // setup barcode in background so view can load right away
             Task.Run(() =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
+                    Share.Children.Clear();
                     try
                     {
                         // can't define in xaml as it throws exception if the barcode doesn't match (too big, wrong content, etc).
@@ -40,17 +41,17 @@ namespace ShareEmergencyContacts.Views
                             new Binding("BarcodeContent", BindingMode.OneWay));
                         barcode.SetBinding(ZXingBarcodeImageView.BarcodeOptionsProperty,
                             new Binding("Options", BindingMode.OneWay));
-                        Share.Content = barcode;
+                        Share.Children.Add(barcode);
                     }
                     catch (Exception)
                     {
                         // most likely due to barcode too big
-                        Share.Content = new Label
+                        Share.Children.Add(new Label
                         {
                             HorizontalOptions = LayoutOptions.CenterAndExpand,
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             Text = "Failed to create QR code from profile. Probably too much data."
-                        };
+                        });
                     }
                 });
             });

@@ -18,6 +18,9 @@ namespace ShareEmergencyContacts.ViewModels
         private ProfileViewModel _selected;
         private string _barcodeContent;
         private bool _first = true;
+        private BindableCollection<string> _shareDurations;
+        private string _selectedShareDuration;
+        private readonly int[] _duration;
 
         /// <summary>
         /// 
@@ -56,6 +59,9 @@ namespace ShareEmergencyContacts.ViewModels
                     return;
                 deleteAction(Selected);
             });
+            ShareDurations = new BindableCollection<string>(new[] { "1 day", "3 days", "7 days", "2 weeks", "1 month", "3 month", "6 month", "unlimited" });
+            _duration = new[] { 1, 3, 7, 14, 28, 28 * 3, 28 * 6, -1 };
+            SelectedShareDuration = "unlimited";
         }
 
         public ICommand EditCommand { get; }
@@ -92,9 +98,36 @@ namespace ShareEmergencyContacts.ViewModels
             }
         }
 
+        public BindableCollection<string> ShareDurations
+        {
+            get => _shareDurations;
+            set
+            {
+                if (Equals(value, _shareDurations)) return;
+                _shareDurations = value;
+                NotifyOfPropertyChange(nameof(ShareDurations));
+            }
+        }
+
+        public string SelectedShareDuration
+        {
+            get => _selectedShareDuration;
+            set
+            {
+                if (value == _selectedShareDuration) return;
+                _selectedShareDuration = value;
+                int duration = _duration[ShareDurations.IndexOf(SelectedShareDuration)];
+
+                Selected.Actual.ExpirationDate = duration == -1 ? (DateTime?)null : DateTime.Now.AddDays(duration);
+
+                UpdateBarcode();
+                NotifyOfPropertyChange(nameof(SelectedShareDuration));
+            }
+        }
+
         protected override void OnActivate()
         {
-            BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+            UpdateBarcode();
             if (!_first)
             {
                 Selected.UpdateLists();
@@ -123,6 +156,11 @@ namespace ShareEmergencyContacts.ViewModels
             }
             _first = false;
             base.OnActivate();
+        }
+
+        private void UpdateBarcode()
+        {
+            BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
         }
 
         public void PageChanged(bool share)

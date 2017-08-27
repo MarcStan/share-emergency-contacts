@@ -1,7 +1,6 @@
 ﻿<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
-             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              xmlns:xLabs="clr-namespace:ShareEmergencyContacts.Helpers.XLabs;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.ProfileVisualizerView"
              Title="{Binding Selected.ProfileName}">
@@ -81,5 +80,13 @@
             </ScrollView>
         </Grid>
     </ContentPage>
-    <ContentPage Title="Share" x:Name="Share" />
+    <ContentPage Title="Share">
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label Text="Share duration:" VerticalOptions="Center" Margin="0,0,5,0" />
+                <Picker x:Name="ShareDuration" ItemsSource="{Binding ShareDurations}" SelectedItem="{Binding SelectedShareDuration}" WidthRequest="120" />
+            </StackLayout>
+            <Grid x:Name="Share" />
+        </StackLayout>
+    </ContentPage>
 </TabbedPage>
