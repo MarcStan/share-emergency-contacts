@@ -45,7 +45,7 @@ namespace ShareEmergencyContacts.ViewModels
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var vm = new ProfileVisualizerViewModel(profile, Delete, Edit, true);
+                var vm = new ProfileVisualizerViewModel(profile, Delete, Edit, true, true);
                 await _navigationService.NavigateToInstanceAsync(vm);
             });
         }

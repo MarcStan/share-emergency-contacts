@@ -54,6 +54,14 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 {
                     // insert mock data
                     contacts = LoadMockContacts();
+                    if (workWithMyProfiles)
+                    {
+                        foreach (var c in contacts)
+                        {
+                            // must not be set on own profiles
+                            c.ExpirationDate = null;
+                        }
+                    }
                 }
 #endif
                 var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await ConfirmDelete(p), async p => await ConfirmRename(p))).ToList();
@@ -127,7 +135,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
 #if DEBUG
         private static List<EmergencyProfile> LoadMockContacts()
         {
-            return new List<EmergencyProfile>
+            var contacts = new List<EmergencyProfile>
             {
                 new EmergencyProfile
                 {
@@ -162,46 +170,6 @@ namespace ShareEmergencyContacts.ViewModels.Base
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "1234567890 2")
-                            }
-                        }
-                    }
-                },
-                new EmergencyProfile
-                {
-                    ProfileName = "Marc",
-                    FirstName = "Marc",
-                    LastName = "Stan",
-                    BloodType = "The fuck do I know",
-                    Address = "Street 1" + Environment.NewLine +
-                              "12345 LegitCity",
-                    BirthDate = new DateTime(1989, 1, 13),
-                    ExpirationDate = DateTime.Now.AddDays(4),
-                    HeightInCm = 200,
-                    WeightInKg = 100,
-                    Note = "This is a note",
-                    PhoneNumbers = new List<PhoneNumber>
-                    {
-                        new PhoneNumber(PhoneType.Home, "555 12345"),
-                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
-                    },
-                    InsuranceContacts = new List<EmergencyContact>
-                    {
-                        new EmergencyContact
-                        {
-                            FirstName = "REGA",
-                            InsuranceNumber = "#1234",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "+41 1414")
-                            }
-                        },
-                        new EmergencyContact
-                        {
-                            FirstName = "POLIZEI",
-                            InsuranceNumber = "#1234.68.123",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "+49 110")
                             }
                         }
                     }
@@ -262,6 +230,62 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     }
                 }
             };
+            var marc = new EmergencyProfile
+            {
+                ProfileName = "Marc",
+                FirstName = "Marc",
+                LastName = "Stan",
+                BloodType = "The fuck do I know",
+                Address = "Street 1" + Environment.NewLine +
+                              "12345 LegitCity",
+                BirthDate = new DateTime(1989, 1, 13),
+                HeightInCm = 200,
+                WeightInKg = 100,
+                Note = "This is a note",
+                PhoneNumbers = new List<PhoneNumber>
+                    {
+                        new PhoneNumber(PhoneType.Home, "555 12345"),
+                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
+                    },
+                InsuranceContacts = new List<EmergencyContact>
+                    {
+                        new EmergencyContact
+                        {
+                            FirstName = "REGA",
+                            InsuranceNumber = "#1234",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "+41 1414")
+                            }
+                        },
+                        new EmergencyContact
+                        {
+                            FirstName = "POLIZEI",
+                            InsuranceNumber = "#1234.68.123",
+                            PhoneNumbers = new List<PhoneNumber>
+                            {
+                                new PhoneNumber(PhoneType.Work, "+49 110")
+                            }
+                        }
+                    }
+            };
+            marc.ExpirationDate = DateTime.Now.AddDays(1);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(3);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(4);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(7);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(7);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(14);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(28);
+            contacts.Add(marc.CloneFull());
+            marc.ExpirationDate = DateTime.Now.AddDays(28 * 6);
+            contacts.Add(marc.CloneFull());
+            return contacts;
         }
 #endif
 

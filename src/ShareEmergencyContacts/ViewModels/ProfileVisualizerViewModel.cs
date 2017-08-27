@@ -4,6 +4,7 @@ using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ZXing.QrCode;
@@ -29,7 +30,7 @@ namespace ShareEmergencyContacts.ViewModels
         /// <param name="deleteAction"></param>
         /// <param name="editAction"></param>
         /// <param name="showBarcodeFirst">If true, shows the barcode fullscreen first.</param>
-        public ProfileVisualizerViewModel(ProfileViewModel profile, Action<ProfileViewModel> deleteAction, Action<ProfileViewModel> editAction, bool showBarcodeFirst = false)
+        public ProfileVisualizerViewModel(ProfileViewModel profile, Action<ProfileViewModel> deleteAction, Action<ProfileViewModel> editAction, bool showBarcodeFirst = false, bool allowShareDuration = false)
         {
             Selected = profile ?? throw new ArgumentNullException(nameof(profile));
             ShowBarcodeFirst = showBarcodeFirst;
@@ -61,7 +62,36 @@ namespace ShareEmergencyContacts.ViewModels
             });
             ShareDurations = new BindableCollection<string>(new[] { "1 day", "3 days", "7 days", "2 weeks", "1 month", "3 month", "6 month", "unlimited" });
             _duration = new[] { 1, 3, 7, 14, 28, 28 * 3, 28 * 6, -1 };
-            SelectedShareDuration = "unlimited";
+            SelectedShareDuration = ShareDurations.Last();
+            CanChangeShareDuration = allowShareDuration;
+        }
+
+        public bool CanChangeShareDuration { get; }
+
+        public string ActiveShareDuration
+        {
+            get
+            {
+                if (CanChangeShareDuration)
+                    return null;
+
+                var exp = Selected.Actual.ExpirationDate;
+                if (exp.HasValue)
+                {
+                    var day = exp.Value;
+                    var n = DateTime.Now;
+                    var delta = day - n;
+                    if (delta.TotalDays < 7)
+                    {
+                        var d = (int)delta.TotalDays + 1;
+
+                        return $"Contact is shared for {d} more day{(d == 1 ? "" : "s")}";
+                    }
+                    return $"Contact is shared until {day:M}";
+                }
+
+                return "Contact is shared forever";
+            }
         }
 
         public ICommand EditCommand { get; }
@@ -118,16 +148,19 @@ namespace ShareEmergencyContacts.ViewModels
                 _selectedShareDuration = value;
                 int duration = _duration[ShareDurations.IndexOf(SelectedShareDuration)];
 
-                Selected.Actual.ExpirationDate = duration == -1 ? (DateTime?)null : DateTime.Now.AddDays(duration);
+                var clone = Selected.Actual.CloneFull();
+                // set on cloned value, and don't modify the real data
+                // because we don't want the value saved in our own profiles (the value is meant for the share receiver only)
+                clone.ExpirationDate = duration == -1 ? (DateTime?)null : DateTime.Now.AddDays(duration);
 
-                UpdateBarcode();
+                UpdateBarcode(clone);
                 NotifyOfPropertyChange(nameof(SelectedShareDuration));
             }
         }
 
         protected override void OnActivate()
         {
-            UpdateBarcode();
+            UpdateBarcode(Selected.Actual);
             if (!_first)
             {
                 Selected.UpdateLists();
@@ -158,9 +191,9 @@ namespace ShareEmergencyContacts.ViewModels
             base.OnActivate();
         }
 
-        private void UpdateBarcode()
+        private void UpdateBarcode(EmergencyProfile p)
         {
-            BarcodeContent = EmergencyProfile.ToRawText(Selected.Actual);
+            BarcodeContent = EmergencyProfile.ToRawText(p);
         }
 
         public void PageChanged(bool share)
