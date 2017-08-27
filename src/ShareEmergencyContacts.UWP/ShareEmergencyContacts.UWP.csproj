@@ -164,6 +164,7 @@
     <Content Include="edit.png" />
     <Content Include="email.png" />
     <Content Include="export.png" />
+    <Content Include="import.png" />
     <Content Include="information.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="phone.png" />

@@ -64,7 +64,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     }
                 }
 #endif
-                var profiles = contacts.Select(c => new ProfileViewModel(c, async p => await ConfirmDelete(p), async p => await ConfirmRename(p))).ToList();
+                var profiles = contacts.Select(Create).ToList();
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -73,6 +73,8 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 });
             });
         }
+
+        internal ProfileViewModel Create(EmergencyProfile c) => new ProfileViewModel(c, async p => await ConfirmDelete(p), async p => await ConfirmRename(p));
 
         public string CenterText
         {

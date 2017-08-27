@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
+using CreationCollisionOption = Windows.Storage.CreationCollisionOption;
 
 namespace ShareEmergencyContacts.UWP
 {
@@ -125,6 +126,20 @@ namespace ShareEmergencyContacts.UWP
             {
                 await writer.WriteAsync(content);
             }
+        }
+
+        public async Task<string> ReadExternallyAsync(string ext)
+        {
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
+            };
+            openPicker.FileTypeFilter.Add(ext);
+            var file = await openPicker.PickSingleFileAsync();
+
+            using (var stream = await file.OpenStreamForReadAsync())
+            using (var reader = new StreamReader(stream))
+                return await reader.ReadToEndAsync();
         }
     }
 }

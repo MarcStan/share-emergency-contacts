@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using System.Windows.Input;
 using ShareEmergencyContacts.Models;
+using ShareEmergencyContacts.Models.Data;
 using Xamarin.Forms;
 #if BETA
 using Acr.UserDialogs;
@@ -29,7 +31,8 @@ namespace ShareEmergencyContacts.ViewModels
             ReceivedContactsViewModel = new ReceivedContactsViewModel(_navigationService);
 
             AboutCommand = new Command(About);
-            ExportCommand = new Command(Export);
+            ExportCommand = new Command(ExportToFile);
+            ImportCommand = new Command(ImportFromFile);
 #if BETA
             PerformBetaUpdateCheck();
 #endif
@@ -99,13 +102,62 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand ExportCommand { get; }
 
+        public ICommand ImportCommand { get; }
+
         public void About()
         {
             Analytics.TrackEvent(AnalyticsEvents.OpenAbout);
             _navigationService.NavigateToViewModelAsync<AboutViewModel>();
         }
 
-        public async void Export()
+        public async void ImportFromFile()
+        {
+            var storage = IoC.Get<IStorageProvider>();
+            var content = await storage.ReadExternallyAsync(".vcards");
+            if (content == null)
+                return;
+            var dia = IoC.Get<IUserDialogs>();
+            var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            if (!ImportExportHelper.FromFile(lines, out IList<EmergencyProfile> contacts,
+                out IList<EmergencyProfile> profiles))
+            {
+                dia.Toast("Import failed!");
+                return;
+            }
+            // don't overwrite existing names, just create a new file with a unique number
+            int imp = 0;
+            foreach (var c in contacts)
+            {
+                var n = ReceivedContactsViewModel.Create(c);
+                int id = 1;
+                var uniqueName = n.ProfileName;
+                while (ReceivedContactsViewModel.ExistingContacts.Any(p => p.ProfileName == uniqueName))
+                {
+                    id++;
+                    uniqueName = n.ProfileName + $" {id}";
+                }
+                n.ProfileName = uniqueName;
+                ReceivedContactsViewModel.ExistingContacts.Add(n);
+                imp++;
+            }
+            foreach (var p in profiles)
+            {
+                var n = MyProfilesViewModel.Create(p);
+                int id = 1;
+                var uniqueName = n.ProfileName;
+                while (MyProfilesViewModel.ExistingContacts.Any(p2 => p2.ProfileName == uniqueName))
+                {
+                    id++;
+                    uniqueName = n.ProfileName + $" {id}";
+                }
+                n.ProfileName = uniqueName;
+                MyProfilesViewModel.ExistingContacts.Add(n);
+                imp++;
+            }
+            dia.Toast($"{imp} contact{(imp == 1 ? "" : "s")} imported!");
+        }
+
+        public async void ExportToFile()
         {
             var c = ReceivedContactsViewModel.ExistingContacts.Count;
             var p = MyProfilesViewModel.ExistingContacts.Count;
@@ -114,11 +166,11 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
 
             var storage = IoC.Get<IStorageProvider>();
-            var csv = ImportExportHelper.ToFile(ReceivedContactsViewModel.ExistingContacts.Select(s => s.Actual).ToList(), MyProfilesViewModel.ExistingContacts.Select(s => s.Actual).ToList());
+            var file = ImportExportHelper.ToFile(ReceivedContactsViewModel.ExistingContacts.Select(s => s.Actual).ToList(), MyProfilesViewModel.ExistingContacts.Select(s => s.Actual).ToList());
 
             var n = DateTime.Now;
             var date = $"{n.Year}-{n.Month:00}-{n.Day:00}";
-            await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", csv);
+            await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", file);
             if (Device.RuntimePlatform == Device.Android)
                 dia.Toast("Contacts exported to Downloads folder!");
             else

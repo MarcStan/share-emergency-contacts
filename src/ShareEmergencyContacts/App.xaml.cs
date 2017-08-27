@@ -65,7 +65,7 @@ namespace ShareEmergencyContacts
         {
             var platform = Device.RuntimePlatform.ToLower();
             if (Device.RuntimePlatform == Device.Windows)
-                platform = "uwp"; // Xamarin used to call it windows, will call it UWP as of 2.3-pre6 but I'm still on 2.3-stable
+                platform = "uwp"; // Xamarin used to call it windows, but renamed the property to UWP, we need UWP as value as well
 
             var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
             // mobile center doesn't support UWP crashes yet

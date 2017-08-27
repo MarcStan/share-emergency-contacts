@@ -46,7 +46,7 @@ namespace ShareEmergencyContacts.Helpers
         /// <param name="lines"></param>
         /// <param name="contacts"></param>
         /// <param name="profiles"></param>
-        public static void FromFile(string[] lines, out IList<EmergencyProfile> contacts, out IList<EmergencyProfile> profiles)
+        public static bool FromFile(string[] lines, out IList<EmergencyProfile> contacts, out IList<EmergencyProfile> profiles)
         {
             bool isProfiles = false;
             var list = new List<string>();
@@ -65,11 +65,14 @@ namespace ShareEmergencyContacts.Helpers
                         isProfiles = true;
 
                     list.Clear();
+                    continue;
                 }
                 // seperator between entries
                 if (line == "---")
                 {
                     var contact = EmergencyProfile.ParseFromText(string.Join(Environment.NewLine, list));
+                    if (contact == null)
+                        return false;
                     if (isProfiles)
                         profiles.Add(contact);
                     else
@@ -84,6 +87,8 @@ namespace ShareEmergencyContacts.Helpers
             {
                 // last entry
                 var contact = EmergencyProfile.ParseFromText(string.Join(Environment.NewLine, list));
+                if (contact == null)
+                    return false;
                 if (isProfiles)
                     profiles.Add(contact);
                 else
@@ -91,6 +96,7 @@ namespace ShareEmergencyContacts.Helpers
 
                 list.Clear();
             }
+            return true;
         }
 
         private static void WriteContact(EmergencyProfile p, StringBuilder sb)

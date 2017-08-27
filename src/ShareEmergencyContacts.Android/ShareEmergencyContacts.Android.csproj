@@ -236,6 +236,8 @@
     <AndroidResource Include="Resources\drawable\delete.png" />
     <AndroidResource Include="Resources\drawable\edit.png" />
     <AndroidResource Include="Resources\drawable\email.png" />
+    <AndroidResource Include="Resources\drawable\export.png" />
+    <AndroidResource Include="Resources\drawable\import.png" />
     <AndroidResource Include="Resources\drawable\information.png" />
     <AndroidResource Include="Resources\drawable\logo.png" />
     <AndroidResource Include="Resources\drawable\phone.png" />
@@ -248,6 +250,8 @@
     <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
     <AndroidResource Include="Resources\drawable-hdpi\edit.png" />
     <AndroidResource Include="Resources\drawable-hdpi\email.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\export.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\import.png" />
     <AndroidResource Include="Resources\drawable-hdpi\information.png" />
     <AndroidResource Include="Resources\drawable-hdpi\logo.png" />
     <AndroidResource Include="Resources\drawable-hdpi\phone.png" />
@@ -261,21 +265,14 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\delete.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\edit.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\email.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\export.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\import.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\information.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\phone.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\qr.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\save.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\share.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\export.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\export.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\export.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
