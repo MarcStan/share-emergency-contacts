@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
+using PCLStorage;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
@@ -27,6 +28,9 @@ namespace ShareEmergencyContacts
 
             var handler = IoC.Get<IUnhandledExceptionHandler>();
             handler.OnException += UnhandledException;
+#if DEBUG
+            LoadAndDisplayException();
+#endif
             _container = container;
 
             InitializeComponent();
@@ -73,10 +77,39 @@ namespace ShareEmergencyContacts
 
         private void UnhandledException(object sender, Exception exception)
         {
-            if (Debugger.IsAttached)
+            if (!Debugger.IsAttached)
+            {
+                var t = Task.Run(async () =>
+                {
+                    var root = FileSystem.Current.LocalStorage;
+                    var file = await root.CreateFileAsync("lastrun.exception.txt", CreationCollisionOption.ReplaceExisting);
+                    var formatted = exception.ToString();
+                    await file.WriteAllTextAsync(formatted);
+                });
+                Task.WaitAll(t);
+            }
+            else
+            {
+                // by breaking we sometimes get more detail for the exception; esp. on android
                 Debugger.Break();
-            // TODO: do this: https://peterno.wordpress.com/2015/04/15/unhandled-exception-handling-in-ios-and-android-with-xamarin/
+            }
         }
+
+        private void LoadAndDisplayException()
+        {
+            Task.Run(async () =>
+            {
+                var root = FileSystem.Current.LocalStorage;
+                if (await root.CheckExistsAsync("lastrun.exception.txt") == ExistenceCheckResult.FileExists)
+                {
+                    var file = await root.GetFileAsync("lastrun.exception.txt");
+                    var content = await file.ReadAllTextAsync();
+                    await file.DeleteAsync();
+                    await IoC.Get<IUserDialogs>().AlertAsync(content, "Last uncaught crash", "Ok");
+                }
+            });
+        }
+
 
         /// <summary>
         /// Call once to throw on any platform that failed to provide an implementation of a required provider.

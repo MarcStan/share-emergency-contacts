@@ -7,6 +7,7 @@
     "Microsoft.Azure.Mobile.Analytics": "0.14.2",
     "Microsoft.Azure.Mobile.Crashes": "0.14.2",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
+    "PCLStorage": "1.0.2",
     "Splat": "1.6.2",
     "Xamarin.Forms": "2.3.4.247",
     "ZXing.Net.Mobile.Forms": "2.2.9"
