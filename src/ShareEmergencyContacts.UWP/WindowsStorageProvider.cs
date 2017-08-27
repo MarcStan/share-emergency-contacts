@@ -7,11 +7,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
-using IStorageProvider = ShareEmergencyContacts.Models.IStorageProvider;
 
 namespace ShareEmergencyContacts.UWP
 {
-    public class WindowsStorageProvider : IStorageProvider
+    public class WindowsStorageProvider : ShareEmergencyContacts.Models.IStorageProvider
     {
         public async Task WriteAllTextAsync(string filePath, string text)
         {
@@ -105,6 +104,26 @@ namespace ShareEmergencyContacts.UWP
             }
             catch (FileNotFoundException)
             {
+            }
+        }
+
+        public async Task SaveExternallyAsync(string filename, string content)
+        {
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads
+            };
+            var ext = Path.GetExtension(filename);
+            savePicker.FileTypeChoices.Add(ext, new List<string> { ext });
+            savePicker.SuggestedFileName = filename;
+            var file = await savePicker.PickSaveFileAsync();
+            if (file == null)
+                return;
+
+            using (var stream = await file.OpenStreamForWriteAsync())
+            using (var writer = new StreamWriter(stream))
+            {
+                await writer.WriteAsync(content);
             }
         }
     }

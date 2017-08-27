@@ -57,6 +57,20 @@ namespace ShareEmergencyContacts.Droid
             });
         }
 
+        public Task SaveExternallyAsync(string filename, string content)
+        {
+            return Task.Run(() =>
+            {
+#if __ANDROID__
+                var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads);
+                Directory.CreateDirectory(dir.AbsolutePath);
+                File.WriteAllText(Path.Combine(dir.AbsolutePath, filename), content);
+#else
+                throw new NotSupportedException("not implemented");
+#endif
+            });
+        }
+
         private string GetFullPath(string relative, bool createIfMissing = false)
         {
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);

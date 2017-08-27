@@ -40,8 +40,14 @@ namespace ShareEmergencyContacts.Models
         /// <summary>
         /// Deletes the specific file from disk.
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
         Task DeleteFileAsync(string filePath);
+
+        /// <summary>
+        /// Creates an external file with the provided content.
+        /// </summary>
+        /// <returns></returns>
+        Task SaveExternallyAsync(string filename, string content);
     }
 }

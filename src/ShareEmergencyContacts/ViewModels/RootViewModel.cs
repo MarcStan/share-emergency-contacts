@@ -1,8 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using System.Linq;
+using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using System.Windows.Input;
+using ShareEmergencyContacts.Models;
 using Xamarin.Forms;
 #if BETA
 using Acr.UserDialogs;
@@ -27,6 +29,7 @@ namespace ShareEmergencyContacts.ViewModels
             ReceivedContactsViewModel = new ReceivedContactsViewModel(_navigationService);
 
             AboutCommand = new Command(About);
+            ExportCommand = new Command(Export);
 #if BETA
             PerformBetaUpdateCheck();
 #endif
@@ -94,10 +97,32 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand AboutCommand { get; }
 
+        public ICommand ExportCommand { get; }
+
         public void About()
         {
             Analytics.TrackEvent(AnalyticsEvents.OpenAbout);
             _navigationService.NavigateToViewModelAsync<AboutViewModel>();
+        }
+
+        public async void Export()
+        {
+            var c = ReceivedContactsViewModel.ExistingContacts.Count;
+            var p = MyProfilesViewModel.ExistingContacts.Count;
+            var dia = IoC.Get<IUserDialogs>();
+            if (!await dia.ConfirmAsync($"Really export {c} contact{(c == 1 ? "" : "s")} and {p} profile{(p == 1 ? "" : "s")}?", "Export all?", "yes", "no"))
+                return;
+
+            var storage = IoC.Get<IStorageProvider>();
+            var csv = ImportExportHelper.ToFile(ReceivedContactsViewModel.ExistingContacts.Select(s => s.Actual).ToList(), MyProfilesViewModel.ExistingContacts.Select(s => s.Actual).ToList());
+
+            var n = DateTime.Now;
+            var date = $"{n.Year}-{n.Month:00}-{n.Day:00}";
+            await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", csv);
+            if (Device.RuntimePlatform == Device.Android)
+                dia.Toast("Contacts exported to Downloads folder!");
+            else
+                dia.Toast("Contacts exported!");
         }
     }
 }

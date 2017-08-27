@@ -82,6 +82,7 @@ namespace ShareEmergencyContacts.Helpers
             // "hello\n\nworld" anyway because it is saved as "hello\\n\\nworld"
 
             // multiplatform, so split all linebreaks
+            // this only affects vcard lines and not the content since the content contains literal "\n" ("\\n" in C#) and will be converted to actual newline on 
             return FromVCard(text.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries));
         }
 
