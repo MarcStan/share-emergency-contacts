@@ -492,6 +492,7 @@ namespace ShareEmergencyContacts.Helpers
 
                 if (multiLine)
                 {
+                    multiLine = false;
                     if (c == '\n')
                     {
                         // last char was a \r, so it's ok to discard the \r and only write the \n    
@@ -500,7 +501,6 @@ namespace ShareEmergencyContacts.Helpers
                     {
                         // a singluar \r was found and we ignored it before.. fix that by inserting a newline now
                         sb.Append("\\n");
-                        multiLine = false;
                         continue;
                     }
                 }
