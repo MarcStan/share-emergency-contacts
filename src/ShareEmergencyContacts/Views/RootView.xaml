@@ -5,7 +5,7 @@
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="About" Icon="information.png" Command="{Binding AboutCommand}" />
         <ToolbarItem Text="Export all contacts to file" Icon="export.png" Command="{Binding ExportCommand}" Order="Secondary" />
-        <ToolbarItem Text="Import from file" Icon="import.png" Command="{Binding ImportCommand}" Order="Secondary" />
+        <ToolbarItem Text="Import from file" Icon="imp.png" Command="{Binding ImportCommand}" Order="Secondary" />
     </TabbedPage.ToolbarItems>
     <views:ReceivedContactsView Title="Received contacts" BindingContext="{Binding ReceivedContactsViewModel}"/>
     <views:MyProfilesView Title="My profiles" BindingContext="{Binding MyProfilesViewModel}"/>
