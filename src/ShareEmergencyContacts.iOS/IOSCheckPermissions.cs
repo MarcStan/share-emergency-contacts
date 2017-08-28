@@ -66,6 +66,8 @@ namespace ShareEmergencyContacts.iOS
             {
                 case PermissionType.Camera:
                     return "NSCameraUsageDescription";
+                case PermissionType.Storage:
+                    throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(perm), perm, null);
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
@@ -112,6 +113,9 @@ namespace ShareEmergencyContacts.ViewModels
 
         public async void ImportFromFile()
         {
+            if (!await EnsureStorageAccess())
+                return;
+
             var storage = IoC.Get<IStorageProvider>();
             var content = await storage.ReadExternallyAsync(".vcards");
             if (content == null)
@@ -165,6 +169,9 @@ namespace ShareEmergencyContacts.ViewModels
             if (!await dia.ConfirmAsync($"Really export {c} contact{(c == 1 ? "" : "s")} and {p} profile{(p == 1 ? "" : "s")}?", "Export all?", "yes", "no"))
                 return;
 
+            if (!await EnsureStorageAccess())
+                return;
+
             var storage = IoC.Get<IStorageProvider>();
             var file = ImportExportHelper.ToFile(ReceivedContactsViewModel.ExistingContacts.Select(s => s.Actual).ToList(), MyProfilesViewModel.ExistingContacts.Select(s => s.Actual).ToList());
 
@@ -175,6 +182,48 @@ namespace ShareEmergencyContacts.ViewModels
                 dia.Toast("Contacts exported to Downloads folder!");
             else
                 dia.Toast("Contacts exported!");
+        }
+
+        private async Task<bool> EnsureStorageAccess()
+        {
+            var permCheck = IoC.Get<ICheckPermissions>();
+            var grantResult = await permCheck.GrantPermissionAsync(PermissionType.Camera);
+            switch (grantResult)
+            {
+                case PermissionResult.Granted:
+                    return true;
+                case PermissionResult.Denied:
+                    return false;
+                case PermissionResult.AlwaysDenied:
+                    // user won't even be prompted anymore with a dialog
+                    // since this is the main feature of the app this will confuse any user who accidently set "never ask again"
+                    // therefore tell him how to fix it
+                    var dia = IoC.Get<IUserDialogs>();
+                    string navPath;
+                    var appName = "Share emergency contacts";
+                    switch (Device.RuntimePlatform)
+                    {
+                        case Device.Android:
+                            navPath = $"Apps -> {appName} -> Permissions";
+                            break;
+                        case Device.Windows:
+                            // doesn't even exist on UWP, so we should never get access denied
+                            navPath = "Storage";
+                            break;
+                        case Device.iOS:
+                            navPath = "Storage";
+                            break;
+                        default:
+                            throw new NotSupportedException($"Unsupported platform '{Device.RuntimePlatform}'.");
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        dia.Alert($"You have permanently denied access to the camera previously. To use this feature again, please go to 'Settings -> {navPath}' and manually enable camera access.", "Camera access denied");
+                    });
+                    return false;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

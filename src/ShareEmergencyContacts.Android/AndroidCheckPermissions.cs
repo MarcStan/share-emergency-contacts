@@ -40,6 +40,8 @@ namespace ShareEmergencyContacts.Droid
             {
                 case PermissionType.Camera:
                     return Android.Manifest.Permission.Camera;
+                case PermissionType.Storage:
+                    return Android.Manifest.Permission.WriteExternalStorage;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(perm), perm, null);
             }
@@ -72,7 +74,7 @@ namespace ShareEmergencyContacts.Droid
             _permissionTokens.Add(id, tcs);
 
             // run permission request by android (may or may not spawn dialog)
-            ActivityCompat.RequestPermissions(_context, new[] {permission}, id);
+            ActivityCompat.RequestPermissions(_context, new[] { permission }, id);
             // await the result proxied to PermissionRequestAnswered
             await tcs.Task;
             return tcs.Task.Result;

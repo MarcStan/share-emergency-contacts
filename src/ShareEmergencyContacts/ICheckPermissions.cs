@@ -56,6 +56,7 @@ namespace ShareEmergencyContacts
 
     public enum PermissionType
     {
-        Camera
+        Camera,
+        Storage
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Acr.UserDialogs;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Caliburn.Micro;
+using ShareEmergencyContacts.Models;
 using Xamarin.Forms;
 using ZXing.Mobile;
 
@@ -27,6 +29,10 @@ namespace ShareEmergencyContacts.Droid
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources, "4bc7da4c-5508-436a-91fd-08ced75df7f7"));
 
+            var storage = new AndroidIOSStorageProvider(this);
+            ActivityResultSet += storage.OnActivityResult;
+            container.RegisterInstance(typeof(IStorageProvider), null, storage);
+
             var perm = new AndroidCheckPermissions((Activity)Forms.Context);
             OnPermissionSet += perm.PermissionRequestAnswered;
 
@@ -36,12 +42,19 @@ namespace ShareEmergencyContacts.Droid
         }
 
         public delegate void PermissionResponse(int requestCode, string[] permissions, Permission[] grantResults);
+        public delegate void ActivityResult(int requestCode, Result resultCode, Intent data);
 
         public event PermissionResponse OnPermissionSet;
+        public event ActivityResult ActivityResultSet;
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             OnPermissionSet?.Invoke(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            ActivityResultSet?.Invoke(requestCode, resultCode, data);
         }
     }
 }
