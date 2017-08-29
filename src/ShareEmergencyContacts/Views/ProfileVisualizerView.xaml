@@ -82,7 +82,7 @@
         </Grid>
     </ContentPage>
     <ContentPage Title="Share">
-        <StackLayout>
+        <StackLayout x:Name="Share">
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" IsVisible="{Binding CanChangeShareDuration}">
                 <Label Text="Share duration:" VerticalOptions="Center" Margin="0,0,5,0" />
                 <Picker x:Name="ShareDuration" ItemsSource="{Binding ShareDurations}" SelectedItem="{Binding SelectedShareDuration}" WidthRequest="120" />
@@ -90,7 +90,6 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" IsVisible="{Binding CanChangeShareDuration, Converter={StaticResource InvertBoolConverter}}">
                 <Label Text="{Binding ActiveShareDuration}" />
             </StackLayout>
-            <Grid x:Name="Share" />
         </StackLayout>
     </ContentPage>
 </TabbedPage>

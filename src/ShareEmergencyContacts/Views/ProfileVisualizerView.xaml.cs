@@ -15,19 +15,11 @@ namespace ShareEmergencyContacts.Views
             BindingContextChanged += OnBindingContextChanged;
             CurrentPageChanged += OnPageChanged;
 
-            Share.Children.Add(new ActivityIndicator
-            {
-                IsEnabled = true,
-                IsRunning = true,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-                VerticalOptions = LayoutOptions.CenterAndExpand
-            });
             // setup barcode in background so view can load right away
             Task.Run(() =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Share.Children.Clear();
                     try
                     {
                         // can't define in xaml as it throws exception if the barcode doesn't match (too big, wrong content, etc).
@@ -35,7 +27,7 @@ namespace ShareEmergencyContacts.Views
                         {
                             BarcodeFormat = BarcodeFormat.QR_CODE,
                             HorizontalOptions = LayoutOptions.FillAndExpand,
-                            VerticalOptions = LayoutOptions.FillAndExpand,
+                            VerticalOptions = LayoutOptions.FillAndExpand
                         };
                         barcode.SetBinding(ZXingBarcodeImageView.BarcodeValueProperty,
                             new Binding("BarcodeContent", BindingMode.OneWay));
