@@ -134,14 +134,12 @@ namespace ShareEmergencyContacts.ViewModels
             if (content == null)
                 return;
             var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            if (!ImportExportHelper.FromFile(lines, out IList<EmergencyProfile> contacts,
-                out IList<EmergencyProfile> profiles))
+            if (!ImportExportHelper.FromFile(lines, out IList<EmergencyProfile> contacts, out IList<EmergencyProfile> profiles))
             {
                 dia.Toast("Import failed!");
                 return;
             }
             // don't overwrite existing names, just create a new file with a unique number
-            int imp = 0;
             var storageContainer = IoC.Get<IStorageContainer>();
             foreach (var c in contacts)
             {
@@ -156,8 +154,8 @@ namespace ShareEmergencyContacts.ViewModels
                 n.ProfileName = uniqueName;
                 ReceivedContactsViewModel.ExistingContacts.Add(n);
                 await storageContainer.SaveReceivedContactAsync(n.Actual);
-                imp++;
             }
+            ReceivedContactsViewModel.NotifyOfPropertyChange(nameof(ReceivedContactsViewModel.NoContacts));
             foreach (var p in profiles)
             {
                 var n = MyProfilesViewModel.Create(p);
@@ -171,9 +169,17 @@ namespace ShareEmergencyContacts.ViewModels
                 n.ProfileName = uniqueName;
                 MyProfilesViewModel.ExistingContacts.Add(n);
                 await storageContainer.SaveProfileAsync(n.Actual);
-                imp++;
             }
-            dia.Toast($"{imp} contact{(imp == 1 ? "" : "s")} imported!");
+            MyProfilesViewModel.NotifyOfPropertyChange(nameof(MyProfilesViewModel.NoContacts));
+            Analytics.TrackEvent(AnalyticsEvents.ImportContactsFile);
+            var c1 = contacts.Count > 0 ? $"{contacts.Count} contact{(contacts.Count == 1 ? "" : "s")}" : null;
+            var p1 = profiles.Count > 0 ? $"{profiles.Count} profile{(profiles.Count == 1 ? "" : "s")}" : null;
+            if (c1 == null && p1 == null)
+                return;
+            if (c1 != null && p1 != null)
+                dia.Toast($"{c1} and {p1} imported!");
+            else
+                dia.Toast($"{c1 ?? p1} imported!");
         }
 
         public async void ExportToFile()
@@ -181,6 +187,11 @@ namespace ShareEmergencyContacts.ViewModels
             var c = ReceivedContactsViewModel.ExistingContacts.Count;
             var p = MyProfilesViewModel.ExistingContacts.Count;
             var dia = IoC.Get<IUserDialogs>();
+            if (c == 0 && p == 0)
+            {
+                dia.Toast("Nothing to export!");
+                return;
+            }
             if (!await dia.ConfirmAsync($"Really export {c} contact{(c == 1 ? "" : "s")} and {p} profile{(p == 1 ? "" : "s")}?", "Export all?", "yes", "no"))
                 return;
 
@@ -193,6 +204,7 @@ namespace ShareEmergencyContacts.ViewModels
             var n = DateTime.Now;
             var date = $"{n.Year}-{n.Month:00}-{n.Day:00}";
             await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", file);
+            Analytics.TrackEvent(AnalyticsEvents.ExportContactsFile);
             if (Device.RuntimePlatform == Device.Android)
                 dia.Toast("Contacts exported to Downloads folder!");
             else

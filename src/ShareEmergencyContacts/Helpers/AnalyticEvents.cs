@@ -32,5 +32,7 @@
         public const string AddInsuranceContactLimitReached = "Add insurance contact limit reached";
         public const string AddPhoneNumberLimitReached = "Add phonenumber limit reached";
         public const string SendEmail = "Send email";
+        public const string ImportContactsFile = "Import contacts (file)";
+        public const string ExportContactsFile = "Export contacts (file)";
     }
 }
