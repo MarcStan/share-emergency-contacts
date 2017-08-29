@@ -88,7 +88,7 @@ namespace ShareEmergencyContacts.ViewModels
 
         public string AnalyticsMessage => AllowAnalytics
             ? "These reports help me improve the app by spotting crashes early on. " + Environment.NewLine +
-              "Only anonymous data is collected, e.g. events 'Edit profile clicked' or 'Open barcode scanner'." + Environment.NewLine +
+              "Only anonymous data is collected." + Environment.NewLine +
               "None of the text you enter is ever uploaded."
             : "I respect your privacy." + Environment.NewLine +
               "No usage or crash reports will be uploaded. Only update checks will be made whenever the app is opened.";
