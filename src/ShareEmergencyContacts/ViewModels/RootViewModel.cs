@@ -199,7 +199,7 @@ namespace ShareEmergencyContacts.ViewModels
         private async Task<bool> EnsureStorageAccess()
         {
             var permCheck = IoC.Get<ICheckPermissions>();
-            var grantResult = await permCheck.GrantPermissionAsync(PermissionType.Camera);
+            var grantResult = await permCheck.GrantPermissionAsync(PermissionType.Storage);
             switch (grantResult)
             {
                 case PermissionResult.Granted:
