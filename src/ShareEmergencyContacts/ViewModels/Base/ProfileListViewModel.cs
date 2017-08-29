@@ -473,8 +473,8 @@ namespace ShareEmergencyContacts.ViewModels.Base
             string expiry;
             if (profile.Actual.ExpirationDate.HasValue)
             {
-                var days = (profile.Actual.ExpirationDate.Value - DateTime.Now).Days;
-                expiry = $"It would expire in {days} day" + (days == 1 ? "" : "s") + ".";
+                var days = (profile.Actual.ExpirationDate.Value - DateTime.Now).Days + 1;
+                expiry = $" It would expire in {days} day" + (days == 1 ? "" : "s") + ".";
             }
             else expiry = null;
             var type = _workWithMyProfiles ? "profile" : "received contact";
