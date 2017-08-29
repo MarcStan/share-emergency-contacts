@@ -117,10 +117,22 @@ namespace ShareEmergencyContacts.ViewModels
                 return;
 
             var storage = IoC.Get<IStorageProvider>();
-            var content = await storage.ReadExternallyAsync(".vcards");
+            var dia = IoC.Get<IUserDialogs>();
+            string content;
+            try
+            {
+                content = await storage.ReadExternallyAsync(".vcards");
+            }
+            catch (Exception e)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    dia.Alert(e.Message);
+                });
+                return;
+            }
             if (content == null)
                 return;
-            var dia = IoC.Get<IUserDialogs>();
             var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             if (!ImportExportHelper.FromFile(lines, out IList<EmergencyProfile> contacts,
                 out IList<EmergencyProfile> profiles))

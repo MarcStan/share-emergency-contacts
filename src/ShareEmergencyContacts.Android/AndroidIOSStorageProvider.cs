@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Android.Provider;
 #if __ANDROID__
 using Android.App;
 using Android.Content;
@@ -92,8 +93,10 @@ namespace ShareEmergencyContacts.Droid
         {
 #if __ANDROID__
             var intent = new Intent(Intent.ActionOpenDocument);
-            intent.AddCategory(Intent.CategoryOpenable);
-            intent.SetType(ext);
+            // To risky, not all androids seem to support custom filters for *.ext, so just allow all
+            intent.SetType("*/*");
+
+            Intent.CreateChooser(intent, "Select file");
             // retarded android bullshit: the result is not returned here but in the main activity
             // so we proxied it to the
             // use unique id to PermissionRequestAnswered which will need a unique token per request
@@ -104,10 +107,37 @@ namespace ShareEmergencyContacts.Droid
             _tokens.Add(id, tcs);
 
             // run permission request by android (may or may not spawn dialog)
-            _activity.StartActivityForResult(intent, id);
+            try
+            {
+                _activity.StartActivityForResult(intent, id);
+            }
+            catch (Exception exAct)
+            {
+                System.Diagnostics.Debug.Write(exAct);
+            }
             // await the result proxied to PermissionRequestAnswered
             await tcs.Task;
-            return tcs.Task.Result;
+            var path = tcs.Task.Result;
+            var docId = DocumentsContract.GetDocumentId(Android.Net.Uri.Parse(path));
+            string[] split = docId.Split(':');
+            var type = split[0];
+
+            // SD card is not primary but some random semi-hash value
+            if (!"primary".Equals(type, StringComparison.OrdinalIgnoreCase))
+                throw new NotSupportedException("Cannot read from sd card");
+
+            // read from internal storage
+            var path2 = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/" + split[1];
+            try
+            {
+                var content = File.ReadAllText(path2);
+                return content;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
 #else
             return null;
 #endif
