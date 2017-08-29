@@ -8,7 +8,7 @@
     <StackLayout>
         <Label Text="{Binding ProfileName}" FontSize="32" />
         <StackLayout Orientation="Horizontal" IsVisible="{Binding ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
-            <Label Text="Auto deletes after:" TextColor="Accent" />
+            <Label Text="Deletes:" TextColor="Accent" />
             <Label Text="{Binding ExpirationDate}" />
         </StackLayout>
     </StackLayout>
