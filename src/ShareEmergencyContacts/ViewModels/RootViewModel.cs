@@ -142,6 +142,7 @@ namespace ShareEmergencyContacts.ViewModels
             }
             // don't overwrite existing names, just create a new file with a unique number
             int imp = 0;
+            var storageContainer = IoC.Get<IStorageContainer>();
             foreach (var c in contacts)
             {
                 var n = ReceivedContactsViewModel.Create(c);
@@ -154,6 +155,7 @@ namespace ShareEmergencyContacts.ViewModels
                 }
                 n.ProfileName = uniqueName;
                 ReceivedContactsViewModel.ExistingContacts.Add(n);
+                await storageContainer.SaveReceivedContactAsync(n.Actual);
                 imp++;
             }
             foreach (var p in profiles)
@@ -168,6 +170,7 @@ namespace ShareEmergencyContacts.ViewModels
                 }
                 n.ProfileName = uniqueName;
                 MyProfilesViewModel.ExistingContacts.Add(n);
+                await storageContainer.SaveProfileAsync(n.Actual);
                 imp++;
             }
             dia.Toast($"{imp} contact{(imp == 1 ? "" : "s")} imported!");
