@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Android.Provider;
 #if __ANDROID__
+using Android.Provider;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
