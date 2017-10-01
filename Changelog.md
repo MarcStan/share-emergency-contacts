@@ -1,6 +1,15 @@
-**v0.9.3**
+**v0.9.5**
 
-Another bugfix release.
+* Added Light/dark theme support
+* removed duplicate navbar on UWP
+* fixed rare crash on navigating back
+
+**v0.9.4**
+
+* Share details for a defined number of days (your profile is auto. delete from the recipients phone afterwards)
+* Export all contacts and profiles at once to a single file (and import from same file)
+
+**v0.9.3**
 
 * introduced upper limit for phone numbers per contact (4)
 * introduced upper limit for emergency + insurance contacts per profile (6)
@@ -8,6 +17,7 @@ Another bugfix release.
 * when adding/removing sub contacts from a profile it would not immediately visualize in the saved profile (even though the change was effective)
 * fixed layouting for long email and phone numbers
 * fixes for iOS/UWP styling
+* Added analytics to keep track of feature usage and crashes
 
 **v0.9.2**
 
