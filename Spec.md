@@ -65,8 +65,6 @@ Lastly multiple ICE contacts can be added each supporting:
 
 The user should be able to create multiple profiles about himself (different insurances for different sport types).
 
-Profiles should be cloneable (e.g. clone "freeclimbing" and rename to cayaking, then just replace the insurance details as all the other data is identical).
-
 # Sharing
 
 On each profile the user can select "share my info" and a dialog will ask him for a duration to be set.
@@ -76,7 +74,3 @@ The duration is transmitted with the barcode and allows the data to be removed a
 This feature allows multiple people who don't know each other very well to share information on a short trip (e.g. motorcycle tour with random people from fb) and have their data auto. removed from each others phone after the time period.
 
 (Sidenote: Of course the other person can always screenshot the information or write it down otherwise, but given that the people already interact in a high risk sport the assumtion is that no one has "evil intention" with the data).
-
-# Category support
-
-Received profiles can be added to categories and given a nickname.

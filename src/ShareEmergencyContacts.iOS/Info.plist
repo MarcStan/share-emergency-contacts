@@ -9,9 +9,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>net.marcstan.ShareEmergencyContacts</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.9.4</string>
+	<string>0.9.5</string>
 	<key>CFBundleVersion</key>
-	<string>0.9.4</string>
+	<string>0.9.5</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to the camera to scan QR codes.</string>
 	<key>CFBundleURLSchemes</key>
