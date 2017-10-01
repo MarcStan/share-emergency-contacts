@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using Caliburn.Micro;
 using ShareEmergencyContacts.Models;
 using Xamarin.Forms;
@@ -16,6 +17,8 @@ namespace ShareEmergencyContacts.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+            // force disable fullscreen
+            Window.ClearFlags(WindowManagerFlags.Fullscreen);
             // create before OnCreate
             var theme = new AndroidThemeProvider(this);
             // android needs a theme change on startup

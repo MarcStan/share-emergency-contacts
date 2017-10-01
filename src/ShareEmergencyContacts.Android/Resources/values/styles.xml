@@ -4,8 +4,8 @@
       <item name="colorPrimaryDark">@color/primaryDark</item>
       <item name="colorAccent">@color/accent</item>
       <item name="windowNoTitle">true</item>
-      <item name="windowActionBar">false</item>
-      <item name="windowActionModeOverlay">true</item>
+      <item name="windowActionBar">true</item>
+      <item name="android:windowFullscreen">false</item>
 
       <item name="android:datePickerDialogTheme">@style/LightAppCompatDialogStyle</item>
   </style>
@@ -15,8 +15,8 @@
       <item name="colorPrimaryDark">@color/primaryDark</item>
       <item name="colorAccent">@color/accent</item>
       <item name="windowNoTitle">true</item>
-      <item name="windowActionBar">false</item>
-      <item name="windowActionModeOverlay">true</item>
+      <item name="windowActionBar">true</item>
+      <item name="android:windowFullscreen">false</item>
 
       <item name="android:datePickerDialogTheme">@style/LightAppCompatDialogStyle</item>
   </style>
@@ -28,10 +28,6 @@
   </style>
 
   <style name="LightAppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-    <item name="colorAccent">@color/accent</item>
-  </style>
-
-  <style name="DarkAppCompatDialogStyle" parent="Theme.AppCompat.Dialog">
     <item name="colorAccent">@color/accent</item>
   </style>
 </resources>
