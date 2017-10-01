@@ -233,7 +233,7 @@ namespace ShareEmergencyContacts.ViewModels
                         case Device.Android:
                             navPath = $"Apps -> {appName} -> Permissions";
                             break;
-                        case Device.Windows:
+                        case Device.UWP:
                             // doesn't even exist on UWP, so we should never get access denied
                             navPath = "Storage";
                             break;

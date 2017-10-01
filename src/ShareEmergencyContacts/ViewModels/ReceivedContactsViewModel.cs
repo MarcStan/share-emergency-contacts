@@ -49,7 +49,7 @@ namespace ShareEmergencyContacts.ViewModels
                         case Device.Android:
                             navPath = $"Apps -> {appName} -> Permissions";
                             break;
-                        case Device.Windows:
+                        case Device.UWP:
                             navPath = "Privacy -> Camera";
                             break;
                         case Device.iOS:
