@@ -12,6 +12,8 @@ namespace ShareEmergencyContacts.Views
         public ProfileVisualizerView()
         {
             InitializeComponent();
+            if (Device.RuntimePlatform == Device.UWP)
+                NavigationPage.SetHasNavigationBar(this, false);
             BindingContextChanged += OnBindingContextChanged;
             CurrentPageChanged += OnPageChanged;
 

@@ -7,6 +7,8 @@ namespace ShareEmergencyContacts.Views
         public ReceivedContactsView()
         {
             InitializeComponent();
+            if (Device.RuntimePlatform == Device.UWP)
+                NavigationPage.SetHasNavigationBar(this, false);
         }
 
         private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)

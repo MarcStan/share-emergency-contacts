@@ -11,6 +11,8 @@ namespace ShareEmergencyContacts.Views
         public EditProfileView()
         {
             InitializeComponent();
+            if (Device.RuntimePlatform == Device.UWP)
+                NavigationPage.SetHasNavigationBar(this, false);
             // disable back button because we display cancel
             NavigationPage.SetHasBackButton(this, false);
         }

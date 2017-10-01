@@ -10,7 +10,7 @@ namespace ShareEmergencyContacts.UWP
         {
             Instance = this;
             InitializeComponent();
-
+            
             LoadApplication(IoC.Get<ShareEmergencyContacts.App>());
         }
     }
