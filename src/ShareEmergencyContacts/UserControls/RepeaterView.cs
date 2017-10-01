@@ -25,30 +25,30 @@ namespace ShareEmergencyContacts.UserControls
         /// Definition for <see cref="ItemTemplate"/>
         /// </summary>
         /// Element created at 15/11/2014,3:11 PM by Charles
-        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create<RepeaterView<T>, DataTemplate>(p => p.ItemTemplate, default(DataTemplate));
+        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(RepeaterView<T>));
 
         /// <summary>
         /// Definition for <see cref="ItemsSource"/>
         /// </summary>
         /// Element created at 15/11/2014,3:11 PM by Charles
-        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create<RepeaterView<T>, IEnumerable<T>>(p => p.ItemsSource, Enumerable.Empty<T>(), BindingMode.OneWay, null, ItemsChanged);
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable<T>), typeof(RepeaterView<T>), defaultBindingMode: BindingMode.OneWay, propertyChanged: ItemsChanged);
 
         /// <summary>
         /// Definition for <see cref="ItemClickCommand"/>
         /// </summary>
         /// Element created at 15/11/2014,3:11 PM by Charles
-        public static BindableProperty ItemClickCommandProperty = BindableProperty.Create<RepeaterView<T>, ICommand>(x => x.ItemClickCommand, null);
+        public static BindableProperty ItemClickCommandProperty = BindableProperty.Create(nameof(ItemClickCommand), typeof(ICommand), typeof(RepeaterView<T>));
 
         /// <summary>
         /// Definition for <see cref="TemplateSelector"/>
         /// </summary>
         /// Element created at 15/11/2014,3:12 PM by Charles
-        public static readonly BindableProperty TemplateSelectorProperty = BindableProperty.Create<RepeaterView<T>, TemplateSelector>(x => x.TemplateSelector, default(TemplateSelector));
+        public static readonly BindableProperty TemplateSelectorProperty = BindableProperty.Create(nameof(TemplateSelector), typeof(TemplateSelector), typeof(RepeaterView<T>));
 
         /// <summary>
         /// The item template selector property
         /// </summary>
-        public static readonly BindableProperty ItemTemplateSelectorProperty = BindableProperty.Create<RepeaterView<T>, DataTemplateSelector>(x => x.ItemTemplateSelector, default(DataTemplateSelector), propertyChanged: OnDataTemplateSelectorChanged);
+        public static readonly BindableProperty ItemTemplateSelectorProperty = BindableProperty.Create(nameof(ItemTemplateSelector), typeof(DataTemplateSelector), typeof(RepeaterView<T>), propertyChanged: OnDataTemplateSelectorChanged);
 
         /// <summary>
         /// Gets or sets the item template selector.
@@ -60,9 +60,9 @@ namespace ShareEmergencyContacts.UserControls
             set => SetValue(ItemTemplateSelectorProperty, value);
         }
 
-        private static void OnDataTemplateSelectorChanged(BindableObject bindable, DataTemplateSelector oldvalue, DataTemplateSelector newvalue)
+        private static void OnDataTemplateSelectorChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
-            ((RepeaterView<T>)bindable).OnDataTemplateSelectorChanged(oldvalue, newvalue);
+            ((RepeaterView<T>)bindable).OnDataTemplateSelectorChanged(oldvalue as DataTemplateSelector, newvalue as DataTemplateSelector);
         }
 
         /// <summary>
@@ -210,10 +210,9 @@ namespace ShareEmergencyContacts.UserControls
         /// <param name="bindable">The control</param>
         /// <param name="oldValue">Previous bound collection</param>
         /// <param name="newValue">New bound collection</param>
-        private static void ItemsChanged(BindableObject bindable, IEnumerable<T> oldValue, IEnumerable<T> newValue)
+        private static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as RepeaterView<T>;
-            if (control == null)
+            if (!(bindable is RepeaterView<T> control))
                 throw new Exception(
                     "Invalid bindable object passed to ReapterView::ItemsChanged expected a ReapterView<T> received a "
                     + bindable.GetType().Name);
@@ -222,7 +221,7 @@ namespace ShareEmergencyContacts.UserControls
 
             control._collectionChangedHandle = new CollectionChangedHandle<View, T>(
                 control.Children,
-                newValue,
+                newValue as IEnumerable<T>,
                 control.ViewFor,
                 (v, m, i) => control.NotifyItemAdded(v, m));
         }
@@ -233,7 +232,7 @@ namespace ShareEmergencyContacts.UserControls
         /// <summary>
         /// Views for.
         /// </summary>
-        /// <param name="This">The this.</param>
+        /// <param name="This">The </param>
         /// <param name="item">The item.</param>
         /// <param name="selector">The selector.</param>
         /// <returns>View.</returns>
@@ -318,15 +317,15 @@ namespace ShareEmergencyContacts.UserControls
         public CollectionChangedHandle(IList<TSyncType> target, IEnumerable<T> source, Func<T, TSyncType> projector, Action<TSyncType, T, int> postadd = null, Action<TSyncType> cleanup = null)
         {
             if (source == null) return;
-            this._itemsSourceCollectionChangedImplementation = source as INotifyCollectionChanged;
+            _itemsSourceCollectionChangedImplementation = source as INotifyCollectionChanged;
             _sourceCollection = source;
             _target = target;
             _projector = projector;
             _postadd = postadd;
             _cleanup = cleanup;
-            this.InitialPopulation();
-            if (this._itemsSourceCollectionChangedImplementation == null) return;
-            this._itemsSourceCollectionChangedImplementation.CollectionChanged += this.CollectionChanged;
+            InitialPopulation();
+            if (_itemsSourceCollectionChangedImplementation == null) return;
+            _itemsSourceCollectionChangedImplementation.CollectionChanged += CollectionChanged;
         }
 
         /// <summary>
@@ -334,8 +333,8 @@ namespace ShareEmergencyContacts.UserControls
         /// </summary>
         public void Dispose()
         {
-            if (this._itemsSourceCollectionChangedImplementation == null) return;
-            this._itemsSourceCollectionChangedImplementation.CollectionChanged -= this.CollectionChanged;
+            if (_itemsSourceCollectionChangedImplementation == null) return;
+            _itemsSourceCollectionChangedImplementation.CollectionChanged -= CollectionChanged;
         }
 
         /// <summary>Keeps <see cref="_target"/> in sync with <see cref="_sourceCollection"/>.</summary>
@@ -366,9 +365,9 @@ namespace ShareEmergencyContacts.UserControls
                     var item = obj as T;
                     if (item == null) continue;
                     var index = tlist.IndexOf(item);
-                    var newsyncitem = this._projector(item);
-                    this._target.Insert(index, newsyncitem);
-                    if (_postadd != null) _postadd(newsyncitem, item, index);
+                    var newsyncitem = _projector(item);
+                    _target.Insert(index, newsyncitem);
+                    _postadd?.Invoke(newsyncitem, item, index);
                 }
             }
 
@@ -379,9 +378,9 @@ namespace ShareEmergencyContacts.UserControls
         private void InitialPopulation()
         {
             SafeClearTarget();
-            foreach (var t in this._sourceCollection.Where(x => x != null))
+            foreach (var t in _sourceCollection.Where(x => x != null))
             {
-                _target.Add(this._projector(t));
+                _target.Add(_projector(t));
             }
         }
 
@@ -391,7 +390,7 @@ namespace ShareEmergencyContacts.UserControls
             {
                 var syncitem = _target[0];
                 _target.RemoveAt(0);
-                if (_cleanup != null) _cleanup(syncitem);
+                _cleanup?.Invoke(syncitem);
             }
         }
     }

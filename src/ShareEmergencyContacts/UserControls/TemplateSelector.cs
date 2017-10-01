@@ -17,17 +17,17 @@ namespace ShareEmergencyContacts.UserControls
         /// <summary>
         /// Property definition for the <see cref="Templates"/> Bindable Property
         /// </summary>
-        public static BindableProperty TemplatesProperty = BindableProperty.Create<TemplateSelector, DataTemplateCollection>(x => x.Templates, default(DataTemplateCollection), BindingMode.OneWay, null, TemplatesChanged);
+        public static BindableProperty TemplatesProperty = BindableProperty.Create(nameof(Templates), typeof(DataTemplateSelector), typeof(TemplateSelector), defaultBindingMode: BindingMode.OneWay, propertyChanged: TemplatesChanged);
 
         /// <summary>
         /// Property definition for the <see cref="SelectorFunction"/> Bindable Property
         /// </summary>
-        public static BindableProperty SelectorFunctionProperty = BindableProperty.Create<TemplateSelector, Func<Type, DataTemplate>>(x => x.SelectorFunction, null);
+        public static BindableProperty SelectorFunctionProperty = BindableProperty.Create(nameof(SelectorFunction), typeof(Func<Type, DataTemplate>), typeof(TemplateSelector));
 
         /// <summary>
         /// Property definition for the <see cref="ExceptionOnNoMatch"/> Bindable Property
         /// </summary>
-        public static BindableProperty ExceptionOnNoMatchProperty = BindableProperty.Create<TemplateSelector, bool>(x => x.ExceptionOnNoMatch, true);
+        public static BindableProperty ExceptionOnNoMatchProperty = BindableProperty.Create(nameof(ExceptionOnNoMatch), typeof(bool), typeof(TemplateSelector), true);
 
         /// <summary>
         /// Initialize the TemplateCollections so that each 
@@ -44,14 +44,16 @@ namespace ShareEmergencyContacts.UserControls
         /// <param name="bo"></param>
         /// <param name="oldval"></param>
         /// <param name="newval"></param>
-        public static void TemplatesChanged(BindableObject bo, DataTemplateCollection oldval, DataTemplateCollection newval)
+        public static void TemplatesChanged(BindableObject bo, object oldval, object newval)
         {
             var ts = bo as TemplateSelector;
             if (ts == null)
                 return;
-            if (oldval != null)
-                oldval.CollectionChanged -= ts.TemplateSetChanged;
-            newval.CollectionChanged += ts.TemplateSetChanged;
+            var oldCol = oldval as DataTemplateCollection;
+            var newCol = newval as DataTemplateCollection;
+            if (oldCol != null)
+                oldCol.CollectionChanged -= ts.TemplateSetChanged;
+            newCol.CollectionChanged += ts.TemplateSetChanged;
             ts.Cache = null;
         }
 
@@ -232,12 +234,12 @@ namespace ShareEmergencyContacts.UserControls
         /// <summary>
         /// The wrapped template property
         /// </summary>
-        public static readonly BindableProperty WrappedTemplateProperty = BindableProperty.Create<DataTemplateWrapper<T>, DataTemplate>(x => x.WrappedTemplate, null);
+        public static readonly BindableProperty WrappedTemplateProperty = BindableProperty.Create(nameof(WrappedTemplate), typeof(DataTemplate), typeof(DataTemplateWrapper<T>));
 
         /// <summary>
         /// The is default property
         /// </summary>
-        public static readonly BindableProperty IsDefaultProperty = BindableProperty.Create<DataTemplateWrapper<T>, bool>(x => x.IsDefault, false);
+        public static readonly BindableProperty IsDefaultProperty = BindableProperty.Create(nameof(IsDefault), typeof(bool), typeof(DataTemplateWrapper<T>), false);
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is default.
