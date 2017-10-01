@@ -1,15 +1,15 @@
 ﻿{
   "dependencies": {
     "Acr.UserDialogs": "6.4.1",
-    "Caliburn.Micro": "3.1.0",
-    "Caliburn.Micro.Xamarin.Forms": "3.1.0",
-    "Microsoft.Azure.Mobile": "0.14.2",
-    "Microsoft.Azure.Mobile.Analytics": "0.14.2",
-    "Microsoft.Azure.Mobile.Crashes": "0.14.2",
+    "Caliburn.Micro": "3.2.0",
+    "Caliburn.Micro.Xamarin.Forms": "3.2.0",
+    "Microsoft.Azure.Mobile": "0.15.2",
+    "Microsoft.Azure.Mobile.Analytics": "0.15.2",
+    "Microsoft.Azure.Mobile.Crashes": "0.15.2",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
     "PCLStorage": "1.0.2",
     "Splat": "1.6.2",
-    "Xamarin.Forms": "2.3.4.247",
+    "Xamarin.Forms": "2.4.0.282",
     "ZXing.Net.Mobile.Forms": "2.2.9"
   },
   "frameworks": {
