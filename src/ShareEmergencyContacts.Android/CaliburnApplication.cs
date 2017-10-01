@@ -9,10 +9,10 @@ using System.Reflection;
 
 namespace ShareEmergencyContacts.Droid
 {
-    #if DEBUG
-    [Application(Debuggable=true)]
+#if DEBUG
+    [Application(Debuggable = true)]
 #else
-    [Application(Debuggable=false)]
+    [Application(Debuggable = false)]
 #endif
     public class CaliburnApplication : Caliburn.Micro.CaliburnApplication
     {

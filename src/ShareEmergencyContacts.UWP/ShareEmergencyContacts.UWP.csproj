@@ -101,6 +101,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="WindowsCheckPermissions.cs" />
+    <Compile Include="WindowsThemeProvider.cs" />
     <Compile Include="WindowsUnhandledExceptionHandler.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

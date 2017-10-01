@@ -1,5 +1,4 @@
-﻿using Acr.UserDialogs;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using System;
@@ -62,14 +61,7 @@ namespace ShareEmergencyContacts.ViewModels
             set
             {
                 if (value == UseDarkTheme) return;
-                if (true)
-                {
-                    IoC.Get<IUserDialogs>().Toast("Changing theme will be available soon.");
-                }
-                else
-                {
-                    AppSettings.IsDarkTheme = value;
-                }
+                AppSettings.IsDarkTheme = value;
                 NotifyOfPropertyChange(nameof(UseDarkTheme));
             }
         }

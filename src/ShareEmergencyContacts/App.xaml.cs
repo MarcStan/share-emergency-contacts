@@ -122,6 +122,7 @@ namespace ShareEmergencyContacts
             EnsureExists<IUserDialogs>();
             EnsureExists<IUnhandledExceptionHandler>();
             EnsureExists<ICheckPermissions>();
+            EnsureExists<IThemeProvider>();
         }
 
         private static void EnsureExists<T>()

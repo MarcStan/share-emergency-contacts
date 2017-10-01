@@ -5,6 +5,8 @@ using Microsoft.Azure.Mobile.Crashes;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Themes;
+using Device = Xamarin.Forms.Device;
 
 namespace ShareEmergencyContacts.Helpers
 {
@@ -51,7 +53,11 @@ namespace ShareEmergencyContacts.Helpers
 
         public static void ConfigureTheme(bool useDark)
         {
-            // TODO: implement whenever the fuck xamarin decides to get their shit together qnd releases a non-half-assed-solution that actually works and doesn't crash on half the platforms
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.Resources.MergedWith = useDark ? typeof(DarkThemeResources) : typeof(LightThemeResources);
+                IoC.Get<IThemeProvider>().ChangeTheme(useDark);
+            });
         }
 
         /// <summary>
