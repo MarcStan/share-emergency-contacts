@@ -1,6 +1,5 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xLabs="clr-namespace:ShareEmergencyContacts.Helpers.XLabs;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.AboutView" Title="About">
     <Grid Margin="10,0">
         <ScrollView>
@@ -31,14 +30,6 @@
                 </Grid>
                 <Button FontAttributes="Bold" FontSize="22" Text="Privacy policy" Margin="0" TextColor="DodgerBlue" Command="{Binding PrivacyCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
                 <Button FontAttributes="Bold" FontSize="22" Text="Web: marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
-                <Label FontAttributes="Bold" FontSize="22" Text="Built using:" Margin="0,20,0,0" />
-                <xLabs:StringRepeater ItemsSource="{Binding PoweredBy}">
-                    <xLabs:StringRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <Label FontAttributes="Bold" FontSize="20" Text="{Binding}" Margin="5" />
-                        </DataTemplate>
-                    </xLabs:StringRepeater.ItemTemplate>
-                </xLabs:StringRepeater>
             </StackLayout>
         </ScrollView>
         </Grid>

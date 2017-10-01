@@ -10,7 +10,6 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class AboutViewModel : Screen
     {
-        private BindableCollection<string> _poweredBy;
         private const string Url = "https://marcstan.net/betas/SEC/";
         private const string PrivacyUrl = "https://marcstan.net/privacy/betas/SEC";
 
@@ -34,25 +33,6 @@ namespace ShareEmergencyContacts.ViewModels
                 Analytics.TrackEvent(AnalyticsEvents.ShareApp);
                 share.ShareUrl(Url, "Download \"Share emergency contacts\"", "Check out the app \"Share emergency contacts\" (currently in beta)");
             });
-
-            PoweredBy = new BindableCollection<string>
-            {
-                "Xamarin.Forms",
-                "Caliburn.Micro",
-                "Acr UserDialogs",
-                "ZXing .Net Mobile Forms"
-            };
-        }
-
-        public BindableCollection<string> PoweredBy
-        {
-            get => _poweredBy;
-            set
-            {
-                if (Equals(value, _poweredBy)) return;
-                _poweredBy = value;
-                NotifyOfPropertyChange(nameof(PoweredBy));
-            }
         }
 
         public bool UseDarkTheme
