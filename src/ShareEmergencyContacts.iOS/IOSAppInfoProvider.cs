@@ -49,8 +49,6 @@ namespace ShareEmergencyContacts.iOS
 
         public string MobileCenterKey { get; }
 
-        public bool SystemThemeIsDark => false;
-
         public IOSAppInfoProvider(string mobileCenterKey)
         {
             MobileCenterKey = mobileCenterKey;

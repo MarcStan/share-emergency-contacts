@@ -16,8 +16,6 @@ namespace ShareEmergencyContacts.Droid
 
         public int ScreenHeight => _resources.DisplayMetrics.HeightPixels;
 
-        public bool SystemThemeIsDark => false;
-
         public string MobileCenterKey { get; }
     }
 

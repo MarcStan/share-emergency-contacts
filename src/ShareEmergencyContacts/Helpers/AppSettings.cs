@@ -17,9 +17,12 @@ namespace ShareEmergencyContacts.Helpers
     {
         public static bool IsDarkTheme
         {
-            get => Application.Current.Properties.ContainsKey("theme")
-                ? "dark".Equals(Application.Current.Properties["theme"]?.ToString(), StringComparison.OrdinalIgnoreCase)
-                : IsSystemDefaultThemeDark;
+            get
+            {
+                // default to light theme if not found
+                return Application.Current.Properties.ContainsKey("theme") && "dark".Equals(
+                           Application.Current.Properties["theme"]?.ToString(), StringComparison.OrdinalIgnoreCase);
+            }
             set
             {
                 Application.Current.Properties["theme"] = value ? "dark" : "light";
@@ -30,8 +33,6 @@ namespace ShareEmergencyContacts.Helpers
                 });
             }
         }
-
-        private static bool IsSystemDefaultThemeDark => IoC.Get<IAppInfoProvider>().SystemThemeIsDark;
 
         public static bool AllowAnalytics
         {

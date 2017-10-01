@@ -19,12 +19,5 @@
         /// API key for mobile center valid for the current platform <see cref="Xamarin.Forms.Device.RuntimePlatform"/> only.
         /// </summary>
         string MobileCenterKey { get; }
-
-        /// <summary>
-        /// Gets whether the current system theme is dark.
-        /// For iOS and android this will always return false since they don't support system-wide themes.
-        /// For UWP this will return whether the system theme is dark or light (a new system install will always default to light).
-        /// </summary>
-        bool SystemThemeIsDark { get; }
     }
 }
