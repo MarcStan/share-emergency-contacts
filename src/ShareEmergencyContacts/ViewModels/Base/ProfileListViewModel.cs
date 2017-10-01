@@ -9,7 +9,6 @@ using ShareEmergencyContacts.ViewModels.ForModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 #if DEBUG
 using System.Collections.Generic;
@@ -36,12 +35,6 @@ namespace ShareEmergencyContacts.ViewModels.Base
             _workWithMyProfiles = workWithMyProfiles;
             ExistingContacts = new BindableCollection<ProfileViewModel>();
             IsLoading = true;
-            ItemSelectedCommand = new Command(o =>
-            {
-                var c = o as ProfileViewModel;
-                if (c != null)
-                    ProfileSelected(c);
-            });
 
             Task.Run(async () =>
             {
@@ -89,14 +82,12 @@ namespace ShareEmergencyContacts.ViewModels.Base
             }
         }
 
-        public ICommand ItemSelectedCommand { get; }
-
         public ProfileViewModel SelectedItem
         {
             get => _selectedItem;
             set
             {
-                if (value == _selectedItem) return;
+                if (value == _selectedItem || value == null) return;
                 _selectedItem = value;
                 ProfileSelected(_selectedItem);
                 NotifyOfPropertyChange(nameof(SelectedItem));
