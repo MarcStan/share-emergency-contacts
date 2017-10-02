@@ -31,8 +31,23 @@ namespace ShareEmergencyContacts.Droid
             MobileBarcodeScanner.Initialize(Application);
 
             UserDialogs.Init(() => (Activity)Forms.Context);
-            // stupid dependency order; can't add this interface from Application because Application executes before this
-            var container = IoC.Get<SimpleContainer>();
+
+            // Use a static instance because this application class is only ever instantiated once: on the first app launch.
+            // If a user closes the app (pushed to background) and clicks the app icon again, a new app is launched.
+            // BUT: this application is not created again, only the MainActivity.OnCreate/OnResume functions are called
+
+            // this method executed again when app is in background but user presses on app icon
+            // it seems LoadApplication(IoC.Get<App>()); doesn't load the app then, because it's already loaded -> we get a white screen forever
+            // if we however create a new container, all is well
+            // I 'm pretty sure this is a serious memory leak and we probably end up with everything loaded twice (or more times)
+            // let's hope caliburn micro 4 introduces a better loading model
+            var container = CaliburnApplication.Container = new SimpleContainer();
+            container.Instance(CaliburnApplication.Container);
+            container.Singleton<App>();
+            container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
+            container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());
+            container.RegisterInstance(typeof(IShareProvider), null, new AndroidShareProvider());
+            container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new AndroidUnhandledExceptionHandler());
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
             container.RegisterInstance(typeof(IAppInfoProvider), null, new AndroidAppInfoProvider(Resources, "4bc7da4c-5508-436a-91fd-08ced75df7f7"));
             container.RegisterInstance(typeof(IThemeProvider), null, theme);

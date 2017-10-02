@@ -3,6 +3,7 @@
 * Added Light/dark theme support
 * removed duplicate navbar on UWP
 * fixed rare crash on navigating back
+* fixed crash on app resume (android only)
 
 **v0.9.4**
 

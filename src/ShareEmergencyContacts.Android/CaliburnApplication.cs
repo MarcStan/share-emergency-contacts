@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Runtime;
 using Caliburn.Micro;
-using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,12 +15,16 @@ namespace ShareEmergencyContacts.Droid
 #endif
     public class CaliburnApplication : Caliburn.Micro.CaliburnApplication
     {
-        private readonly SimpleContainer _container;
+        /// <summary>
+        /// Use a static instance because this application class is only ever instantiated once: on the first app launch.
+        /// If a user closes the app (pushed to background) and clicks the app icon again, a new app is launched.
+        /// BUT: this application is not created again, only the MainActivity.OnCreate/OnResume functions are called
+        /// </summary>
+        public static SimpleContainer Container;
 
         public CaliburnApplication(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         {
-            _container = new SimpleContainer();
         }
 
         public override void OnCreate()
@@ -29,16 +32,6 @@ namespace ShareEmergencyContacts.Droid
             base.OnCreate();
 
             Initialize();
-        }
-
-        protected override void Configure()
-        {
-            _container.Instance(_container);
-            _container.Singleton<App>();
-            _container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
-            _container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());
-            _container.RegisterInstance(typeof(IShareProvider), null, new AndroidShareProvider());
-            _container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new AndroidUnhandledExceptionHandler());
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()
@@ -52,17 +45,17 @@ namespace ShareEmergencyContacts.Droid
 
         protected override void BuildUp(object instance)
         {
-            _container.BuildUp(instance);
+            Container.BuildUp(instance);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return _container.GetAllInstances(service);
+            return Container.GetAllInstances(service);
         }
 
         protected override object GetInstance(Type service, string key)
         {
-            return _container.GetInstance(service, key);
+            return Container.GetInstance(service, key);
         }
     }
 }
