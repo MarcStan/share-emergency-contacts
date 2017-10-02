@@ -25,6 +25,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
         private BindableCollection<ProfileViewModel> _existingContacts;
         private bool _isLoading;
         private ProfileViewModel _selectedItem;
+        private DateTime? _lastClick;
 
         /// <summary>
         /// 
@@ -87,9 +88,15 @@ namespace ShareEmergencyContacts.ViewModels.Base
             get => _selectedItem;
             set
             {
-                if (value == _selectedItem || value == null) return;
+                if (value == null) return;
                 _selectedItem = value;
-                ProfileSelected(_selectedItem);
+                if (!_lastClick.HasValue || (DateTime.Now - _lastClick.Value).TotalSeconds > 1)
+                {
+                    // uwp still has double click bug, so rate limit this shit
+                    _lastClick = DateTime.Now;
+                    ProfileSelected(_selectedItem);
+                }
+                _selectedItem = null;
                 NotifyOfPropertyChange(nameof(SelectedItem));
             }
         }
