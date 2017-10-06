@@ -7,16 +7,17 @@ namespace ShareEmergencyContacts.Droid
     {
         private readonly MainActivity _activity;
         private NavigationPage _navigationPage;
-        private bool _latestTheme;
 
         public AndroidThemeProvider(MainActivity activity)
         {
             _activity = activity;
         }
 
+        public bool IsDarkTheme { get; private set; }
+
         public void ChangeTheme(bool darkTheme)
         {
-            _latestTheme = darkTheme;
+            IsDarkTheme = darkTheme;
             _activity.SetTheme(darkTheme ? Resource.Style.DarkMainTheme : Resource.Style.LightMainTheme);
             if (_navigationPage != null)
             {
@@ -33,7 +34,7 @@ namespace ShareEmergencyContacts.Droid
         {
             _navigationPage = navigationPage;
             // ensure proper theme coloring when nav page gets set
-            ChangeTheme(_latestTheme);
+            ChangeTheme(IsDarkTheme);
         }
     }
 }

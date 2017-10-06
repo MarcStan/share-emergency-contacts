@@ -7,17 +7,23 @@ namespace ShareEmergencyContacts.UWP
     {
         private NavigationPage _navigationPage;
 
+        public bool IsDarkTheme { get; private set; }
+
         public void ChangeTheme(bool darkTheme)
         {
+            IsDarkTheme = darkTheme;
             if (Window.Current.Content is FrameworkElement el)
             {
                 el.RequestedTheme = darkTheme ? ElementTheme.Dark : ElementTheme.Light;
                 MainPage.Instance.RequestedTheme = el.RequestedTheme;
 
-                // text
-                _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
-                // bar using colors that uwp provides when forcing RequestedTheme=Dark|Light on App.xaml
-                _navigationPage.BarBackgroundColor = Color.FromHex(darkTheme ? "#2B2B2B" : "#F2F2F2");
+                if (_navigationPage != null)
+                {
+                    // text
+                    _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
+                    // bar using colors that uwp provides when forcing RequestedTheme=Dark|Light on App.xaml
+                    _navigationPage.BarBackgroundColor = Color.FromHex(darkTheme ? "#2B2B2B" : "#F2F2F2");
+                }
             }
             // would be nice to use uwp system color, but xamarin doesn't refresh existing pages so we then have new pages with new colors and old pages with old colors..
             // var color = (Windows.UI.Color)Application.Current.Resources["SystemAccentColor"];
@@ -30,6 +36,7 @@ namespace ShareEmergencyContacts.UWP
         public void ConfigureFor(NavigationPage navigationPage)
         {
             _navigationPage = navigationPage;
+            ChangeTheme(IsDarkTheme);
         }
     }
 }

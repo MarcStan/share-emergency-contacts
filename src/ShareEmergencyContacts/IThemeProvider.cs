@@ -13,5 +13,10 @@ namespace ShareEmergencyContacts
         /// </summary>
         /// <param name="navigationPage"></param>
         void ConfigureFor(NavigationPage navigationPage);
+
+        /// <summary>
+        /// Returns whether user has currenty enabled dark theme.
+        /// </summary>
+        bool IsDarkTheme { get; }
     }
 }
