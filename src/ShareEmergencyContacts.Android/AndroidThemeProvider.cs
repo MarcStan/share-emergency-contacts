@@ -7,6 +7,7 @@ namespace ShareEmergencyContacts.Droid
     {
         private readonly MainActivity _activity;
         private NavigationPage _navigationPage;
+        private bool _latestTheme;
 
         public AndroidThemeProvider(MainActivity activity)
         {
@@ -15,13 +16,14 @@ namespace ShareEmergencyContacts.Droid
 
         public void ChangeTheme(bool darkTheme)
         {
-            if (Application.Current?.Resources?.MergedWith == null)
-                return;
-
+            _latestTheme = darkTheme;
             _activity.SetTheme(darkTheme ? Resource.Style.DarkMainTheme : Resource.Style.LightMainTheme);
-            _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
-            var rc = _activity.Resources.GetColor(darkTheme ? Resource.Color.titleBarDark : Resource.Color.titleBarLight, _activity.Theme);
-            _navigationPage.BackgroundColor = rc.ToColor();
+            if (_navigationPage != null)
+            {
+                _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
+                var rc = _activity.Resources.GetColor(darkTheme ? Resource.Color.titleBarDark : Resource.Color.titleBarLight, _activity.Theme);
+                _navigationPage.BackgroundColor = rc.ToColor();
+            }
 
             var ac = _activity.Resources.GetColor(Resource.Color.accent, _activity.Theme);
             Color.SetAccent(Color.FromRgb(ac.R, ac.G, ac.B));
@@ -30,6 +32,8 @@ namespace ShareEmergencyContacts.Droid
         public void ConfigureFor(NavigationPage navigationPage)
         {
             _navigationPage = navigationPage;
+            // ensure proper theme coloring when nav page gets set
+            ChangeTheme(_latestTheme);
         }
     }
 }
