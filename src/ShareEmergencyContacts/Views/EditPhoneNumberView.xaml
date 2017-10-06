@@ -4,7 +4,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" x:Name="Save" />
     </ContentPage.ToolbarItems>
-    <Grid Margin="10">
+    <Grid Margin="5,0">
         <StackLayout>
             <Label Text="Phone type:" TextColor="Accent" FontSize="22" />
             <Picker ItemsSource="{Binding PhoneTypes}" SelectedItem="{Binding SelectedPhoneType}" />

@@ -7,9 +7,9 @@
         <ToolbarItem Text="Cancel" Clicked="MenuItem_OnClicked" />
         <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" x:Name="Save" />
     </ContentPage.ToolbarItems>
-    <Grid Margin="10,0,10,0">
+    <Grid>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Margin="5,0">
                 <userControls:EditContactDetails BindingContext="{Binding Selected}" />
                 <StackLayout>
                     <Label Text="Blood group: " TextColor="Accent" />

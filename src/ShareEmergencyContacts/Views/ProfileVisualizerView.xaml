@@ -14,9 +14,9 @@
             Second view is a barcode
         -->
     <ContentPage Title="Details">
-        <Grid Margin="10,0,10,0">
+        <Grid>
             <ScrollView>
-                <StackLayout>
+                <StackLayout Margin="5,0">
                     <Label Text="{Binding ActiveShareDuration}" Margin="10,0" HorizontalOptions="CenterAndExpand" />
                     <userControls:ContactDetails BindingContext="{Binding Selected}" />
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding Selected.BloodType, Converter={StaticResource NullToFalseConverter}}">

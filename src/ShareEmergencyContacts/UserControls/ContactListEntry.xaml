@@ -5,7 +5,7 @@
         <MenuItem Text="Rename" Command="{Binding RenameCommand}" />
         <MenuItem Text="Delete" Command="{Binding DeleteCommand}" />
     </ViewCell.ContextActions>
-    <StackLayout>
+    <StackLayout Margin="5,0">
         <Label Text="{Binding ProfileName}" FontSize="32" />
         <StackLayout Orientation="Horizontal" IsVisible="{Binding ExpirationDate, Converter={StaticResource NullToFalseConverter}}">
             <Label Text="Deletes:" TextColor="Accent" />

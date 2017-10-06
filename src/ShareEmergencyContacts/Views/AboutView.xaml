@@ -1,36 +1,34 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShareEmergencyContacts.Views.AboutView" Title="About">
-    <Grid Margin="10,0">
-        <ScrollView>
-            <StackLayout HorizontalOptions="Center">
-                <Label FontAttributes="Bold" FontSize="24" Text="Share emergency contacts" HorizontalOptions="Center" />
-                <Label FontAttributes="Bold" FontSize="20" Text="by MarcStan" HorizontalOptions="Center" />
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
-                    <Label FontAttributes="Bold" FontSize="18" Text="Version: " />
-                    <Label FontAttributes="Bold" FontSize="18" Text="{Binding Version}" />
-                    <Label FontAttributes="Bold" FontSize="18" Text="BETA" TextColor="Red" IsVisible="{x:StaticResource IsInBeta}" />
-                </StackLayout>
-                <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center" />
-                <Grid x:Name="SettingsGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Label Text="Dark theme:" VerticalOptions="Center" Margin="0,0,0,20" />
-                    <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding UseDarkTheme}" VerticalOptions="Center" Margin="0,0,0,20" />
-                    <Label Grid.Row="1" Grid.Column="0"  Text="Crash and usage reports:" VerticalOptions="Center" />
-                    <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding AllowAnalytics}" VerticalOptions="Center" />
-                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AnalyticsMessage}" />
-                </Grid>
-                <Button FontAttributes="Bold" FontSize="22" Text="Privacy policy" Margin="0" TextColor="DodgerBlue" Command="{Binding PrivacyCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
-                <Button FontAttributes="Bold" FontSize="22" Text="Web: marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
+    <ScrollView>
+        <StackLayout HorizontalOptions="Center" Margin="5,0">
+            <Label FontAttributes="Bold" FontSize="24" Text="Share emergency contacts" HorizontalOptions="Center" />
+            <Label FontAttributes="Bold" FontSize="20" Text="by MarcStan" HorizontalOptions="Center" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                <Label FontAttributes="Bold" FontSize="18" Text="Version: " />
+                <Label FontAttributes="Bold" FontSize="18" Text="{Binding Version}" />
+                <Label FontAttributes="Bold" FontSize="18" Text="BETA" TextColor="Red" IsVisible="{x:StaticResource IsInBeta}" />
             </StackLayout>
-        </ScrollView>
-        </Grid>
+            <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center" />
+            <Grid x:Name="SettingsGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Text="Dark theme:" VerticalOptions="Center" Margin="0,0,0,20" />
+                <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding UseDarkTheme}" VerticalOptions="Center" Margin="0,0,0,20" />
+                <Label Grid.Row="1" Grid.Column="0"  Text="Crash and usage reports:" VerticalOptions="Center" />
+                <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding AllowAnalytics}" VerticalOptions="Center" />
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AnalyticsMessage}" />
+            </Grid>
+            <Button FontAttributes="Bold" FontSize="22" Text="Privacy policy" Margin="0" TextColor="DodgerBlue" Command="{Binding PrivacyCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
+            <Button FontAttributes="Bold" FontSize="22" Text="Web: marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
