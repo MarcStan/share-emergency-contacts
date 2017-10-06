@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-  <color name="primary">#2196F3</color>
-  <color name="primaryLight">#AAAAAA</color>
-  <color name="primaryDark">#1976D2</color>
-  <color name="accent">#448AFF</color>
-  <color name="titleBarDark">#448AFF</color>
-  <color name="titleBarLight">#EFEFEF</color>
+    <color name="primary">#2196F3</color>
+    <color name="primaryLight">#AAAAAA</color>
+    <color name="primaryDark">#1976D2</color>
+    <color name="accent">#448AFF</color>
+    <!-- Must be different color than accent, otherwise tabbed page selector (which is accent color) won't be visible -->
+    <color name="titleBarDark">#2C5BA5</color>
+    <color name="titleBarLight">#EFEFEF</color>
 </resources>
