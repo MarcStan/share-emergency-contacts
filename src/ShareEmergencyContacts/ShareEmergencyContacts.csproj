@@ -42,6 +42,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\IconNameColorByThemeConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\ListCountToBoolConverter.cs" />
     <Compile Include="Converters\NullToFalseConverter.cs" />

@@ -173,6 +173,17 @@
     <Content Include="qr.png" />
     <Content Include="save.png" />
     <Content Include="share.png" />
+    <Content Include="copy-inverted.png" />
+    <Content Include="delete-inverted.png" />
+    <Content Include="edit-inverted.png" />
+    <Content Include="email-inverted.png" />
+    <Content Include="export-inverted.png" />
+    <Content Include="imp-inverted.png" />
+    <Content Include="information-inverted.png" />
+    <Content Include="phone-inverted.png" />
+    <Content Include="qr-inverted.png" />
+    <Content Include="save-inverted.png" />
+    <Content Include="share-inverted.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

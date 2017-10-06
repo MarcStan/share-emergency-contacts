@@ -14,7 +14,7 @@ namespace ShareEmergencyContacts.iOS
             {
                 _navigationPage.BarBackgroundColor = darkTheme ? Color.Black : Color.White;
                 _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
-                
+
                 // despite what the tutorials say this DOES NOT WORK
                 // the next line makes it NOT WORK anymore, removing it fixes it (BarTextColor sets it correctly already)
                 // UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.BlackOpaque, false);

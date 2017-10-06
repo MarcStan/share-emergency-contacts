@@ -1,7 +1,7 @@
 ﻿using ShareEmergencyContacts.Droid.Express.CustomRenderers;
 using Xamarin.Forms;
 
-[assembly: ExportRenderer(typeof(Xamarin.Forms.Button), typeof(CustomButtonRenderer))]
+[assembly: ExportRenderer(typeof(Button), typeof(CustomButtonRenderer))]
 namespace ShareEmergencyContacts.Droid
 {
     namespace Express.CustomRenderers
