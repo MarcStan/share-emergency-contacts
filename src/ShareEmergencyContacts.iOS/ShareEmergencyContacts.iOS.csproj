@@ -96,6 +96,7 @@
       <Link>AndroidIOSStorageProvider.cs</Link>
     </Compile>
     <Compile Include="IOSCheckPermissions.cs" />
+    <Compile Include="IOSThemeProvider.cs" />
     <Compile Include="IOSUnhandledExceptionHandler.cs" />
     <Compile Include="CaliburnAppDelegate.cs" />
     <Compile Include="IOSAppInfoProvider.cs" />

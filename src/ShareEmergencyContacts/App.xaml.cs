@@ -174,6 +174,7 @@ namespace ShareEmergencyContacts
 
         protected override void PrepareViewFirst(NavigationPage navigationPage)
         {
+            IoC.Get<IThemeProvider>().ConfigureFor(navigationPage);
             _container.Instance<INavigationService>(new ExtendedNavPageAdapter(navigationPage));
         }
     }
