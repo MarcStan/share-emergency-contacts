@@ -5,7 +5,7 @@
              x:Class="ShareEmergencyContacts.Views.EditProfileView" Title="Edit profile details">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Clicked="MenuItem_OnClicked" />
-        <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" x:Name="Save" />
+        <ToolbarItem Text="Save" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=save.png}" Command="{Binding SaveCommand}" x:Name="Save" />
     </ContentPage.ToolbarItems>
     <Grid>
         <ScrollView>

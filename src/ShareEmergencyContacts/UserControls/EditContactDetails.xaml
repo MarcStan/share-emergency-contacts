@@ -14,7 +14,7 @@
                     <Label Text="Last name:" TextColor="Accent" FontSize="{Binding NameSize}" />
                     <Entry Keyboard="Text" Text="{Binding LastName}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="TextEntryCompleted" />
                 </StackLayout>
-                <Button HorizontalOptions="End" Command="{Binding DeleteContactCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Start" IsVisible="{Binding CanDelete}" />
+                <Button HorizontalOptions="End" Command="{Binding DeleteContactCommand}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=delete.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Start" IsVisible="{Binding CanDelete}" />
             </StackLayout>
             <StackLayout IsVisible="{Binding CanHaveInsuranceNumber}">
                 <Label Text="Insurance number:" TextColor="Accent" />
@@ -25,7 +25,7 @@
                 <StackLayout Orientation="Horizontal">
                     <Button Command="{Binding AddBirthdayCommand}" Text="add birthday" Margin="5" VerticalOptions="Start" IsVisible="{Binding NoBirthday}" />
                     <DatePicker HorizontalOptions="FillAndExpand" Date="{Binding ActualBirthDate}" Margin="0" IsVisible="{Binding NoBirthday, Converter={StaticResource InvertBoolConverter}}" VerticalOptions="Center" />
-                    <Button Command="{Binding DeleteBirthdayCommand}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="End" IsVisible="{Binding NoBirthday, Converter={StaticResource InvertBoolConverter}}"/>
+                    <Button Command="{Binding DeleteBirthdayCommand}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=delete.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="End" IsVisible="{Binding NoBirthday, Converter={StaticResource InvertBoolConverter}}"/>
                 </StackLayout>
             </StackLayout>
             <StackLayout IsVisible="{Binding IsSubContact, Converter={StaticResource InvertBoolConverter}}">
@@ -67,8 +67,8 @@
                                     <Label Text="{Binding Number}" />
                                 </StackLayout>
                                 <StackLayout Grid.Column="1" Orientation="Horizontal">
-                                    <Button Command="{Binding EditNumber}" Image="edit.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
-                                    <Button Command="{Binding DeleteNumber}" Image="delete.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                                    <Button Command="{Binding EditNumber}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=edit.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                                    <Button Command="{Binding DeleteNumber}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=delete.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
                                 </StackLayout>
                             </Grid>
                         </DataTemplate>

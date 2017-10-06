@@ -3,7 +3,7 @@
              xmlns:userControls="clr-namespace:ShareEmergencyContacts.UserControls;assembly=ShareEmergencyContacts"
              x:Class="ShareEmergencyContacts.Views.MyProfilesView" Title="My profiles">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Icon="add.png" Command="{Binding AddCommand}" />
+        <ToolbarItem Text="Add" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=add.png}" Command="{Binding AddCommand}" />
     </ContentPage.ToolbarItems>
     <Grid>
         <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="0,0,0,50" />

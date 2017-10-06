@@ -29,7 +29,7 @@
                     <Label Text="Email:" TextColor="Accent" />
                     <Label Text="{Binding Email}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
                 </StackLayout>
-                <Button Grid.Column="1" Command="{Binding SendEmailCommand}" Image="email.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                <Button Grid.Column="1" Command="{Binding SendEmailCommand}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=email.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
             </Grid>
             <StackLayout IsVisible="{Binding Address, Converter={StaticResource NullToFalseConverter}}">
                 <Label Text="Address:" TextColor="Accent" />
@@ -50,8 +50,8 @@
                                     <Label Text="{Binding Number}" />
                                 </StackLayout>
                                 <StackLayout Grid.Column="1" Orientation="Horizontal">
-                                    <Button Command="{Binding CopyNumber}" Image="copy.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
-                                    <Button Command="{Binding DialNumber}" Image="phone.png" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                                    <Button Command="{Binding CopyNumber}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=copy.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
+                                    <Button Command="{Binding DialNumber}" Image="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=phone.png}" Style="{StaticResource IconButton}" Margin="5" VerticalOptions="Center" />
                                 </StackLayout>
                             </Grid>
                         </DataTemplate>

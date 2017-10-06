@@ -5,8 +5,8 @@
              x:Class="ShareEmergencyContacts.Views.ProfileVisualizerView"
              Title="{Binding Selected.ProfileName}">
     <TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Edit" Icon="edit.png" Command="{Binding EditCommand}" x:Name="Edit" />
-        <ToolbarItem Text="Delete" Icon="delete.png" Command="{Binding DeleteCommand}" x:Name="Delete" />
+        <ToolbarItem Text="Edit" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=edit.png}" Command="{Binding EditCommand}" x:Name="Edit" />
+        <ToolbarItem Text="Delete" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=delete.png}" Command="{Binding DeleteCommand}" x:Name="Delete" />
     </TabbedPage.ToolbarItems>
     <!-- 
             Two views in 1 because I'm lazy af
