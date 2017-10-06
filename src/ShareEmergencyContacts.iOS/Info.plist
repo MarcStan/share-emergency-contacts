@@ -16,6 +16,10 @@
 	<string>This app needs access to the camera to scan QR codes.</string>
 	<key>CFBundleURLSchemes</key>
 	<string>mobilecenter-20db8320-b54d-4c45-b74c-f1c59e948c21</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

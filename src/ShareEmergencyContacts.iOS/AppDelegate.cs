@@ -24,6 +24,17 @@ namespace ShareEmergencyContacts.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Xamarin.Forms.Forms.Init();
+
+            // prevent iOS from auto  matching statusbar color to navbar color
+            // (will happily change background color from white to black but keeps time/battery/etc icons always black -> invisible)
+            // from https://forums.xamarin.com/discussion/17922/navigationpage-statusbar-color
+            // also requires entries in plist
+
+            UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.BlackOpaque, false);
+            // this has the nice addition of removing status bar on splashscreen
+            // but now the app is running, so show it again
+            UIApplication.SharedApplication.SetStatusBarHidden(false, false);
+
             LoadApplication(IoC.Get<App>());
 
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
