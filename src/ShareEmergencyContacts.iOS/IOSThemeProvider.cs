@@ -6,10 +6,11 @@ namespace ShareEmergencyContacts.iOS
     {
         private NavigationPage _navigationPage;
 
-        public bool IsDarkTheme { get; }
+        public bool IsDarkTheme { get; private set; }
 
         public void ChangeTheme(bool darkTheme)
         {
+            IsDarkTheme = darkTheme;
             if (_navigationPage != null)
             {
                 _navigationPage.BarBackgroundColor = darkTheme ? Color.Black : Color.White;

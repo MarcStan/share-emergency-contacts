@@ -1,6 +1,7 @@
 **v0.9.5**
 
 * Added Light/dark theme support
+    * known issue on android: when launching app with dark theme and switching to light theme icons and tabbedpage text remain white on white theme (fixed by restarting app)
 * removed duplicate navbar on UWP
 * fixed rare crash on navigating back
 * fixed crash on app resume (android only)

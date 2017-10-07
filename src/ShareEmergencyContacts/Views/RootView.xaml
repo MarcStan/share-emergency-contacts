@@ -4,8 +4,8 @@
                 x:Class="ShareEmergencyContacts.Views.RootView" Title="Share emergency contacts">
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="About" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=information.png}" Command="{Binding AboutCommand}" />
-        <ToolbarItem Text="Export" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=export.png}" Command="{Binding ExportCommand}" Order="Secondary" />
-        <ToolbarItem Text="Import file" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=imp.png}" Command="{Binding ImportCommand}" Order="Secondary" />
+        <ToolbarItem Text="Export" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=export.png}" Command="{Binding ExportCommand}" />
+        <ToolbarItem Text="Import file" Icon="{Binding Converter={StaticResource IconNameColorByThemeConverter}, ConverterParameter=imp.png}" Command="{Binding ImportCommand}" />
     </TabbedPage.ToolbarItems>
     <views:ReceivedContactsView Title="Received contacts" BindingContext="{Binding ReceivedContactsViewModel}"/>
     <views:MyProfilesView Title="My profiles" BindingContext="{Binding MyProfilesViewModel}"/>
