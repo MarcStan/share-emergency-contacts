@@ -93,6 +93,8 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 if (!_lastClick.HasValue || (DateTime.Now - _lastClick.Value).TotalSeconds > 1)
                 {
                     // uwp still has double click bug, so rate limit this shit
+                    // incidently this works out for android as well where user can actual press the item twice before the page loads (resulting in two pages being openend)
+                    // with the rate limit we also prevent the double page open
                     _lastClick = DateTime.Now;
                     ProfileSelected(_selectedItem);
                 }
