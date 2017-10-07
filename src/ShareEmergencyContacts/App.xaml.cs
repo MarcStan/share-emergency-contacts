@@ -46,6 +46,8 @@ namespace ShareEmergencyContacts
             // auto register all view models
             RegisterAllViewModels(ns);
 
+            AppSettings.LoadTheme();
+
             Task.Run(async () =>
             {
 #if !DEBUG
@@ -53,7 +55,7 @@ namespace ShareEmergencyContacts
                 MobileCenter();
 #endif
                 // call after mobile center start because start seems to set all variables to true
-                await AppSettings.LoadAsync();
+                await AppSettings.LoadMobileCenterAsync();
             });
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));

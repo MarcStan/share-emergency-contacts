@@ -52,13 +52,18 @@ namespace ShareEmergencyContacts.Helpers
             }
         }
 
-        public static void ConfigureTheme(bool useDark)
+        public static void ConfigureTheme(bool useDark, bool delegateToMainThread = true)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            var exec = new Action(() =>
             {
                 App.Current.Resources.MergedWith = useDark ? typeof(DarkThemeResources) : typeof(LightThemeResources);
                 IoC.Get<IThemeProvider>().ChangeTheme(useDark);
             });
+
+            if (delegateToMainThread)
+                Device.BeginInvokeOnMainThread(exec);
+            else
+                exec();
         }
 
         /// <summary>
@@ -76,10 +81,14 @@ namespace ShareEmergencyContacts.Helpers
         /// <summary>
         /// Sets all settings based on the loaded settings (or defaults).
         /// </summary>
-        public static async Task LoadAsync()
+        public static async Task LoadMobileCenterAsync()
         {
-            ConfigureTheme(IsDarkTheme);
             await ConfigureMobileCenterAsync(AllowAnalytics);
+        }
+
+        public static void LoadTheme()
+        {
+            ConfigureTheme(IsDarkTheme, false);
         }
     }
 }

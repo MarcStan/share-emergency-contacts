@@ -21,9 +21,10 @@ namespace ShareEmergencyContacts.Droid
             _activity.SetTheme(darkTheme ? Resource.Style.DarkMainTheme : Resource.Style.LightMainTheme);
             if (_navigationPage != null)
             {
-                _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
                 var rc = _activity.Resources.GetColor(darkTheme ? Resource.Color.titleBarDark : Resource.Color.titleBarLight, _activity.Theme);
                 _navigationPage.BackgroundColor = rc.ToColor();
+
+                _navigationPage.BarTextColor = darkTheme ? Color.White : Color.Black;
             }
 
             var ac = _activity.Resources.GetColor(Resource.Color.accent, _activity.Theme);
