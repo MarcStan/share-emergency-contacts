@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="add.png" />
+    <Content Include="add_inverted.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -173,17 +174,17 @@
     <Content Include="qr.png" />
     <Content Include="save.png" />
     <Content Include="share.png" />
-    <Content Include="copy-inverted.png" />
-    <Content Include="delete-inverted.png" />
-    <Content Include="edit-inverted.png" />
-    <Content Include="email-inverted.png" />
-    <Content Include="export-inverted.png" />
-    <Content Include="imp-inverted.png" />
-    <Content Include="information-inverted.png" />
-    <Content Include="phone-inverted.png" />
-    <Content Include="qr-inverted.png" />
-    <Content Include="save-inverted.png" />
-    <Content Include="share-inverted.png" />
+    <Content Include="copy_inverted.png" />
+    <Content Include="delete_inverted.png" />
+    <Content Include="edit_inverted.png" />
+    <Content Include="email_inverted.png" />
+    <Content Include="export_inverted.png" />
+    <Content Include="imp_inverted.png" />
+    <Content Include="information_inverted.png" />
+    <Content Include="phone_inverted.png" />
+    <Content Include="qr_inverted.png" />
+    <Content Include="save_inverted.png" />
+    <Content Include="share_inverted.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

@@ -17,9 +17,9 @@
 	<key>CFBundleURLSchemes</key>
 	<string>mobilecenter-20db8320-b54d-4c45-b74c-f1c59e948c21</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<false />
 	<key>UIStatusBarHidden</key>
-	<true/>
+	<true />
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

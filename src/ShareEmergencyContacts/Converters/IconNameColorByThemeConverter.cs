@@ -41,7 +41,7 @@ namespace ShareEmergencyContacts.Converters
                     fn = iconName.Substring(0, idx);
                     ext = iconName.Substring(idx);
                 }
-                return $"{fn}-inverted{ext}";
+                return $"{fn}_inverted{ext}";
             }
             return iconName;
         }
