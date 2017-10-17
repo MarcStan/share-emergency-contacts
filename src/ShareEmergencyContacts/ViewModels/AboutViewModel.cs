@@ -10,8 +10,8 @@ namespace ShareEmergencyContacts.ViewModels
 {
     public class AboutViewModel : Screen
     {
-        private const string Url = "https://marcstan.net/betas/SEC/";
-        private const string PrivacyUrl = "https://marcstan.net/privacy/betas/SEC";
+        private const string Url = "https://marcstan.net/apps/sec/";
+        private const string PrivacyUrl = "https://marcstan.net/apps/sec/privacy/";
 
         public AboutViewModel()
         {
@@ -27,13 +27,22 @@ namespace ShareEmergencyContacts.ViewModels
                 Device.OpenUri(new Uri(PrivacyUrl));
             });
 
-            ShareBetaCommand = new Command(() =>
+            ShareCommand = new Command(() =>
             {
                 var share = IoC.Get<IShareProvider>();
                 Analytics.TrackEvent(AnalyticsEvents.ShareApp);
-                share.ShareUrl(Url, "Download \"Share emergency contacts\"", "Check out the app \"Share emergency contacts\" (currently in beta)");
+                share.ShareUrl(Url, "Download \"Share emergency contacts\"",
+                    "Check out the app \"Share emergency contacts\"" +
+                    ("true".Equals(Application.Current.Resources["IsInBeta"] as string,
+                        StringComparison.OrdinalIgnoreCase)
+                        ? " (currently in beta)"
+                        : ""));
             });
         }
+
+        public string InviteText { get; } = "true".Equals(Application.Current.Resources["IsInBeta"] as string, StringComparison.OrdinalIgnoreCase)
+            ? "Invite a friend to the beta"
+            : "Invite a friend to use the app";
 
         public bool UseDarkTheme
         {
@@ -74,6 +83,6 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ICommand PrivacyCommand { get; }
 
-        public ICommand ShareBetaCommand { get; }
+        public ICommand ShareCommand { get; }
     }
 }

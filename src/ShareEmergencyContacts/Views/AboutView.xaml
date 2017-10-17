@@ -10,7 +10,7 @@
                 <Label FontAttributes="Bold" FontSize="18" Text="{Binding Version}" />
                 <Label FontAttributes="Bold" FontSize="18" Text="BETA" TextColor="Red" IsVisible="{x:StaticResource IsInBeta}" />
             </StackLayout>
-            <Button IsVisible="{x:StaticResource IsInBeta}" FontAttributes="Bold" FontSize="18" Text="Invite a friend to the beta" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareBetaCommand}" HorizontalOptions="Center" />
+            <Button FontAttributes="Bold" FontSize="18" Text="{Binding InviteText}" Margin="20" TextColor="DodgerBlue" Command="{Binding ShareCommand}" HorizontalOptions="Center" />
             <Grid x:Name="SettingsGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
