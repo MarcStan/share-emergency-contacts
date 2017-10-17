@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
+using Newtonsoft.Json;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
@@ -54,7 +55,7 @@ namespace ShareEmergencyContacts.ViewModels
                     return; // silent fail
 
                 var json = await response.Content.ReadAsStringAsync();
-                var update = JsonParser.FromJson<UpdateCheck>(json);
+                var update = JsonConvert.DeserializeObject<UpdateCheck>(json);
                 if (update.UpdateAvailable)
                 {
                     var dia = IoC.Get<IUserDialogs>();

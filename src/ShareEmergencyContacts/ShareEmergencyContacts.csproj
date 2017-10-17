@@ -51,7 +51,6 @@
     <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\ImportExportHelper.cs" />
     <Compile Include="Helpers\DataLimits.cs" />
-    <Compile Include="Helpers\JsonParser.cs" />
     <Compile Include="Helpers\VCardHelper.cs" />
     <Compile Include="Helpers\VCardException.cs" />
     <Compile Include="Helpers\XLabs\ContactViewModelRepeater.cs" />
