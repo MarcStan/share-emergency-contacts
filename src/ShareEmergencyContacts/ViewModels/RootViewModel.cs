@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
@@ -23,8 +22,6 @@ namespace ShareEmergencyContacts.ViewModels
 
         public RootViewModel()
         {
-            Analytics.TrackEvent(AnalyticsEvents.AppLaunch);
-
             _navigationService = IoC.Get<INavigationService>();
             MyProfilesViewModel = new MyProfilesViewModel(_navigationService);
             ReceivedContactsViewModel = new ReceivedContactsViewModel(_navigationService);
@@ -102,7 +99,6 @@ namespace ShareEmergencyContacts.ViewModels
 
         public void About()
         {
-            Analytics.TrackEvent(AnalyticsEvents.OpenAbout);
             _navigationService.NavigateToViewModelAsync<AboutViewModel>();
         }
 
@@ -166,7 +162,6 @@ namespace ShareEmergencyContacts.ViewModels
                 await storageContainer.SaveProfileAsync(n.Actual);
             }
             MyProfilesViewModel.NotifyOfPropertyChange(nameof(MyProfilesViewModel.NoContacts));
-            Analytics.TrackEvent(AnalyticsEvents.ImportContactsFile);
             var c1 = contacts.Count > 0 ? $"{contacts.Count} contact{(contacts.Count == 1 ? "" : "s")}" : null;
             var p1 = profiles.Count > 0 ? $"{profiles.Count} profile{(profiles.Count == 1 ? "" : "s")}" : null;
             if (c1 == null && p1 == null)
@@ -200,7 +195,6 @@ namespace ShareEmergencyContacts.ViewModels
             var date = $"{n.Year}-{n.Month:00}-{n.Day:00}";
             if (await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", file))
             {
-                Analytics.TrackEvent(AnalyticsEvents.ExportContactsFile);
                 if (Device.RuntimePlatform == Device.Android)
                     dia.Toast("Contacts exported to Downloads folder!");
                 else

@@ -23,9 +23,6 @@
                 </Grid.RowDefinitions>
                 <Label Text="Dark theme:" VerticalOptions="Center" Margin="0,0,0,20" />
                 <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding UseDarkTheme}" VerticalOptions="Center" Margin="0,0,0,20" />
-                <Label Grid.Row="1" Grid.Column="0"  Text="Crash and usage reports:" VerticalOptions="Center" />
-                <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding AllowAnalytics}" VerticalOptions="Center" />
-                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AnalyticsMessage}" />
             </Grid>
             <Button FontAttributes="Bold" FontSize="22" Text="Privacy policy" Margin="0" TextColor="DodgerBlue" Command="{Binding PrivacyCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />
             <Button FontAttributes="Bold" FontSize="22" Text="Web: marcstan.net" Margin="0" TextColor="DodgerBlue" Command="{Binding WebsiteCommand}" Style="{StaticResource MenuButton}" HorizontalOptions="Center" />

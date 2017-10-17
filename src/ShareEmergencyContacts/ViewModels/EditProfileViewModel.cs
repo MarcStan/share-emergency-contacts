@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
-using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using ShareEmergencyContacts.ViewModels.ForModels;
@@ -196,11 +195,9 @@ namespace ShareEmergencyContacts.ViewModels
         {
             if (Selected.EmergencyContacts.Count + Selected.InsuranceContacts.Count >= DataLimits.MaxSubContacts)
             {
-                Analytics.TrackEvent(AnalyticsEvents.AddEmergencyContactLimitReached);
                 Device.BeginInvokeOnMainThread(async () => await IoC.Get<IUserDialogs>().AlertAsync($"Each contact may only have a maximum of {DataLimits.MaxSubContacts} contacts!", "Limit reached", "Ok"));
                 return;
             }
-            Analytics.TrackEvent(AnalyticsEvents.AddEmergencyContact);
             var contact = new EmergencyContact();
             Selected.Actual.EmergencyContacts.Add(contact);
             Selected.EmergencyContacts.Add(new ContactViewModel(contact, false, true, p =>
@@ -218,11 +215,9 @@ namespace ShareEmergencyContacts.ViewModels
         {
             if (Selected.EmergencyContacts.Count + Selected.InsuranceContacts.Count >= DataLimits.MaxSubContacts)
             {
-                Analytics.TrackEvent(AnalyticsEvents.AddInsuranceContactLimitReached);
                 Device.BeginInvokeOnMainThread(async () => await IoC.Get<IUserDialogs>().AlertAsync($"Each contact may only have a maximum of {DataLimits.MaxSubContacts} contacts!", "Limit reached", "Ok"));
                 return;
             }
-            Analytics.TrackEvent(AnalyticsEvents.AddInsuranceContact);
             var contact = new EmergencyContact();
             Selected.Actual.InsuranceContacts.Add(contact);
             Selected.InsuranceContacts.Add(new ContactViewModel(contact, true, true, p =>

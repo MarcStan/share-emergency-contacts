@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using System;
 using System.Reflection;
@@ -18,19 +17,16 @@ namespace ShareEmergencyContacts.ViewModels
             Version = $"{GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
             WebsiteCommand = new Command(() =>
             {
-                Analytics.TrackEvent(AnalyticsEvents.OpenWebsite);
                 Device.OpenUri(new Uri(Url));
             });
             PrivacyCommand = new Command(() =>
             {
-                Analytics.TrackEvent(AnalyticsEvents.OpenPrivacy);
                 Device.OpenUri(new Uri(PrivacyUrl));
             });
 
             ShareCommand = new Command(() =>
             {
                 var share = IoC.Get<IShareProvider>();
-                Analytics.TrackEvent(AnalyticsEvents.ShareApp);
                 share.ShareUrl(Url, "Download \"Share emergency contacts\"",
                     "Check out the app \"Share emergency contacts\"" +
                     ("true".Equals(Application.Current.Resources["IsInBeta"] as string,
@@ -54,25 +50,6 @@ namespace ShareEmergencyContacts.ViewModels
                 NotifyOfPropertyChange(nameof(UseDarkTheme));
             }
         }
-
-        public bool AllowAnalytics
-        {
-            get => AppSettings.AllowAnalytics;
-            set
-            {
-                if (value == AllowAnalytics) return;
-                AppSettings.AllowAnalytics = value;
-                NotifyOfPropertyChange(nameof(AllowAnalytics));
-                NotifyOfPropertyChange(nameof(AnalyticsMessage));
-            }
-        }
-
-        public string AnalyticsMessage => AllowAnalytics
-            ? "These reports help me improve the app by spotting crashes early on. " + Environment.NewLine +
-              "Only anonymous data is collected." + Environment.NewLine +
-              "None of the text you enter is ever uploaded."
-            : "I respect your privacy." + Environment.NewLine +
-              "No usage or crash reports will be uploaded. Only update checks will be made whenever the app is opened.";
 
         /// <summary>
         /// Returns the current version

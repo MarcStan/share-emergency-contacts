@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
@@ -250,11 +249,9 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
         {
             if (PhoneNumbers.Count >= DataLimits.MaxPhoneNumbers)
             {
-                Analytics.TrackEvent(AnalyticsEvents.AddPhoneNumberLimitReached);
                 Device.BeginInvokeOnMainThread(async () => await IoC.Get<IUserDialogs>().AlertAsync($"Each contact may only have a maximum of {DataLimits.MaxPhoneNumbers} phone numbers!", "Limit reached", "Ok"));
                 return;
             }
-            Analytics.TrackEvent(AnalyticsEvents.AddPhoneNumber);
             var vm = new EditPhoneNumberViewModel(null, num =>
             {
                 Profile.PhoneNumbers.Add(num);

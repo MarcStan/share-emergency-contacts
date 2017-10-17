@@ -1,8 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Crashes;
 using PCLStorage;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Helpers;
@@ -48,31 +46,10 @@ namespace ShareEmergencyContacts
 
             AppSettings.LoadTheme();
 
-            Task.Run(async () =>
-            {
-#if !DEBUG
-                // don't report stuff from my debug sessions or there will be lots of crash reports to ignore
-                MobileCenter();
-#endif
-                // call after mobile center start because start seems to set all variables to true
-                await AppSettings.LoadMobileCenterAsync();
-            });
             var storageProvider = IoC.Get<IStorageProvider>();
             container.RegisterInstance(typeof(IStorageContainer), null, new StorageContainer(storageProvider));
 
             DisplayRootView<RootView>();
-        }
-
-        private static void MobileCenter()
-        {
-            var platform = Device.RuntimePlatform.ToLower();
-
-            var key = IoC.Get<IAppInfoProvider>().MobileCenterKey;
-            // mobile center doesn't support UWP crashes yet
-            if (platform == "uwp")
-                Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics));
-            else
-                Microsoft.Azure.Mobile.MobileCenter.Start($"{platform}={key}", typeof(Analytics), typeof(Crashes));
         }
 
         private void UnhandledException(object sender, Exception exception)

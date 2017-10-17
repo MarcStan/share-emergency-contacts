@@ -1,9 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Extensions;
-using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Windows.Input;
@@ -70,7 +68,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         public async void CallAsync()
         {
-            Analytics.TrackEvent(AnalyticsEvents.CallPhoneNumber);
             var dial = IoC.Get<IPhoneDialProvider>();
             try
             {
@@ -89,7 +86,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         private void Copy()
         {
-            Analytics.TrackEvent(AnalyticsEvents.CopyPhoneNumber);
             var clip = IoC.Get<IClipboardProvider>();
             clip.Copy(Number);
             var dia = IoC.Get<IUserDialogs>();
@@ -98,7 +94,6 @@ namespace ShareEmergencyContacts.ViewModels.ForModels
 
         private void Edit()
         {
-            Analytics.TrackEvent(AnalyticsEvents.EditPhoneNumber);
             var vm = new EditPhoneNumberViewModel(Phone, p =>
             {
                 Number = p.Number;

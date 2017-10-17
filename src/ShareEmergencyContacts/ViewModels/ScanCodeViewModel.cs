@@ -1,7 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
-using Microsoft.Azure.Mobile.Analytics;
-using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Collections.Generic;
@@ -26,7 +24,6 @@ namespace ShareEmergencyContacts.ViewModels
 
         public ScanCodeViewModel(Func<EmergencyProfile, Task<bool>> add)
         {
-            Analytics.TrackEvent(AnalyticsEvents.OpenScanView);
             _add = add ?? throw new ArgumentNullException(nameof(add));
 
             ScanCommand = new Command(o =>
@@ -90,7 +87,6 @@ namespace ShareEmergencyContacts.ViewModels
                     if (_finished)
                         return;
                     _finished = true;
-                    Analytics.TrackEvent(AnalyticsEvents.CodeScanned);
                     // on match, exit but not before registering the new file
                     if (!await _add(p))
                     {
@@ -102,7 +98,6 @@ namespace ShareEmergencyContacts.ViewModels
                 }
                 else
                 {
-                    Analytics.TrackEvent(AnalyticsEvents.WrongCodeScanned);
                     IoC.Get<IUserDialogs>().Alert("Not a valid contact format. Please try again!", "Invalid format");
                     // continue anlyzing
                     IsAnalyzing = true;
