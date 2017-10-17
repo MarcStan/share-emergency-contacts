@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
@@ -6,6 +7,7 @@ using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using Xamarin.Forms;

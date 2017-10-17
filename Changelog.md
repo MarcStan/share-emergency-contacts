@@ -1,3 +1,7 @@
+**v1.0.0**
+
+* fixed "displayUri" alert when canceling contact export
+
 **v0.9.5**
 
 * Added Light/dark theme support
