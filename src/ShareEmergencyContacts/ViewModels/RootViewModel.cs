@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using Microsoft.Azure.Mobile.Analytics;
 using ShareEmergencyContacts.Helpers;
-using System.Windows.Input;
-using Acr.UserDialogs;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
-using Xamarin.Forms;
-#if BETA
-using Acr.UserDialogs;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-#endif
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ShareEmergencyContacts.ViewModels
 {
@@ -36,17 +32,15 @@ namespace ShareEmergencyContacts.ViewModels
             AboutCommand = new Command(About);
             ExportCommand = new Command(ExportToFile);
             ImportCommand = new Command(ImportFromFile);
-#if BETA
-            PerformBetaUpdateCheck();
-#endif
+
+            PerformUpdateCheck();
         }
 
-#if BETA
         /// <summary>
         /// Checks in with the server to determine whether the current version is outdated.
         /// Will silently fail on any error and just prompt the user on success if a new version is available.
         /// </summary>
-        private async void PerformBetaUpdateCheck()
+        private async void PerformUpdateCheck()
         {
             var p = Device.RuntimePlatform.ToLower();
             var v = GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3);
@@ -95,7 +89,6 @@ namespace ShareEmergencyContacts.ViewModels
             /// </summary>
             public string UpdateUrl { get; set; }
         }
-#endif
 
         public MyProfilesViewModel MyProfilesViewModel { get; set; }
 
