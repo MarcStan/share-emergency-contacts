@@ -48,7 +48,7 @@ namespace ShareEmergencyContacts.Models
         /// Creates an external file with the provided content.
         /// </summary>
         /// <returns></returns>
-        Task SaveExternallyAsync(string filename, string content);
+        Task<bool> SaveExternallyAsync(string filename, string content);
 
         /// <summary>
         /// Reads file from external storage (allowing user to pick the file).

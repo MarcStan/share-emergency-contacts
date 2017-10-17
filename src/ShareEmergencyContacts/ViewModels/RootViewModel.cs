@@ -203,12 +203,14 @@ namespace ShareEmergencyContacts.ViewModels
 
             var n = DateTime.Now;
             var date = $"{n.Year}-{n.Month:00}-{n.Day:00}";
-            await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", file);
-            Analytics.TrackEvent(AnalyticsEvents.ExportContactsFile);
-            if (Device.RuntimePlatform == Device.Android)
-                dia.Toast("Contacts exported to Downloads folder!");
-            else
-                dia.Toast("Contacts exported!");
+            if (await storage.SaveExternallyAsync($"{date}-contacts-export.vcards", file))
+            {
+                Analytics.TrackEvent(AnalyticsEvents.ExportContactsFile);
+                if (Device.RuntimePlatform == Device.Android)
+                    dia.Toast("Contacts exported to Downloads folder!");
+                else
+                    dia.Toast("Contacts exported!");
+            }
         }
 
         private async Task<bool> EnsureStorageAccess()

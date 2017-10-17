@@ -75,7 +75,7 @@ namespace ShareEmergencyContacts.Droid
             });
         }
 
-        public Task SaveExternallyAsync(string filename, string content)
+        public Task<bool> SaveExternallyAsync(string filename, string content)
         {
 #if __ANDROID__
             return Task.Run(() =>
@@ -83,6 +83,7 @@ namespace ShareEmergencyContacts.Droid
                 var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads);
                 Directory.CreateDirectory(dir.AbsolutePath);
                 File.WriteAllText(Path.Combine(dir.AbsolutePath, filename), content);
+                return true;
             });
 #else
             throw new NotSupportedException();
@@ -118,6 +119,9 @@ namespace ShareEmergencyContacts.Droid
             // await the result proxied to PermissionRequestAnswered
             await tcs.Task;
             var path = tcs.Task.Result;
+            if (path == null)
+                return null; // user canceled
+
             var docId = DocumentsContract.GetDocumentId(Android.Net.Uri.Parse(path));
             string[] split = docId.Split(':');
             var type = split[0];

@@ -108,7 +108,7 @@ namespace ShareEmergencyContacts.UWP
             }
         }
 
-        public async Task SaveExternallyAsync(string filename, string content)
+        public async Task<bool> SaveExternallyAsync(string filename, string content)
         {
             var savePicker = new Windows.Storage.Pickers.FileSavePicker
             {
@@ -119,13 +119,14 @@ namespace ShareEmergencyContacts.UWP
             savePicker.SuggestedFileName = filename;
             var file = await savePicker.PickSaveFileAsync();
             if (file == null)
-                return;
+                return false;
 
             using (var stream = await file.OpenStreamForWriteAsync())
             using (var writer = new StreamWriter(stream))
             {
                 await writer.WriteAsync(content);
             }
+            return true;
         }
 
         public async Task<string> ReadExternallyAsync(string ext)
@@ -136,7 +137,8 @@ namespace ShareEmergencyContacts.UWP
             };
             openPicker.FileTypeFilter.Add(ext);
             var file = await openPicker.PickSingleFileAsync();
-
+            if (file == null)
+                return null;
             using (var stream = await file.OpenStreamForReadAsync())
             using (var reader = new StreamReader(stream))
                 return await reader.ReadToEndAsync();
