@@ -1,7 +1,14 @@
 @echo OFF
-
-set /p version="Enter SemVer: "
-set /p appCode="Enter new android appCode (empty to skip): "
+REM args are optional. If not set, interactive mode is started
+REM [semVer] [androidCode]
+set version=%1
+if [%1]==[] (
+    set /p version="Enter SemVer: "
+)
+set appCode=%2
+if [%2]==[] (
+    set /p appCode="Enter new android appCode (empty to skip): "
+)
 
 vpatch.exe -v %version% ^
             -c src\GlobalAssemblyInfo.cs ^
