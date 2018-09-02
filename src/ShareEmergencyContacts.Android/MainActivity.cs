@@ -30,7 +30,7 @@ namespace ShareEmergencyContacts.Droid
 
             MobileBarcodeScanner.Initialize(Application);
 
-            UserDialogs.Init(() => (Activity)Forms.Context);
+            UserDialogs.Init(() => (Activity)BaseContext);
 
             // Use a static instance because this application class is only ever instantiated once: on the first app launch.
             // If a user closes the app (pushed to background) and clicks the app icon again, a new app is launched.
@@ -44,8 +44,8 @@ namespace ShareEmergencyContacts.Droid
             var container = CaliburnApplication.Container = new SimpleContainer();
             container.Instance(CaliburnApplication.Container);
             container.Singleton<App>();
-            container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider());
-            container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider());
+            container.RegisterInstance(typeof(IPhoneDialProvider), null, new AndroidPhoneDialProvider(BaseContext));
+            container.RegisterInstance(typeof(IClipboardProvider), null, new AndroidClipboardProvider(BaseContext));
             container.RegisterInstance(typeof(IShareProvider), null, new AndroidShareProvider());
             container.RegisterInstance(typeof(IUnhandledExceptionHandler), null, new AndroidUnhandledExceptionHandler());
             container.RegisterInstance(typeof(IUserDialogs), null, UserDialogs.Instance);
@@ -56,7 +56,7 @@ namespace ShareEmergencyContacts.Droid
             ActivityResultSet += storage.OnActivityResult;
             container.RegisterInstance(typeof(IStorageProvider), null, storage);
 
-            var perm = new AndroidCheckPermissions((Activity)Forms.Context);
+            var perm = new AndroidCheckPermissions((Activity)BaseContext);
             OnPermissionSet += perm.PermissionRequestAnswered;
 
             container.RegisterInstance(typeof(ICheckPermissions), null, perm);

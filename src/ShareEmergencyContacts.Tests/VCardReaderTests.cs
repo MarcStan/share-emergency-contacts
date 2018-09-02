@@ -17,7 +17,7 @@ namespace ShareEmergencyContacts.Tests
                        "N:Gump;Forrest;;Mr." + Environment.NewLine +
                        "END:VCARD";
             var vcard = new VCardHelper();
-            new Action(() => vcard.FromVCard(text)).ShouldThrow<VCardException>("because format 2.1 is not supported.");
+            new Action(() => vcard.FromVCard(text)).Should().Throw<VCardException>("because format 2.1 is not supported.");
         }
 
         [Test]

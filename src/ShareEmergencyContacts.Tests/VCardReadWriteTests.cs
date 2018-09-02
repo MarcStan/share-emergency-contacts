@@ -77,11 +77,11 @@ namespace ShareEmergencyContacts.Tests
 
             var contact2 = vcard.FromVCard(text);
 
-            contact2.ShouldBeEquivalentTo(full, options => options.IncludingNestedObjects());
+            contact2.Should().BeEquivalentTo(full, options => options.IncludingNestedObjects());
 
             // reverse test
             contact2.EmergencyContacts[0].ProfileName = "definitely not correct";
-            new Action(() => contact2.ShouldBeEquivalentTo(full, o => o.IncludingNestedObjects())).ShouldThrow<Exception>("because we just changed the name");
+            new Action(() => contact2.Should().BeEquivalentTo(full, o => o.IncludingNestedObjects())).Should().Throw<Exception>("because we just changed the name");
         }
     }
 }

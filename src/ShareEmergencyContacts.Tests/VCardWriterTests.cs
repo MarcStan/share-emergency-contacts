@@ -15,8 +15,8 @@ namespace ShareEmergencyContacts.Tests
         {
             var vcard = new VCardHelper();
             var empty = new EmergencyProfile();
-            new Action(() => empty.ProfileName = null).ShouldThrow<ArgumentNullException>("because null is not allowed on this property.");
-            new Action(() => vcard.ToVCard(empty)).ShouldThrow<NotSupportedException>("because the one property name is not set");
+            new Action(() => empty.ProfileName = null).Should().Throw<ArgumentNullException>("because null is not allowed on this property.");
+            new Action(() => vcard.ToVCard(empty)).Should().Throw<NotSupportedException>("because the one property name is not set");
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace ShareEmergencyContacts.Tests
         {
             var vcard = new VCardHelper();
 
-            new Action(() => vcard.ToVCard(null)).ShouldThrow<ArgumentNullException>();
+            new Action(() => vcard.ToVCard(null)).Should().Throw<ArgumentNullException>();
         }
 
         [Test]
