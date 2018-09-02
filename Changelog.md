@@ -1,3 +1,8 @@
+**v1.0.1**
+
+* Move to netstandard2.0 internally
+* Cleaned up references internally
+
 **v1.0.0**
 
 * fixed "displayUri" alert when canceling contact export

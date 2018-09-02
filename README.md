@@ -1,4 +1,8 @@
-See [First time setup](First%20time%20Setup.md) to compile locally.
+See [First time setup](First%20time%20Setup.md) for requirements to compile locally.
+
+Then just compile from Visual Studio as you would any other Xamarin app.
+
+Supports Android, UWP and iOS (iOS last tested with v1.0.0).
 
 # Share Emergeny Contacts
 
@@ -59,6 +63,10 @@ E.g. Category: "Freeclimbing Trip Italy 2017", Nickname: "Alex from USA"
 ## 3. In case of emergency
 
 Should anything happen to someone in the group that renderes them unconscious or barely able to talk (falling from height, high speed impact, etc.) anyone else can pull up the emergency contact information in their app and immediately share this information with paramedics.
+
+# Issues
+
+While developing the app I used my own [IssueTracker](https://github.com/MarcStan/IssueTracker) to track the issues (see "issues" directory).
 
 # Known issues
 

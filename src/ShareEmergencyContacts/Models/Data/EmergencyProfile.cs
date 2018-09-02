@@ -1,6 +1,7 @@
 ﻿using ShareEmergencyContacts.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ShareEmergencyContacts.Models.Data
@@ -65,9 +66,11 @@ namespace ShareEmergencyContacts.Models.Data
             {
                 return _vCardHelper.FromVCard(content);
             }
-            catch (VCardException)
+            catch (VCardException e)
             {
-                // TODO: log
+                Console.WriteLine(e);
+                if (Debugger.IsAttached)
+                    Debugger.Break();
                 return null;
             }
         }
