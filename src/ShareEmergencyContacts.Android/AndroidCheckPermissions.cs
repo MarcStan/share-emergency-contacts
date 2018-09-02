@@ -10,13 +10,13 @@ namespace ShareEmergencyContacts.Droid
 {
     public class AndroidCheckPermissions : ICheckPermissions
     {
-        private readonly Activity _context;
+        private readonly Activity _activity;
         private readonly Dictionary<int, TaskCompletionSource<PermissionResult>> _permissionTokens;
         private int _nextFreeCode;
 
-        public AndroidCheckPermissions(Activity context)
+        public AndroidCheckPermissions(Activity activity)
         {
-            _context = context;
+            _activity = activity;
             _permissionTokens = new Dictionary<int, TaskCompletionSource<PermissionResult>>();
         }
 
@@ -25,7 +25,7 @@ namespace ShareEmergencyContacts.Droid
             var permission = Resolve(perm);
             try
             {
-                var info = _context.PackageManager.GetPackageInfo(_context.PackageName, PackageInfoFlags.Permissions);
+                var info = _activity.PackageManager.GetPackageInfo(_activity.PackageName, PackageInfoFlags.Permissions);
                 return info.RequestedPermissions.Contains(permission);
             }
             catch
@@ -53,7 +53,7 @@ namespace ShareEmergencyContacts.Droid
                 throw new NotSupportedException("Permission must be added to the manifest before it can be granted.");
 
             var permission = Resolve(perm);
-            return ContextCompat.CheckSelfPermission(_context, permission) == Permission.Granted;
+            return ContextCompat.CheckSelfPermission(_activity, permission) == Permission.Granted;
         }
 
         public async Task<PermissionResult> GrantPermissionAsync(PermissionType perm)
@@ -74,7 +74,7 @@ namespace ShareEmergencyContacts.Droid
             _permissionTokens.Add(id, tcs);
 
             // run permission request by android (may or may not spawn dialog)
-            ActivityCompat.RequestPermissions(_context, new[] { permission }, id);
+            ActivityCompat.RequestPermissions(_activity, new[] { permission }, id);
             // await the result proxied to PermissionRequestAnswered
             await tcs.Task;
             return tcs.Task.Result;
@@ -96,7 +96,7 @@ namespace ShareEmergencyContacts.Droid
             if (!granted)
             {
                 // returns false when the user checked "never ask again" as per https://stackoverflow.com/a/34612503
-                if (!ActivityCompat.ShouldShowRequestPermissionRationale(_context, permissions[0]))
+                if (!ActivityCompat.ShouldShowRequestPermissionRationale(_activity, permissions[0]))
                 {
                     token.SetResult(PermissionResult.AlwaysDenied);
                 }

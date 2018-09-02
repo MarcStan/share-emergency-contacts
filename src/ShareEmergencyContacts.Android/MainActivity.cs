@@ -15,7 +15,7 @@ namespace ShareEmergencyContacts.Droid
             MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             // force disable fullscreen
             Window.ClearFlags(WindowManagerFlags.Fullscreen);
@@ -24,13 +24,13 @@ namespace ShareEmergencyContacts.Droid
             // android needs a theme change on startup
             theme.ChangeTheme(false);
 
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
 
-            Forms.Init(this, bundle);
+            Forms.Init(this, savedInstanceState);
 
             MobileBarcodeScanner.Initialize(Application);
 
-            UserDialogs.Init(() => (Activity)BaseContext);
+            UserDialogs.Init(() => this);
 
             // Use a static instance because this application class is only ever instantiated once: on the first app launch.
             // If a user closes the app (pushed to background) and clicks the app icon again, a new app is launched.
@@ -56,7 +56,7 @@ namespace ShareEmergencyContacts.Droid
             ActivityResultSet += storage.OnActivityResult;
             container.RegisterInstance(typeof(IStorageProvider), null, storage);
 
-            var perm = new AndroidCheckPermissions((Activity)BaseContext);
+            var perm = new AndroidCheckPermissions(this);
             OnPermissionSet += perm.PermissionRequestAnswered;
 
             container.RegisterInstance(typeof(ICheckPermissions), null, perm);

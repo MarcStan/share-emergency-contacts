@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Themes;
 using Device = Xamarin.Forms.Device;
 
 namespace ShareEmergencyContacts.Helpers
@@ -35,7 +34,6 @@ namespace ShareEmergencyContacts.Helpers
         {
             var exec = new Action(() =>
             {
-                App.Current.Resources.MergedWith = useDark ? typeof(DarkThemeResources) : typeof(LightThemeResources);
                 IoC.Get<IThemeProvider>().ChangeTheme(useDark);
             });
 

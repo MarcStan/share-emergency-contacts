@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using Xamarin.Forms.Themes;
 
 namespace ShareEmergencyContacts.iOS
 {
@@ -10,6 +11,13 @@ namespace ShareEmergencyContacts.iOS
 
         public void ChangeTheme(bool darkTheme)
         {
+            if (App.Current != null)
+            {
+                // not sure how to fix the warning yet https://github.com/xamarin/Xamarin.Forms/pull/1229
+                // need the uri for the external assembly
+                App.Current.Resources.MergedWith = darkTheme ? typeof(DarkThemeResources) : typeof(LightThemeResources);
+            }
+
             IsDarkTheme = darkTheme;
             if (_navigationPage != null)
             {

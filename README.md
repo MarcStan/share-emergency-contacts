@@ -59,3 +59,11 @@ E.g. Category: "Freeclimbing Trip Italy 2017", Nickname: "Alex from USA"
 ## 3. In case of emergency
 
 Should anything happen to someone in the group that renderes them unconscious or barely able to talk (falling from height, high speed impact, etc.) anyone else can pull up the emergency contact information in their app and immediately share this information with paramedics.
+
+# Known issues
+
+## Compiler warnings
+
+modernhttpclient is not netstandard2. Since I'm not directly using it (dependency of Xamarin.Forms.Pages) I have to wait [for them to fix it](https://github.com/xamarin/Xamarin.Forms/issues/1886).
+
+ResourceDictionary.MergedWith is obsolete: 'Use Source': I currently [don't know how to fix it](https://github.com/xamarin/Xamarin.Forms/pull/1229), since I need classes from an external dll as the "source".

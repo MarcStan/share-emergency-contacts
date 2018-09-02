@@ -56,12 +56,5 @@ namespace ShareEmergencyContacts.Views
         {
             OnBackButtonPressed();
         }
-
-        private void TextEntryCompleted(object sender, EventArgs e)
-        {
-            // TODO: only Editor fields (multiline) will call this method; Entry fields do not fire the Completed event (bug in xamarin?)
-            var vm = BindingContext as EditProfileViewModel;
-            vm?.TextEntryCompleted();
-        }
     }
 }

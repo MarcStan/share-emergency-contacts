@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using PCLStorage;
 using ShareEmergencyContacts.Extensions;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
@@ -12,6 +11,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XamStorage;
 using Device = Xamarin.Forms.Device;
 
 namespace ShareEmergencyContacts
