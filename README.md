@@ -79,3 +79,7 @@ While developing the app I used my own [IssueTracker](https://github.com/MarcSta
 modernhttpclient is not netstandard2. Since I'm not directly using it (dependency of Xamarin.Forms.Pages) I have to wait [for them to fix it](https://github.com/xamarin/Xamarin.Forms/issues/1886).
 
 ResourceDictionary.MergedWith is obsolete: 'Use Source': I currently [don't know how to fix it](https://github.com/xamarin/Xamarin.Forms/pull/1229), since I need classes from an external dll as the "source".
+
+# TODOs
+
+Migrate iOS to PackageReference and test v1.0.1 on an iOS device
