@@ -45,7 +45,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                 if (contacts.Count == 0)
                 {
                     // insert mock data
-                    contacts = LoadMockContacts();
+                    contacts = LoadMockContacts(workWithMyProfiles);
                     if (workWithMyProfiles)
                     {
                         foreach (var c in contacts)
@@ -129,109 +129,14 @@ namespace ShareEmergencyContacts.ViewModels.Base
         }
 
 #if DEBUG
-        private static List<EmergencyProfile> LoadMockContacts()
+        private static List<EmergencyProfile> LoadMockContacts(bool myProfile)
         {
-            var contacts = new List<EmergencyProfile>
-            {
-                new EmergencyProfile
-                {
-                    ProfileName = "Flo",
-                    FirstName = "Flo",
-                    LastName = "Kong",
-                    BloodType = "The fuck do I know",
-                    Address = "Street 1" + Environment.NewLine +
-                              "12345 LegitCity",
-                    BirthDate = new DateTime(1989, 1, 13),
-                    HeightInCm = 200,
-                    WeightInKg = 100,
-                    Note = "This is a note",
-                    PhoneNumbers = new List<PhoneNumber>
-                    {
-                        new PhoneNumber(PhoneType.Home, "555 12345"),
-                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
-                    },
-                    EmergencyContacts = new List<EmergencyContact>
-                    {
-                        new EmergencyContact
-                        {
-                            FirstName = "Dad",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "1234567890")
-                            }
-                        },
-                        new EmergencyContact
-                        {
-                            FirstName = "Mom",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "1234567890 2")
-                            }
-                        }
-                    }
-                },
-                new EmergencyProfile
-                {
-                    ProfileName = "Patrick",
-                    FirstName = "Patrick",
-                    LastName = "Star",
-                    BloodType = "The fuck do I know",
-                    Address = "Street 1" + Environment.NewLine +
-                              "12345 LegitCity",
-                    Note = "This is a note",
-                    PhoneNumbers = new List<PhoneNumber>
-                    {
-                        new PhoneNumber(PhoneType.Home, "555 12345"),
-                        new PhoneNumber(PhoneType.Mobile, "+1 555 12345"),
-                    },
-                    InsuranceContacts = new List<EmergencyContact>
-                    {
-                        new EmergencyContact
-                        {
-                            FirstName = "REGA",
-                            InsuranceNumber = "#1234",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "+41 1414")
-                            }
-                        },
-                        new EmergencyContact
-                        {
-                            FirstName = "POLIZEI",
-                            InsuranceNumber = "#1234.68.123",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "+49 110")
-                            }
-                        }
-                    },
-                    EmergencyContacts = new List<EmergencyContact>
-                    {
-                        new EmergencyContact
-                        {
-                            FirstName = "Dad",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "1234567890")
-                            }
-                        },
-                        new EmergencyContact
-                        {
-                            FirstName = "Mom",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "1234567890 2")
-                            }
-                        }
-                    }
-                }
-            };
-            var marc = new EmergencyProfile
+            var contacts = new List<EmergencyProfile>();
+            var profile = new EmergencyProfile
             {
                 ProfileName = "Marc",
                 FirstName = "Marc",
                 LastName = "Stan",
-                BloodType = "The fuck do I know",
                 Address = "Street 1" + Environment.NewLine +
                               "12345 LegitCity",
                 BirthDate = new DateTime(1989, 1, 13),
@@ -247,17 +152,7 @@ namespace ShareEmergencyContacts.ViewModels.Base
                     {
                         new EmergencyContact
                         {
-                            FirstName = "REGA",
-                            InsuranceNumber = "#1234",
-                            PhoneNumbers = new List<PhoneNumber>
-                            {
-                                new PhoneNumber(PhoneType.Work, "+41 1414")
-                            }
-                        },
-                        new EmergencyContact
-                        {
-                            FirstName = "POLIZEI",
-                            InsuranceNumber = "#1234.68.123",
+                            FirstName = "POLICE",
                             PhoneNumbers = new List<PhoneNumber>
                             {
                                 new PhoneNumber(PhoneType.Work, "+49 110")
@@ -265,22 +160,25 @@ namespace ShareEmergencyContacts.ViewModels.Base
                         }
                     }
             };
-            marc.ExpirationDate = DateTime.Now.AddDays(1);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(3);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(4);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(7);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(7);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(14);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(28);
-            contacts.Add(marc.CloneFull());
-            marc.ExpirationDate = DateTime.Now.AddDays(28 * 6);
-            contacts.Add(marc.CloneFull());
+            var names = new [] { "Eva Page", "Richard Dalton", "Jon Doe", "Jane Doe", "Peter Moors", "Kyle Spear", "Sylvia Franklin" };
+            var days = new int[] { 1, 3, 4, 7, 7, 14, 28 };
+            var heights = new int[] { 160, 180, 175, 165, 190, 180, 155 };
+            var weights = new int[] { 160, 89, 80, 67, 90, 82, 55 };
+            for(int i = 0; i < names.Length; i++)
+            {
+                if (!myProfile)
+                {
+                    var name = names[i].Split(' ');
+                    var first = name[0];
+                    var last = name[1];
+                    profile.FirstName = profile.ProfileName = first;
+                    profile.LastName = last;
+                    profile.HeightInCm = heights[i];
+                    profile.WeightInKg = weights[i];
+                }
+                profile.ExpirationDate = DateTime.Now.AddDays(days[i]);
+                contacts.Add(profile.CloneFull());
+            }
             return contacts;
         }
 #endif

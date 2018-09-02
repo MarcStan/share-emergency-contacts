@@ -18,7 +18,6 @@ namespace ShareEmergencyContacts.Tests
                 ProfileName = "Marc",
                 FirstName = "Marc",
                 LastName = "Stan",
-                BloodType = "The fuck do I know",
                 Address = "Street 1" + Environment.NewLine +
                           "12345 LegitCity",
                 BirthDate = new DateTime(1989, 1, 13),
@@ -35,7 +34,7 @@ namespace ShareEmergencyContacts.Tests
                 {
                     new EmergencyContact
                     {
-                        ProfileName = "REGA",
+                        ProfileName = "INSURANCE",
                         InsuranceNumber = "#1234",
                         PhoneNumbers = new List<PhoneNumber>
                         {
@@ -44,7 +43,7 @@ namespace ShareEmergencyContacts.Tests
                     },
                     new EmergencyContact
                     {
-                        ProfileName = "POLIZEI",
+                        ProfileName = "POLICE",
                         InsuranceNumber = "#1234.68.123",
                         PhoneNumbers = new List<PhoneNumber>
                         {
