@@ -18,6 +18,10 @@ In case of an emergency such information could be life-saving.
 
 With high risk activities it is however entirely possible that someone looses or breaks their phone (motorcycle accident, ..) thus this app provides a way to share this emergency information with everyone.
 
+## Screenshots
+
+![Profile details](sampledata/screenshots/sec_droid_1.png?raw=true) ![QR code](sampledata/screenshots/sec_droid_2.png?raw=true) ![Received contacts](sampledata/screenshots/sec_uwp_1.png?raw=true)
+
 **The app works fully offline and never uploads any user data.**
 
 Contact information is transfers via QR code from one phone to another (making the only requirement a camera on each phone that needs to receive contact information).
