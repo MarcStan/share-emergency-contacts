@@ -1,23 +1,18 @@
-#First time setup
-
-Unless you already have vpatch.exe and icogen.exe in your path, download them from:
-
-* https://marcstan.net/binaries/live/vpatch.exe
-* https://marcstan.net/binaries/live/icogen.exe
-
-and put them in your path (or directly into the root of this project).
-
-Or run "first setup.ps1" to do so automatically.
+See [First time setup](First%20time%20Setup.md) to compile locally.
 
 # Share Emergeny Contacts
 
-Share Emergeny Contacts is a cross-platform application that allows two or more people to instantly exchange their emergency contact information from phone to phone without transmitting the data over the internet.
+Share Emergeny Contacts is a cross-platform mobile application that allows two or more people to instantly exchange their emergency contact information from phone to phone without transmitting the data over the internet.
 
 It is useful for any person taking part in group activities that may involve low to high risk of injury or even death (motorcycling, climbing, paragliding, speedflying, base jumping, ...).
 
 Even if you are good friends with everyone in the group you usually don't know the insurance details, family contact information, allergies, blood type, etc. of everyone.
 
+While many modern phones already support ICE (In Case of Emergency) contact details they are usually locked behind the phones lockscreen. Rarely do manufacturers get this feature right and display this information right on the lockscreen or hide it in the "emergency call" feature.
+
 In case of an emergency such information could be life-saving.
+
+With high risk activities it is however entirely possible that someone looses or breaks their phone (motorcycle accident, ..) thus this app provides a way to share this emergency information with everyone.
 
 **The app works fully offline and never uploads any user data.**
 
@@ -39,7 +34,7 @@ Information that can be stored includes:
 * insurance details (name, insurance number, contact information)
 * Full contact details of emergency contact person (TODO: allow more than 1 emergency contact?)
 
-All information is fully optional! Only fill out what you want to share.
+All information is **optional**! Only fill out what you want to share.
 
 ## 2. Share your information
 
@@ -51,7 +46,7 @@ A barcode is then displayed and the other person can scan the barcode with their
 
 ## 2.b Receiving someone's information
 
-THIS REQUIRES A WORKING CAMERA.
+**THIS REQUIRES A WORKING CAMERA.**
 
 By scanning the barcode from another person the data is instantly transfered without being uploaded to the internet. The information is only stored locally within the application.
 
