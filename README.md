@@ -1,4 +1,4 @@
-See [First time setup](First%20time%20Setup.md) for requirements to compile locally.
+See [First time setup](First%20time%20setup.md) for requirements to compile locally.
 
 Then just compile from Visual Studio as you would any other Xamarin app.
 
@@ -40,7 +40,7 @@ Information that can be stored includes:
 
 * Full contact details of own person: name, age, phone number, address, blood type, weight, allergies, etc.
 * insurance details (name, insurance number, contact information)
-* Full contact details of emergency contact person (TODO: allow more than 1 emergency contact?)
+* Full contact details of emergency contact persons
 
 All information is **optional**! Only fill out what you want to share.
 
@@ -56,9 +56,9 @@ A barcode is then displayed and the other person can scan the barcode with their
 
 **THIS REQUIRES A WORKING CAMERA.**
 
-By scanning the barcode from another person the data is instantly transfered without being uploaded to the internet. The information is only stored locally within the application.
+By scanning the barcode from another person the data is directly transfered without being uploaded to the internet. All information is stored in the barcode and locally within the application.
 
-The barcode also contains the maximum duration (if) set by the other person and the app will automatically delete the contact details once they expired.
+The barcode also contains the (optional) maximum duration if set by the person sharing the details. This allows automatic deletion once expired (e.g. short climbing trip with a bigger group and you don't want everyone to have your medical details forever).
 
 Once received the other person can add an optional category for the newly added person as well as a nickname.
 
@@ -70,7 +70,7 @@ Should anything happen to someone in the group that renderes them unconscious or
 
 # Issues
 
-While developing the app I used my own [IssueTracker](https://github.com/MarcStan/IssueTracker) to track the issues (see "issues" directory).
+While developing the app I used my own offline-capable [IssueTracker](https://github.com/MarcStan/IssueTracker) to track the issues (see "issues" directory). All issues in said folder are resolved and future issues will be tracked via [github issues](https://github.com/MarcStan/ShareEmergencyContacts/issues).
 
 # Known issues
 
