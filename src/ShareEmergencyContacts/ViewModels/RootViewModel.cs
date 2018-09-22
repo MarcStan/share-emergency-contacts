@@ -1,16 +1,12 @@
 ﻿using Acr.UserDialogs;
 using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
-using Newtonsoft.Json;
 using ShareEmergencyContacts.Helpers;
 using ShareEmergencyContacts.Models;
 using ShareEmergencyContacts.Models.Data;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -30,62 +26,6 @@ namespace ShareEmergencyContacts.ViewModels
             AboutCommand = new Command(About);
             ExportCommand = new Command(ExportToFile);
             ImportCommand = new Command(ImportFromFile);
-
-            PerformUpdateCheck();
-        }
-
-        /// <summary>
-        /// Checks in with the server to determine whether the current version is outdated.
-        /// Will silently fail on any error and just prompt the user on success if a new version is available.
-        /// </summary>
-        private async void PerformUpdateCheck()
-        {
-            var p = Device.RuntimePlatform.ToLower();
-            var v = GetType().GetTypeInfo().Assembly.GetName().Version.ToString(3);
-            var client = new HttpClient
-            {
-                BaseAddress = new Uri("https://marcstan.net/")
-            };
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-
-            try
-            {
-                var response = await client.GetAsync($"api/sec/update/{p}/{v}");
-                if (!response.IsSuccessStatusCode)
-                    return; // silent fail
-
-                var json = await response.Content.ReadAsStringAsync();
-                var update = JsonConvert.DeserializeObject<UpdateCheck>(json);
-                if (update.UpdateAvailable)
-                {
-                    var dia = IoC.Get<IUserDialogs>();
-                    var r = await dia.ConfirmAsync("A new update is available. Do you want to download it now?", "Update available", "Yes", "No");
-                    if (r)
-                    {
-                        Device.OpenUri(new Uri(update.UpdateUrl, UriKind.Absolute));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                // silently ignore all
-                Debug.WriteLine(e);
-                if (Debugger.IsAttached)
-                    Debugger.Break();
-            }
-        }
-
-        private class UpdateCheck
-        {
-            /// <summary>
-            /// Gets whether a new update is available relative to the currently installed one.
-            /// </summary>
-            public bool UpdateAvailable { get; set; }
-
-            /// <summary>
-            /// The link where the new update can be loaded from
-            /// </summary>
-            public string UpdateUrl { get; set; }
         }
 
         public MyProfilesViewModel MyProfilesViewModel { get; set; }
